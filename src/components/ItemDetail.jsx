@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import ItemCounter from "./ItemCounter";
 
 export default function ItemDetail(props) {
     const { CategoryId, ItemId } = useParams();
     const [product, setProduct] = useState({});
-    const [amount, setAmount] = useState(1);
+    const [amount, setAmount] = useState(0);
 
     function formatProduct(data) {
         data.forEach((productProperties) => {
@@ -80,7 +80,15 @@ export default function ItemDetail(props) {
                     />
                 </div>
                 <div className="itemDetail__actions__purchase-ctr">
-                    <button type="button" className="btn btn-secondary">Agregar al carrito</button>
+                    {amount >= 1 ? (
+                        <Link to="/Cart">
+                            <button type="button" className="btn btn-secondary">
+                                Agregar al carrito
+                            </button>
+                        </Link>
+                    ) : (
+                        ""
+                    )}
                 </div>
             </div>
         </div>

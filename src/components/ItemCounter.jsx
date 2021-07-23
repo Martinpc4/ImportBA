@@ -13,7 +13,7 @@ export default function itemCounter(props) {
             </div>
             <div className="itemCounter__substr-btn">
                 <i className="bi bi-dash-lg" onClick={
-                    props.itemAmount > 1 ? () => { props.itemAmountFunction(props.itemAmount - 1) } : undefined
+                    props.itemAmount > 0 ? () => { props.itemAmountFunction(props.itemAmount - 1) } : undefined
                 }></i>
             </div>
         </div>
