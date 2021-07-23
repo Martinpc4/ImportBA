@@ -4,16 +4,16 @@ import { Link } from "react-router-dom";
 export default function Item(props) {
     return (
         <div className="item">
-            <Link to={`/Shop/${props.categoryId}/${props.id}`}>
-                <div className="item__title">
+            <Link to={`/Shop/${props.categoryId}/${props.id}`} className="item__link">
+                <div className="item__link__title">
                     <p>{props.title}</p>
                 </div>
-                <div className="item__image">
+                <div className="item__link__image">
                     <img src={props.imageURL} alt="" />
                 </div>
             </Link>
             <div className="item__model">
-                <p>{props.model}</p>
+                <p>{props.title} - {props.memory}</p>
             </div>
             <div className="item__price">
                 <p>{props.price} USD $</p>

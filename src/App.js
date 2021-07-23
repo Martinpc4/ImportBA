@@ -8,7 +8,7 @@ import './styles/css/components.css';
 import './styles/css/bootstrap-modified.css';
 // * Components
 import NavBar from './components/NavBar';
-import Category from './components/Category';
+import Shop from './components/Shop';
 import Home from './components/Home';
 import Footer from './components/Footer';
 import ItemDetail from './components/ItemDetail';
@@ -19,7 +19,7 @@ export default function App() {
             <NavBar />
             <Switch>
                 <Route exact path='/Home' component={Home} />
-                <Route exact path='/Shop/:CategoryId' component={Category} />
+                <Route exact path='/Shop/:CategoryId' component={Shop} />
                 <Route exact path='/Shop/:CategoryId/:ItemId' component={ItemDetail} />
             </Switch>
             <Footer />

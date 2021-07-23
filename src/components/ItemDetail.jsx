@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import ItemCounter from './ItemCounter';
+import ItemCounter from "./ItemCounter";
 
 export default function ItemDetail(props) {
     const { CategoryId, ItemId } = useParams();
@@ -9,14 +9,17 @@ export default function ItemDetail(props) {
 
     function formatProduct(products) {
         products.forEach((productProperties) => {
-            if ((productProperties.categoryId != CategoryId) && (Number(productProperties.id) == ItemId)) { // TODO Modificar el "!=" una vez que establezcamos los id de categorias
+            if (
+                Number(productProperties.categoryId.$numberInt) ===
+                    CategoryId &&
+                Number(productProperties.id) === ItemId
+            ) {
+                // TODO Modificar el "!=" una vez que establezcamos los id de categorias
                 setProduct(productProperties);
                 return;
             }
         });
-
     }
-
     async function serverRequest() {
         const serverRequest = fetch(
             "https://webhooks.mongodb-realm.com/api/client/v2.0/app/app-api-horsc/service/HTTP-REQUESTS/incoming_webhook/get-protocol"
@@ -51,8 +54,8 @@ export default function ItemDetail(props) {
             </div>
             <div className="itemDetail__actions">
                 <ItemCounter
-                    itemAmount = {amount}
-                    itemAmountFunction = {setAmount}
+                    itemAmount={amount}
+                    itemAmountFunction={setAmount}
                 />
             </div>
         </div>

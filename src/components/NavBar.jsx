@@ -48,28 +48,28 @@ export default function NavBar() {
                         <p>Home</p>
                     </NavLink>
                     <NavLink
-                        to="/Shop/01"
+                        to="/Shop/1"
                         activeClassName="activeItem"
                         className="navBar-ctr__menu__item"
                     >
                         <p>Mac</p>
                     </NavLink>
                     <NavLink
-                        to="/Shop/02"
+                        to="/Shop/2"
                         activeClassName="activeItem"
                         className="navBar-ctr__menu__item"
                     >
                         <p>IPad</p>
                     </NavLink>
                     <NavLink
-                        to="/Shop/03"
+                        to="/Shop/3"
                         activeClassName="activeItem"
                         className="navBar-ctr__menu__item"
                     >
                         <p>IPhone</p>
                     </NavLink>
                     <NavLink
-                        to="/Shop/04"
+                        to="/Shop/4"
                         activeClassName="activeItem"
                         className="navBar-ctr__menu__item"
                     >
