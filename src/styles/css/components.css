@@ -51,12 +51,8 @@ header {
           align-items: center;
 }
 
-.navBar-ctr__banner svg {
+.navBar-ctr__banner img {
   height: 45px;
-}
-
-.navBar-ctr__banner svg path {
-  fill: #1C5373;
 }
 
 .navBar-ctr__menu {

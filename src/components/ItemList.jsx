@@ -7,19 +7,21 @@ export default function ItemList({ categoryId }) {
     function formatProducts(products) {
         let productsArray = [];
         products.forEach((productProperties) => {
-            productsArray.push(
-                <Item
-                    key={Number(productProperties.id.$numberInt)}
-                    id={Number(productProperties.id.$numberInt)}
-                    title={productProperties.title}
-                    memory={Number(productProperties.memory.$numberInt)}
-                    colors={Number(productProperties.colors)}
-                    description={productProperties.descripcion}
-                    price={Number(productProperties.price.$numberInt)}
-                    imageURL={productProperties.imageURL}
-                    categoryId={productProperties.categoryId.$numberInt}
-                />
-            );
+            if (productProperties.categoryId.$numberInt === categoryId) {
+                productsArray.push(
+                    <Item
+                        key={Number(productProperties.id.$numberInt)}
+                        id={Number(productProperties.id.$numberInt)}
+                        title={productProperties.title}
+                        memory={Number(productProperties.memory.$numberInt)}
+                        colors={Number(productProperties.colors)}
+                        description={productProperties.descripcion}
+                        price={Number(productProperties.price.$numberInt)}
+                        imageURL={productProperties.imageURL}
+                        categoryId={productProperties.categoryId.$numberInt}
+                    />
+                );
+            }
         });
         return productsArray;
     }

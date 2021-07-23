@@ -43,11 +43,8 @@ header {
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        svg {
+        img {
             height: 45px;
-            path {
-                fill: #{$sematic__color__primary};
-            }
         }
     }
     &__menu {

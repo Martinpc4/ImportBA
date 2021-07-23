@@ -10,10 +10,7 @@ export default function ItemDetail(props) {
     function formatProduct(products) {
         products.forEach((productProperties) => {
             if (
-                Number(productProperties.categoryId.$numberInt) ===
-                    CategoryId &&
-                Number(productProperties.id) === ItemId
-            ) {
+                Number(productProperties.categoryId.$numberInt) === CategoryId && Number(productProperties.id) === ItemId) {
                 // TODO Modificar el "!=" una vez que establezcamos los id de categorias
                 setProduct(productProperties);
                 return;
