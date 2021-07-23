@@ -1,0 +1,14 @@
+$theme-colors: (
+    "primary": #7f32ec,
+    "secondary": #191970,
+    "success": #198754,
+    "info": #0dcaf0,
+    "warning": #ffc107,
+    "danger": #dc3545,
+    "light": #fff,
+    "dark": #000,
+);
+
+$border-radius: 0.1rem !default;
+
+@import "/Users/martinperezcobo/Desktop/GitHub_Repos/ImportBA/node_modules/bootstrap/scss/bootstrap.scss";

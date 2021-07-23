@@ -1,52 +1,67 @@
 // ! Imports
 // Other SCSS Styles
-@import 'colors.scss';
+@import "colors.scss";
 // Bootstrap - Icons
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css");
-// Google Fonts - Roboto
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
+// Google Fonts - Poppins
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500&display=swap');
 
 // ! Styles
 // * General Format-Like Styles
 * {
     box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 body {
     padding: 0;
     margin: 0;
 }
-header, main, footer {
+header,
+main,
+footer {
     padding: 0 3vw;
 }
 
 // * Header
 header {
-    // borders
-    border-bottom: hsla(174, 48%, 47%, 1) 5px solid;
+    background-color: white;
 }
 .navBar-ctr {
     // box modeling
     height: 10vh;
     // flexbox
-    display: flex;
-    flex-flow: nowrap row;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr;
+    justify-content: center;
     align-items: center;
     &__banner {
+        // box modeling
+        height: 100%;
+        width: 100%;
+        // flex box
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
-        img {
-            height: 40px;
+        svg {
+            height: 45px;
+            path {
+                fill: #{$Semantic-Color-Primary};
+            }
         }
     }
     &__menu {
+        // box modeling
+        height: 100%;
+        width: 100%;
+        // grid father
         display: grid;
+        justify-content: center;
+        align-items: center;
         grid-template-rows: 1fr;
         column-gap: 30px;
         .activeItem {
-            color: #{$Semantic-Color-Tertiary};
+            color: #{$Semantic-Color-Secondary};
         }
         &__item {
             // grid son
@@ -54,7 +69,7 @@ header {
             // special properties
             list-style-type: none;
             // font properties
-            font-size: 1.30rem;
+            font-size: 1.3rem;
             font-weight: 300;
             color: black;
             text-decoration: none;
@@ -72,11 +87,24 @@ header {
                     border-bottom: #{$Semantic-Color-Secondary} 2px solid;
                 }
             }
-            i {
-                cursor: pointer;
-                &:hover {
-                    color: #{$Semantic-Color-Secondary};
-                }
+        }
+    }
+    &__actions {
+        // box modeling
+        height: 100%;
+        width: 100%;
+        // grid father
+        display: grid;
+        grid-template-rows: 1fr;
+        justify-content: flex-end;
+        align-items: center;
+        column-gap: 30px;
+        i {
+            font-size: 1.3rem;
+            font-weight: 300;
+            cursor: pointer;
+            &:hover {
+                color: #{$Semantic-Color-Secondary};
             }
         }
     }
@@ -98,7 +126,7 @@ header {
     min-width: 20vw;
     // boders
     border: 2px solid black;
-    &__header{
+    &__header {
         // flexbox
         display: flex;
         flex-flow: row nowrap;
@@ -116,7 +144,8 @@ header {
             font-style: normal;
         }
     }
-    &__items-ctr {} 
+    &__items-ctr {
+    }
 }
 
 // * Main
@@ -206,56 +235,84 @@ header {
 
 .item {
     border: black 1px solid;
-    // flexbox
-    display: flex;
-    flex-flow: row nowrap;
+    // grid father
+    display: grid;
+    grid-template-columns: 1fr;
     justify-content: center;
-    align-items: center;
+    align-content: space-between;
+    align-items: flex-start;
+    row-gap: 5px;
     // box modeling
     width: 100%;
     height: 100%;
-    &-ctr{
-        // grid father
-        display: grid;
-        grid-template-columns: 1fr;
+    &__title {
+        //grid son
+        grid-row: 1 / 2;
+        grid-column: 1 / 2;
+        p {
+            // box modeling
+            margin: 0;
+            width: 100%;
+            // special properties
+            font-size: 1.15rem;
+            text-align: start;
+            color: black;
+            text-decoration: none;
+            font-style: normal;
+        }
+    }
+    &__image {
+        //grid son
+        grid-row: 2 / 3;
+        grid-column: 1 / 2;
+        // flexbox
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        img {
+            // box modeling
+            width: 80%;
+        }
+    }
+    &__model {
+        //grid son
+        grid-row: 3 / 4;
+        grid-column: 1 / 2;
+        p {
+            // box modeling
+            margin: 0;
+            width: 100%;
+            // special properties
+            text-align: center;
+            font-size: .9rem;
+        }
+    }
+    &__price {
+        //grid son
+        grid-row: 4 / 5;
+        grid-column: 1 / 2;
+        p {
+            // box modeling
+            margin: 0;
+            width: 100%;
+            // special properties
+            text-align: center;
+            font-size: 1rem;
+        }
+    }
+    &__actions {
+        //grid son
+        grid-row: 5 / 6;
+        grid-column: 1 / 2;
+        // flexbox
+        display: flex;
+        flex-flow: row nowrap;
         justify-content: center;
         align-items: center;
-        row-gap: 5px;
-        &__title{
-            //grid son
-            grid-row: 2 / 3;
-            grid-column: 1 / 2;
-            p {
-                // box modeling
-                margin: 0;
-                // special properties
-                font-size: 1.25rem;
-            }
-        }
-        &__image{
-            //grid son
-            grid-row: 1 / 2;
-            grid-column: 1 / 2;
-            img {
-                // box modeling
-                width: 200px;
-            }
-        }
-        &__price{
-            //grid son
-            grid-row: 3 / 4;
-            grid-column: 1 / 2;
-            p {
-                // box modeling
-                margin: 0;
-                // special properties
-                font-size: 1.15rem;
-            }
-        }
-        &__itemCount {
-            //grid son
-            grid-row: 5 / 6;
-            grid-column: 1 / 2;
+        // box modeling
+        height: max-content;
+        &__purchase-btn {
+            
         }
     }
 }
@@ -263,14 +320,15 @@ header {
 .itemList {
     // grid father
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     justify-content: center;
     align-items: center;
-    row-gap: 25px;
-    column-gap: 25px;
+    row-gap: 20px;
+    column-gap: 20px;
     // box modeling
-    padding: 25px;
+    padding: 20px;
 }
+
 .ItemDetail {
     // grid father
     display: grid;
@@ -282,7 +340,7 @@ header {
     border: black 1px solid;
     // box modeling
     width: max-content;
-    &__image{
+    &__image {
         // grid son
         grid-column: 1 / 2;
         grid-row: 1 / 5;
@@ -291,7 +349,7 @@ header {
             width: 250px;
         }
     }
-    &__header{
+    &__title {
         // grid son
         grid-column: 2 / 3;
         grid-row: 1 / 2;
@@ -300,7 +358,7 @@ header {
             padding: 0;
         }
     }
-    &__description{
+    &__description {
         // grid son
         grid-column: 2 / 3;
         grid-row: 2 / 3;
@@ -309,15 +367,41 @@ header {
             padding: 0;
         }
     }
-    &__price{
+    &__price {
         // grid son
         grid-column: 2 / 3;
         grid-row: 3 / 4;
     }
-    &__actions{
+    &__actions {
         // grid son
         grid-column: 2 / 3;
         grid-row: 4 / 5;
+    }
+    &__model
+}
+
+.category {
+    // grid father
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    grid-template-rows: 1fr;
+    justify-content: center;
+    align-items: center;
+    column-gap: 50px;
+    &__itemList {
+        // grid son
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+        border: 2px solid black;
+    }
+    &__filters {
+        // grid son
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+        // box modeling
+        width: 20vw;
+        height: 100%;
+        border: 2px solid black;
     }
 }
 

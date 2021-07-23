@@ -1,22 +1,20 @@
 import React from 'react';
-import { useState } from 'react';
 
-export default function ItemCount() {
-    const [itemCount, setItemCount] = useState(0);
+export default function ItemCount(props) {
     return (
         <div className="itemCount">
             <div className="itemCount__counter-ctr">
                 <div className="itemCount__counter-ctr__plus-btn">
                     <i className="bi bi-plus-lg" onClick={
-                        () => {setItemCount(itemCount + 1)}
+                        () => {props.itemAmountFunction(props.itemAmount + 1)}
                     }></i>
                 </div>
                 <div className="itemCount__counter-ctr__counter">
-                    <p>{itemCount}</p>
+                    <p>{props.itemAmount}</p>
                 </div>
                 <div className="itemCount__counter-ctr__substr-btn">
                     <i className="bi bi-dash-lg" onClick={
-                        itemCount > 0 ? () => {setItemCount(itemCount - 1)} : undefined
+                        props.itemAmount > 0 ? () => {props.itemAmountFunction(props.itemAmount - 1)} : undefined
                     }></i>
                 </div>
             </div>
