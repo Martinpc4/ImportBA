@@ -17,11 +17,13 @@ export default function App() {
     return (
         <BrowserRouter>
             <NavBar />
-            <Switch>
-                <Route exact path='/Home' component={Home} />
-                <Route exact path='/Shop/:CategoryId' component={Shop} />
-                <Route exact path='/Shop/:CategoryId/:ItemId' component={ItemDetail} />
-            </Switch>
+            <main>
+                <Switch>
+                    <Route exact path='/Home' component={Home} />
+                    <Route exact path='/Shop/:CategoryId' component={Shop} />
+                    <Route exact path='/Shop/:CategoryId/:ItemId' component={ItemDetail} />
+                </Switch>
+            </main>
             <Footer />
         </BrowserRouter>
     );

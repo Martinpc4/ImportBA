@@ -12,9 +12,21 @@
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
 }
+#root {
+    // grid father
+    display: grid;
+    justify-content: center;
+    align-content: space-between;
+    // box modeling
+    width: 100%;
+    height: 100%;
+}
 body {
     padding: 0;
     margin: 0;
+    // box modeling
+    width: 100vw;
+    height: 100vh;
 }
 header,
 main,
@@ -24,9 +36,6 @@ footer {
 
 // * Header
 header {
-    background-color: white;
-}
-.navBar-ctr {
     // box modeling
     height: 10vh;
     // flexbox
@@ -35,7 +44,7 @@ header {
     grid-template-rows: 1fr;
     justify-content: center;
     align-items: center;
-    &__banner {
+    .banner {
         // box modeling
         height: 100%;
         width: 100%;
@@ -47,7 +56,7 @@ header {
             height: 45px;
         }
     }
-    &__menu {
+    .menu {
         // box modeling
         height: 100%;
         width: 100%;
@@ -86,7 +95,7 @@ header {
             }
         }
     }
-    &__actions {
+    .actions {
         // box modeling
         height: 100%;
         width: 100%;
@@ -96,12 +105,14 @@ header {
         justify-content: flex-end;
         align-items: center;
         column-gap: 30px;
-        i {
-            font-size: 1.3rem;
-            font-weight: 300;
-            cursor: pointer;
-            &:hover {
-                color: #{$sematic__color__secondary};
+        &__item {
+            i {
+                font-size: 1.3rem;
+                font-weight: 300;
+                cursor: pointer;
+                &:hover {
+                    color: #{$sematic__color__secondary};
+                }
             }
         }
     }
@@ -244,14 +255,13 @@ header {
 }
 
 .item {
-    border: black 1px solid;
     // grid father
     display: grid;
     grid-template-columns: 1fr;
     justify-content: center;
     align-content: space-between;
     align-items: flex-start;
-    row-gap: 10px;
+    row-gap: 15px;
     // box modeling
     width: 100%;
     height: 100%;
@@ -361,7 +371,7 @@ header {
     // box modeling
     width: 100%;
     height: 100%;
-    padding: 10vh 0 ;
+    padding: 10 vh 0;
     &__image {
         // grid son
         grid-column: 1 / 2;
@@ -387,7 +397,7 @@ header {
             // box modeling
             width: 100%;
             p {
-                font: .9rem;
+                font: 0.9rem;
                 margin: 0;
                 padding: 0;
             }
@@ -418,7 +428,7 @@ header {
             margin-bottom: 10px;
             p {
                 // font properties
-                font-size: 1.40rem;
+                font-size: 1.4rem;
                 // box modeling
                 margin: 0;
                 padding: 0;
@@ -472,7 +482,7 @@ header {
     }
 }
 
-.category {
+.shop {
     // grid father
     display: grid;
     grid-template-columns: max-content 1fr;
@@ -485,6 +495,9 @@ header {
         grid-column: 2 / 3;
         grid-row: 1 / 2;
         border: 2px solid black;
+        // box modeling
+        width: 100%;
+        height: 100%;
     }
     &__filters {
         // grid son
@@ -498,3 +511,76 @@ header {
 }
 
 // * Footer
+footer {
+    // grid father
+    display: grid;
+    grid-template-columns: repeat(3, max-content);
+    grid-template-rows: 1fr;
+    justify-content: space-between;
+    align-content: center;
+    border: 1px solid black;
+    .contact {
+        border: 1px solid black;
+        // grid son
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+        // flex box
+        display: flex;
+        flex-flow: column nowrap;
+        justify-items: flex-start;
+        align-items: center;
+        &__header {
+            p {
+                // box modeling
+                margin: 0;
+                padding: 0;
+                // font properties
+                font-size: 1.1rem;
+            }
+        }
+        &__list {
+            // box modeling
+            margin: 0 0 0 5px;
+            padding: 0;
+            &__item {
+                // flexbox
+                display: grid;
+                grid-template-columns: 20px 1fr;
+                justify-items: flex-start;
+                align-items: center;
+                column-gap: 2px;
+                // list properties
+                list-style-type: none;
+                p {
+                    // box modeling
+                    margin: 0;
+                    padding: 0;
+                    // font properties
+                    font-size: 1rem;
+                }
+                i {
+                    // font properties
+                    font-size: 1rem;
+                }
+            }
+        }
+    }
+    .newsletter {
+        border: 1px solid black;
+        // grid son
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+        // boxmodeling
+        width: 100px;
+        height: 100px;
+    }
+    .sections {
+        border: 1px solid black;
+        // grid son
+        grid-column: 3 / 4;
+        grid-row: 1 / 2;
+        // boxmodeling
+        width: 100px;
+        height: 100px;
+    }
+}

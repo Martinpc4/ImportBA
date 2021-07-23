@@ -13,7 +13,7 @@ export default function Item(props) {
                 </div>
             </Link>
             <div className="item__model">
-                <p>{props.title} - {props.memory}</p>
+                <p>{props.title} - {props.memory}Gb</p>
             </div>
             <div className="item__price">
                 <p>{props.price} USD $</p>

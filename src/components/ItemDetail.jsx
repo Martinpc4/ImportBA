@@ -62,7 +62,7 @@ export default function ItemDetail(props) {
                     </p>
                 </div>
                 <div className="itemDetail__info-ctr__colors">
-                    <p>{product.colors}</p>
+                    <p>Colores: {product.colors}</p>
                 </div>
                 <div className="itemDetail__info-ctr__description">
                     <p>{product.description}</p>
