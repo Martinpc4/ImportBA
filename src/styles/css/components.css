@@ -481,9 +481,12 @@ header {
 .itemDetail {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: max-content max-content;
-      grid-template-columns: -webkit-max-content -webkit-max-content;
-      grid-template-columns: max-content max-content;
+  -ms-grid-columns: (max-content)[2];
+      grid-template-columns: repeat(2, -webkit-max-content);
+      grid-template-columns: repeat(2, max-content);
+  -ms-grid-rows: (max-content)[2];
+      grid-template-rows: repeat(2, -webkit-max-content);
+      grid-template-rows: repeat(2, max-content);
   -webkit-column-gap: 20px;
           column-gap: 20px;
   -webkit-box-pack: center;
@@ -492,9 +495,9 @@ header {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  border: black 1px solid;
   width: 100%;
   height: 100%;
+  padding: 10vh 0;
 }
 
 .itemDetail__image {
@@ -502,75 +505,136 @@ header {
   -ms-grid-column-span: 1;
   grid-column: 1 / 2;
   -ms-grid-row: 1;
-  -ms-grid-row-span: 4;
-  grid-row: 1 / 5;
+  -ms-grid-row-span: 2;
+  grid-row: 1 / 3;
 }
 
 .itemDetail__image img {
   height: 350px;
 }
 
-.itemDetail__title {
-  -ms-grid-column: 2;
-  -ms-grid-column-span: 1;
-  grid-column: 2 / 3;
-  -ms-grid-row: 1;
-  -ms-grid-row-span: 1;
-  grid-row: 1 / 2;
-  border: black 1px solid;
-}
-
-.itemDetail__title p {
-  font-size: 1.25rem;
-  margin: 0;
-  padding: 0;
-}
-
-.itemDetail__model {
+.itemDetail__actions {
   -ms-grid-column: 2;
   -ms-grid-column-span: 1;
   grid-column: 2 / 3;
   -ms-grid-row: 2;
   -ms-grid-row-span: 1;
   grid-row: 2 / 3;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr;
+      grid-template-columns: 1fr;
+  -ms-grid-rows: (max-content)[2];
+      grid-template-rows: repeat(2, -webkit-max-content);
+      grid-template-rows: repeat(2, max-content);
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-line-pack: justify;
+      align-content: space-between;
+  width: 100%;
+  height: 100%;
 }
 
-.itemDetail__description {
-  -ms-grid-column: 2;
-  -ms-grid-column-span: 1;
-  grid-column: 2 / 3;
-  -ms-grid-row: 3;
-  -ms-grid-row-span: 1;
-  grid-row: 3 / 4;
+.itemDetail__actions__counter {
+  width: 100%;
 }
 
-.itemDetail__description p {
+.itemDetail__actions__counter p {
+  font: .9rem;
   margin: 0;
   padding: 0;
 }
 
-.itemDetail__price {
+.itemDetail__actions__purchase-ctr {
+  width: 100%;
+}
+
+.itemDetail__info-ctr {
   -ms-grid-column: 2;
   -ms-grid-column-span: 1;
   grid-column: 2 / 3;
-  -ms-grid-row: 4;
+  -ms-grid-row: 1;
   -ms-grid-row-span: 1;
-  grid-row: 4 / 5;
+  grid-row: 1 / 2;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr;
+      grid-template-columns: 1fr;
+  -ms-grid-rows: (max-content)[5];
+      grid-template-rows: repeat(5, -webkit-max-content);
+      grid-template-rows: repeat(5, max-content);
+  row-gap: 5px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  width: 100%;
+  height: 100%;
 }
 
-.itemDetail__price p {
+.itemDetail__info-ctr__title {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 1;
+  grid-column: 1 / 2;
+  margin-bottom: 10px;
+}
+
+.itemDetail__info-ctr__title p {
+  font-size: 1.40rem;
+  margin: 0;
+  padding: 0;
+}
+
+.itemDetail__info-ctr__model {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 1;
+  grid-column: 1 / 2;
+}
+
+.itemDetail__info-ctr__model p {
+  font-size: 0.9rem;
+  margin: 0;
+  padding: 0;
+}
+
+.itemDetail__info-ctr__colors {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 1;
+  grid-column: 1 / 2;
+}
+
+.itemDetail__info-ctr__colors p {
+  font-size: 0.9rem;
+  margin: 0;
+  padding: 0;
+}
+
+.itemDetail__info-ctr__description {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 1;
+  grid-column: 1 / 2;
+}
+
+.itemDetail__info-ctr__description p {
+  font-size: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+.itemDetail__info-ctr__price {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 1;
+  grid-column: 1 / 2;
+}
+
+.itemDetail__info-ctr__price p {
   font-size: 1.15rem;
+  color: #1C5373;
   margin: 0;
   padding: 0;
-}
-
-.itemDetail__actions {
-  -ms-grid-column: 2;
-  -ms-grid-column-span: 1;
-  grid-column: 2 / 3;
-  -ms-grid-row: 5;
-  -ms-grid-row-span: 1;
-  grid-row: 5 / 6;
 }
 
 .category {
