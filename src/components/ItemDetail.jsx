@@ -5,7 +5,7 @@ import ItemCounter from './ItemCounter';
 export default function ItemDetail(props) {
     const { CategoryId, ItemId } = useParams();
     const [product, setProduct] = useState({});
-    const [amount, setAmount] = useState(0);
+    const [amount, setAmount] = useState(1);
 
     function formatProduct(products) {
         products.forEach((productProperties) => {
@@ -37,17 +37,17 @@ export default function ItemDetail(props) {
             <div className="itemDetail__title">
                 <p>{product.title}</p>
             </div>
+            <div className="itemDetail__model">
+                <p>Modelo: {product.model}</p>
+            </div>
             <div className="itemDetail__desciription">
                 <p>{product.description}</p>
             </div>
-            <div className="itemDetail__model">
-                <p>{product.model}</p>
-            </div>
             <div className="itemDetail__price">
-                <p>{product.price}</p>
+                <p>{product.price} $ USD</p>
             </div>
             <div className="itemDetail__image">
-                <img src={String(product.imageURL)} alt="" />
+                <img src={String(product.image)} alt="" />
             </div>
             <div className="itemDetail__actions">
                 <ItemCounter

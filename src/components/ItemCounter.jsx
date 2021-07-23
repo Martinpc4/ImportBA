@@ -1,25 +1,20 @@
 import React from 'react';
 
-export default function ItemCount(props) {
+export default function itemCounter(props) {
     return (
-        <div className="itemCount">
-            <div className="itemCount__counter-ctr">
-                <div className="itemCount__counter-ctr__plus-btn">
-                    <i className="bi bi-plus-lg" onClick={
-                        () => {props.itemAmountFunction(props.itemAmount + 1)}
-                    }></i>
-                </div>
-                <div className="itemCount__counter-ctr__counter">
-                    <p>{props.itemAmount}</p>
-                </div>
-                <div className="itemCount__counter-ctr__substr-btn">
-                    <i className="bi bi-dash-lg" onClick={
-                        props.itemAmount > 0 ? () => {props.itemAmountFunction(props.itemAmount - 1)} : undefined
-                    }></i>
-                </div>
+        <div className="itemCounter">
+            <div className="itemCounter__plus-btn">
+                <i className="bi bi-plus-lg" onClick={
+                    () => { props.itemAmountFunction(props.itemAmount + 1) }
+                }></i>
             </div>
-            <div className="itemCount__cart-ctr">
-                <button className="itemCount__cart-ctr__btn">Agregar al carrito</button>
+            <div className="itemCounter__counter">
+                <p>{props.itemAmount}</p>
+            </div>
+            <div className="itemCounter__substr-btn">
+                <i className="bi bi-dash-lg" onClick={
+                    props.itemAmount > 1 ? () => { props.itemAmountFunction(props.itemAmount - 1) } : undefined
+                }></i>
             </div>
         </div>
     )
