@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Item from "./Item";
 
-export default function ItemList({ categoryId }) {
+export default function ItemList({ categoryId, vertical }) {
     const [products, setProducts] = useState([]);
 
     function formatProducts(products) {
         let productsArray = [];
         products.forEach((productProperties) => {
-            if (Number(productProperties.categoryId.$numberInt) === Number(categoryId)) {
+            if (
+                Number(productProperties.categoryId.$numberInt) ===
+                Number(categoryId)
+            ) {
                 productsArray.push(
                     <Item
                         key={Number(productProperties.id.$numberInt)}
@@ -40,5 +43,15 @@ export default function ItemList({ categoryId }) {
         serverRequest();
     }, [categoryId]);
 
-    return <div className="itemList">{products}</div>;
+    return (
+        <div
+            className={
+                vertical === true
+                    ? "itemList itemList--vertical"
+                    : "itemList itemList--horizontal"
+            }
+        >
+            {products}
+        </div>
+    );
 }
