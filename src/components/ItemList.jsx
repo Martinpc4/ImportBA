@@ -7,7 +7,7 @@ export default function ItemList({ categoryId }) {
     function formatProducts(products) {
         let productsArray = [];
         products.forEach((productProperties) => {
-            if (productProperties.categoryId.$numberInt === categoryId) {
+            if (Number(productProperties.categoryId.$numberInt) === Number(categoryId)) {
                 productsArray.push(
                     <Item
                         key={Number(productProperties.id.$numberInt)}

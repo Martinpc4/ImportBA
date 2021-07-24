@@ -11,15 +11,15 @@ export default function Footer() {
                 </div>
                 <ul className="contact__list">
                     <li className="contact__list__item">
-                        <i class="bi bi-instagram"></i>
+                        <i className="bi bi-instagram"></i>
                         <p>Instagram</p>
                     </li>
                     <li className="contact__list__item">
-                        <i class="bi bi-telephone"></i>
+                        <i className="bi bi-telephone"></i>
                         <p>Telefono</p>
                     </li>
                     <li className="contact__list__item">
-                        <i class="bi bi-envelope"></i>
+                        <i className="bi bi-envelope"></i>
                         <p>Email</p>
                     </li>
                 </ul>

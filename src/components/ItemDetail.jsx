@@ -14,8 +14,8 @@ export default function ItemDetail(props) {
             productProperties.categoryId =
                 productProperties.categoryId.$numberInt;
             if (
-                productProperties.categoryId == CategoryId &&
-                productProperties.id == ItemId
+                productProperties.categoryId === CategoryId &&
+                productProperties.id === ItemId
             ) {
                 // TODO Remover el objeto creado explicitamente y decomentar la variable productProperties cuando cambiemos de db
                 setProduct(

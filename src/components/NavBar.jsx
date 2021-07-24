@@ -11,7 +11,7 @@ export default function NavBar() {
             </div>
             <div className="menu">
                 <NavLink
-                    to="/Home"
+                    to="/"
                     activeClassName="activeItem"
                     className="menu__item"
                 >
