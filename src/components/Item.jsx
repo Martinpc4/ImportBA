@@ -13,7 +13,9 @@ export default function Item(props) {
                 </div>
             </Link>
             <div className="item__model">
-                <p>{props.title} - {props.memory}Gb</p>
+                {
+                    props.memory != 0 ? <p>{props.title} - {props.memory}Gb</p> : <p>{props.title}</p>
+                }
             </div>
             <div className="item__price">
                 <p>{props.price} USD $</p>
