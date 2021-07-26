@@ -275,7 +275,8 @@ main {
     row-gap: 15px;
     // box modeling
     width: 100%;
-    height: 100%;
+    min-width: 200px;
+    min-height: 300px;
     max-width: 270px;
     &__link {
         //grid son
@@ -314,7 +315,7 @@ main {
             justify-content: center;
             img {
                 // box modeling
-                width: 50%;
+                width: 60%;
             }
         }
     }
@@ -364,23 +365,21 @@ main {
     // grid father
     display: grid;
     align-items: center;
-    row-gap: 20px;
-    column-gap: 20px;
     // box modeling
-    padding: 20px;
-    height: 100%;
+    padding: 15px;
     &--horizontal {
         // grid father
+        column-gap: 20px;
         grid-template-rows: 1fr;
         justify-content: flex-start;
         .item {
             // grid son
             grid-row: 1 / 2;
-            height: 100%;
         }
     }
     &--vertical {
         // grid father
+        row-gap: 20px;
         grid-template-columns: repeat(5, 1fr);
         justify-content: center;
 
@@ -554,8 +553,8 @@ main {
         // box modeling
         height: max-content;
         width: 100%;
-        ItemList { // Hide the horizontal scrollbar for the hotrizontal item list
-            overflow-x: hidden;
+        .itemList { // Hide the horizontal scrollbar for the hotrizontal item list
+            overflow-x: scroll;
         }
         &__header {
             // font properties

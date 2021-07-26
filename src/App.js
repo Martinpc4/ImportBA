@@ -12,19 +12,23 @@ import Shop from './components/Shop';
 import Home from './components/Home';
 import Footer from './components/Footer';
 import ItemDetail from './components/ItemDetail';
+// * Contexts
+import CartProvider from './components/contexts/CustomCartProvider';
 
 export default function App() {
     return (
         <BrowserRouter>
-            <NavBar />
-            <main>
-                <Switch>
-                    <Route exact path='/' component={Home} />
-                    <Route exact path='/Shop/:CategoryId' component={Shop} />
-                    <Route exact path='/Shop/:CategoryId/:ItemId' component={ItemDetail} />
-                </Switch>
-            </main>
-            <Footer />
+            <CartProvider>
+                <NavBar />
+                <main>
+                    <Switch>
+                        <Route exact path='/' component={Home} />
+                        <Route exact path='/Shop/:CategoryId' component={Shop} />
+                        <Route exact path='/Shop/:CategoryId/:ItemId' component={ItemDetail} />
+                    </Switch>
+                </main>
+                <Footer />
+            </CartProvider>
         </BrowserRouter>
     );
 }

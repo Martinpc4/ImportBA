@@ -45,11 +45,11 @@ export default function ItemList({ categoryId, vertical }) {
 
     return (
         <div
-            className={
+            className={`container itemList ${
                 vertical === true
-                    ? "itemList itemList--vertical"
-                    : "itemList itemList--horizontal"
-            }
+                    ? "itemList--vertical"
+                    : "itemList--horizontal"
+            }`}
         >
             {products}
         </div>
