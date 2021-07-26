@@ -20,9 +20,6 @@ export default function Item(props) {
             <div className="item__price">
                 <p>{props.price} USD $</p>
             </div>
-            <div className="item__actions">
-                <button type="button" className="btn btn-secondary">Agregar al carrito</button>
-            </div>
         </div>
     );
 }

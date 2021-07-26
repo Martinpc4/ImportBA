@@ -1,11 +1,17 @@
-import React, { useState, useEffect } from "react";
+// * Libraries
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
+// * Components
 import ItemCounter from "./ItemCounter";
+// * Context
+import Cart from './contexts/Cart';
 
 export default function ItemDetail(props) {
     const { CategoryId, ItemId } = useParams();
     const [product, setProduct] = useState({});
     const [amount, setAmount] = useState(0);
+    let { addToCart } = useContext(Cart);
+
 
     function formatProduct(data) {
         data.forEach((productProperties) => {
@@ -82,7 +88,7 @@ export default function ItemDetail(props) {
                 <div className="itemDetail__actions__purchase-ctr">
                     {amount >= 1 ? (
                         <Link to="/Cart">
-                            <button type="button" className="btn btn-secondary">
+                            <button type="button" onClick={() => {addToCart(product, amount)}} className="btn btn-secondary">
                                 Agregar al carrito
                             </button>
                         </Link>

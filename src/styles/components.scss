@@ -272,11 +272,11 @@ main {
     justify-content: center;
     align-content: space-between;
     align-items: flex-start;
-    row-gap: 15px;
+    row-gap: 10px;
     // box modeling
     width: 100%;
-    min-width: 200px;
-    min-height: 300px;
+    min-width: 250px;
+    min-height: max-content;
     max-width: 270px;
     &__link {
         //grid son
@@ -345,20 +345,6 @@ main {
             font-size: 1rem;
         }
     }
-    &__actions {
-        //grid son
-        grid-row: 4 / 5;
-        grid-column: 1 / 2;
-        // flexbox
-        display: flex;
-        flex-flow: row nowrap;
-        justify-content: center;
-        align-items: center;
-        // box modeling
-        height: max-content;
-        &__purchase-btn {
-        }
-    }
 }
 
 .itemList {
@@ -413,7 +399,7 @@ main {
         // grid father
         display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows: repeat(2, max-content);
+        grid-template-rows: repeat(2, 1fr);
         justify-content: center;
         align-content: space-between;
         // box modeling

@@ -1,49 +1,85 @@
-import React, { useState, useEffect } from 'react';
-import Cart from './Cart.jsx';
+import React, { useState } from "react";
+import Cart from "./Cart.jsx";
 
 export default function CustomCartProvider(props) {
     const [cart, setCart] = useState([]);
 
-    function retrieveCart() {
-        let localCart = localStorage.getItem("localCart");
-        localCart = JSON.parse(localCart);
-        if (localCart !== undefined) {
-            setCart(localCart);
-        }
-        else if (localCart === undefined) {
-            setCart([]);
-        }
-    }
-
-    function cleanCart () {
+    function cleanCart() {
         setCart([]);
     }
 
-    function addToCart(product) {
-        setCart([...cart, product]);
-    };
-
-    function removeFromCart(productProperties, amount) {
-        let newCart = [];
-        cart.forEach(product => {
-            if ((product.id == productProperties.id) && (product.color == productProperties.color) && (product.amount > 0)) {
-                product.amount--;
-                newCart = [...newCart, product]
-            }
-            else {
-                newCart = [...newCart, product]
-            }
-        });
-        setCart(newCart);
+    function isInCart(productId) {
+        if (cart != []) {
+            cart.forEach((productProperties) => {
+                if (productProperties.id == productId) {
+                    return true;
+                }
+            });
+        }
+        return false;
     }
 
-    useEffect(() => {
-        retrieveCart();
-    },[]);
+    function addToCart(product, Amount) {
+        if (isInCart(product.id) === false) {
+            let newProduct = {
+                item: product,
+                amount: Amount,
+            };
+            setCart([...cart, newProduct]);
+        } else if (isInCart(product.id) === true) {
+            modifyProductAmount(product.id, 1);
+        }
+    }
+
+    function modifyProductAmount(productId, amount) {
+        if (cart != []) {
+            let newCart = [];
+            cart.forEach((productProperties) => {
+                if (productProperties.item.id == productId) {
+                    productProperties.item.amount =
+                        productProperties.item.amount + amount;
+                    newCart = [...newCart, productProperties];
+                } else {
+                    newCart = [...newCart, productProperties];
+                }
+            });
+            setCart(newCart);
+        } else {
+            throw new Error("Error: El carrito se encuentra vacio");
+        }
+    }
+
+    function removeFromCart(product, amount) {
+        if (cart != []) {
+            if (isInCart(product.id) === true) {
+                let newCart = [];
+                cart.forEach((productProperties) => {
+                    if (
+                        productProperties.item.id == product.id &&
+                        productProperties.color == product.color
+                    ) {
+                        if (productProperties.item.amount > amount) {
+                            productProperties.item.amount--;
+                            newCart = [...newCart, productProperties];
+                        }
+                    } else {
+                        newCart = [...newCart, product];
+                    }
+                });
+                setCart(newCart);
+            } else if (isInCart(product.id) === false) {
+                throw new Error(
+                    "Error: El producto no se encuentra en el carrito"
+                );
+            }
+        } else {
+            throw new Error("Error: El carrito se encuentra vacio");
+        }
+    }
 
     return (
-        <Cart.Provider value={cart}>
+        <Cart.Provider value={{ cart, addToCart }}>
             {props.children}
         </Cart.Provider>
-    )
+    );
 }
