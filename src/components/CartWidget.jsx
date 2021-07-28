@@ -15,9 +15,7 @@ export default function CartWidget() {
     return (
         <div>
             <i className="bi bi-cart" onClick={checkClickedState}></i>
-            {clickedState === true ? (
-                <CartList changeClickedSatate={checkClickedState} />
-            ) : null}
+            {clickedState === true ? <CartList /> : null}
         </div>
     );
 }

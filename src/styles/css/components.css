@@ -4,6 +4,10 @@
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   font-family: "Poppins", sans-serif;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
 #root {
@@ -37,10 +41,11 @@ footer {
 }
 
 header {
+  border: black 1px solid;
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-  height: 10vh;
+  height: 8vh;
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: (1fr)[3];
@@ -71,7 +76,7 @@ header .banner {
 }
 
 header .banner img {
-  height: 35px;
+  height: 30px;
 }
 
 header .menu {
@@ -99,7 +104,7 @@ header .menu__item {
   -ms-grid-row: 1;
   grid-row: 1 / 1;
   list-style-type: none;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   font-weight: 300;
   color: black;
   text-decoration: none;
@@ -158,8 +163,8 @@ header .actions__item i:hover {
 
 .cartList {
   position: absolute;
-  top: 10vh;
-  right: 0;
+  top: 7.85vh;
+  right: -0.1vw;
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: max-content;
@@ -176,6 +181,7 @@ header .actions__item i:hover {
   background-color: white;
   min-width: 20vw;
   border: 2px solid black;
+  cursor: default;
 }
 
 .cartList__header {
@@ -199,7 +205,7 @@ header .actions__item i:hover {
 
 .cartList__header p {
   margin: 0;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   color: black;
   font-style: normal;
 }

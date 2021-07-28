@@ -1,52 +1,63 @@
 // * Libraries
 import React, { useState, useEffect, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
+import { db } from "../firebase/firebase.js";
 // * Components
 import ItemCounter from "./ItemCounter";
 // * Context
-import Cart from './contexts/Cart';
+import Cart from "./contexts/Cart";
 
 export default function ItemDetail(props) {
     const { CategoryId, ItemId } = useParams();
     const [product, setProduct] = useState({});
+    const [productMemory, setProductMemory] = useState(0);
+    const [productColor, setProductColor] = useState("");
     const [amount, setAmount] = useState(0);
     let { addToCart } = useContext(Cart);
 
-
     function formatProduct(data) {
-        data.forEach((productProperties) => {
-            // TODO Remover estas dos varaibles una vez que migre a la firebase db
-            productProperties.id = productProperties.id.$numberInt;
-            productProperties.categoryId =
-                productProperties.categoryId.$numberInt;
-            if (
-                productProperties.categoryId === CategoryId &&
-                productProperties.id === ItemId
-            ) {
-                // TODO Remover el objeto creado explicitamente y decomentar la variable productProperties cuando cambiemos de db
-                setProduct(
-                    // productProperties
-                    {
-                        title: productProperties.title,
-                        price: productProperties.price.$numberInt,
-                        description: productProperties.description,
-                        memory: productProperties.memory.$numberInt,
-                        imageURL: productProperties.imageURL,
-                        colors: productProperties.colors.join(", "),
-                    }
-                );
-            }
+        let product = data.data();
+        product.id = data.id;
+
+        // Memory
+        setProductMemory(product.memory[0]);
+        product.memory = product.memory.map((memVal) => {
+            return (<option value={memVal}>{memVal}</option>);
         });
+        
+        // Colors
+        setProductColor(product.colors[0]);
+        product.colors = product.colors.map((colorVal) => {
+            return (<option value={colorVal}>{colorVal}</option>);
+        });
+
+        return {
+            title: product.title,
+            price: product.price,
+            description: product.description,
+            memory: product.memory,
+            imageURL: product.imageURL,
+            colors: product.colors,
+        };
     }
     async function serverRequest() {
-        const serverRequest = fetch(
-            "https://webhooks.mongodb-realm.com/api/client/v2.0/app/app-api-horsc/service/HTTP-REQUESTS/incoming_webhook/get-protocol"
-        );
-        let data = await serverRequest;
-        data = await data.text();
-        data = JSON.parse(data);
-
-        formatProduct(data);
+        const itemCollection = db.collection("items");
+        itemCollection
+            .get()
+            .then((data) => {
+                data.forEach((doc) => {
+                    if (
+                        doc.id === ItemId && // doc id es un string
+                        doc.data().categoryId === Number(CategoryId)
+                    ) {
+                        const product = formatProduct(doc);
+                        setProduct(product);
+                    }
+                });
+            })
+            .catch((err) => {
+                throw new Error(`Error de obtención de datos de bd: ${err}`);
+            });
     }
 
     useEffect(() => {
@@ -63,12 +74,22 @@ export default function ItemDetail(props) {
                     <p>{product.title}</p>
                 </div>
                 <div className="itemDetail__info-ctr__model">
-                    <p>
-                        Modelo: {product.title} - {product.memory}Gb
-                    </p>
+                    <select
+                        onChange={(e) => {
+                            setProductMemory(Number(e.target.value));
+                        }}
+                    >
+                        {product.memory}
+                    </select>
                 </div>
                 <div className="itemDetail__info-ctr__colors">
-                    <p>Colores: {product.colors}</p>
+                    <select value ={productColor}
+                        onChange={(e) => {
+                            setProductColor(String(e.target.value));
+                        }}
+                    >
+                        {product.colors}
+                    </select>
                 </div>
                 <div className="itemDetail__info-ctr__description">
                     <p>{product.description}</p>
@@ -88,7 +109,16 @@ export default function ItemDetail(props) {
                 <div className="itemDetail__actions__purchase-ctr">
                     {amount >= 1 ? (
                         <Link to="/Cart">
-                            <button type="button" onClick={() => {addToCart(product, amount)}} className="btn btn-secondary">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    product.memory = productMemory;
+                                    delete product.colors;
+                                    product.color = productColor;
+                                    addToCart(product, amount);
+                                }}
+                                className="btn btn-secondary"
+                            >
                                 Agregar al carrito
                             </button>
                         </Link>

@@ -1,42 +1,45 @@
 import React, { useEffect, useState } from "react";
 import Item from "./Item";
 
+import { db } from "../firebase/firebase.js";
+
 export default function ItemList({ categoryId, vertical }) {
     const [products, setProducts] = useState([]);
 
-    function formatProducts(products) {
-        let productsArray = [];
-        products.forEach((productProperties) => {
-            if (
-                Number(productProperties.categoryId.$numberInt) ===
-                Number(categoryId)
-            ) {
-                productsArray.push(
-                    <Item
-                        key={Number(productProperties.id.$numberInt)}
-                        id={Number(productProperties.id.$numberInt)}
-                        title={productProperties.title}
-                        memory={Number(productProperties.memory.$numberInt)}
-                        colors={Number(productProperties.colors)}
-                        description={productProperties.descripcion}
-                        price={Number(productProperties.price.$numberInt)}
-                        imageURL={productProperties.imageURL}
-                        categoryId={productProperties.categoryId.$numberInt}
-                    />
-                );
-            }
-        });
-        return productsArray;
+    function formatProduct(data) {
+        let product = data.data();
+        product.id = data.id;
+
+        return (
+            <Item
+                key={product.id}
+                id={product.id}
+                title={product.title}
+                memory={product.memory}
+                colors={product.color}
+                description={product.description}
+                price={product.price}
+                imageURL={product.imageURL}
+                categoryId={product.categoryId}
+            />
+        );
     }
     async function serverRequest() {
-        const serverRequest = fetch(
-            "https://webhooks.mongodb-realm.com/api/client/v2.0/app/app-api-horsc/service/HTTP-REQUESTS/incoming_webhook/get-protocol"
-        );
-        let data = await serverRequest;
-        data = await data.text();
-        data = JSON.parse(data);
-
-        setProducts(formatProducts(data));
+        const itemCollection = db.collection("items");
+        itemCollection
+            .get()
+            .then((data) => {
+                let products = [];
+                data.forEach((doc) => {
+                    if (doc.data().categoryId === Number(categoryId)) {
+                        products = [...products, formatProduct(doc)];
+                    }
+                });
+                setProducts(products);
+            })
+            .catch((err) => {
+                throw new Error(`Error de obtención de datos de bd: ${err}`);
+            });
     }
 
     useEffect(() => {
