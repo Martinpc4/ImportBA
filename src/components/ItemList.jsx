@@ -45,7 +45,7 @@ export default function ItemList({ categoryId, vertical }) {
 
     return (
         <div
-            className={`container itemList ${
+            className={`itemList ${
                 vertical === true
                     ? "itemList--vertical"
                     : "itemList--horizontal"

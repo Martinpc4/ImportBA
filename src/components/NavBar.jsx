@@ -5,18 +5,17 @@ export default function NavBar() {
     return (
         <header>
             <div className="banner">
-                <Link to={`/Home`}>
+                <Link to={`/`}>
                     <img src="/assets/brand/Logo.svg" alt="" />
                 </Link>
             </div>
             <div className="menu">
-                <NavLink
+                <Link
                     to="/"
-                    activeClassName="activeItem"
                     className="menu__item"
                 >
                     <p>Home</p>
-                </NavLink>
+                </Link>
                 <NavLink
                     to="/Shop/1"
                     activeClassName="activeItem"
