@@ -1,6 +1,8 @@
+@import './colors.scss';
+
 $theme-colors: (
-    "primary": #7f32ec,
-    "secondary": #191970,
+    "primary": #1C5373,
+    "secondary": #1C5373,
     "success": #198754,
     "info": #0dcaf0,
     "warning": #ffc107,
@@ -8,6 +10,10 @@ $theme-colors: (
     "light": #fff,
     "dark": #000,
 );
+
+.carousel {
+    z-index: 5;
+}
 
 $border-radius: 0.1rem !default;
 

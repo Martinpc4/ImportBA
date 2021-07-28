@@ -9,7 +9,7 @@ export default function Item(props) {
                     <p>{props.title}</p>
                 </div>
                 <div className="item__link__image">
-                    <img src={props.imageURL} alt="" />
+                    <img src={String(props.imagesURL[0])} alt="" />
                 </div>
             </Link>
             <div className="item__model">
@@ -18,7 +18,7 @@ export default function Item(props) {
                 }
             </div>
             <div className="item__price">
-                <p>{props.price} USD $</p>
+                <p>{props.price},00 USD $</p>
             </div>
         </div>
     );

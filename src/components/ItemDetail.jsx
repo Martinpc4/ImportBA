@@ -2,44 +2,78 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 import { db } from "../firebase/firebase.js";
+import Select from "react-select";
 // * Components
 import ItemCounter from "./ItemCounter";
 // * Context
 import Cart from "./contexts/Cart";
 
+let colorOptions = [];
+
 export default function ItemDetail(props) {
+    // praameters
     const { CategoryId, ItemId } = useParams();
+    // context
+    let { addToCart } = useContext(Cart);
+    // states
     const [product, setProduct] = useState({});
-    const [productMemory, setProductMemory] = useState(0);
     const [productColor, setProductColor] = useState("");
     const [amount, setAmount] = useState(0);
-    let { addToCart } = useContext(Cart);
 
     function formatProduct(data) {
         let product = data.data();
         product.id = data.id;
 
-        // Memory
-        setProductMemory(product.memory[0]);
-        product.memory = product.memory.map((memVal) => {
-            return (<option value={memVal}>{memVal}</option>);
-        });
-        
-        // Colors
-        setProductColor(product.colors[0]);
-        product.colors = product.colors.map((colorVal) => {
-            return (<option value={colorVal}>{colorVal}</option>);
+        // Set Color OPtions w/ react-select
+        let colorCounter = 0;
+        product.colors.forEach((color) => {
+            let availableStock = false; // stock control
+            if (product.stock[colorCounter] === 0) {
+                availableStock = true;
+            }
+            colorOptions.push({
+                value: String(color),
+                label: String(color),
+                isDisabled: availableStock,
+            });
+            colorCounter++;
         });
 
+        let imagesBootstrapComponents = [];
+        product.imagesURL.forEach((imageURL) => {
+            imagesBootstrapComponents.push(
+                <div
+                    key={imageURL}
+                    className={
+                        imageURL === product.imagesURL[0]
+                            ? "carousel-item active"
+                            : "carousel-item"
+                    }
+                    data-bs-interval="10000"
+                >
+                    <img
+                        src={String(imageURL)}
+                        className="d-block w-100"
+                        alt="..."
+                    />
+                </div>
+            );
+        });
+        let carouselIndicators = generateCarouselIndicators(product.imagesURL);
+
         return {
+            id: data.id,
             title: product.title,
             price: product.price,
             description: product.description,
             memory: product.memory,
-            imageURL: product.imageURL,
+            imagesURL: product.imagesURL,
             colors: product.colors,
+            imagesBootstrapComponents,
+            carouselIndicators,
         };
     }
+
     async function serverRequest() {
         const itemCollection = db.collection("items");
         itemCollection
@@ -64,67 +98,132 @@ export default function ItemDetail(props) {
         serverRequest();
     }, [ItemId]);
 
+    function generateCarouselIndicators(imagesURL) {
+        let buttons = [];
+        for (let i = 0; i < imagesURL.length; i++) {
+            buttons.push(
+                <button
+                    type="button"
+                    data-bs-target="#productCarousel"
+                    data-bs-slide-to={i}
+                    class="active"
+                    aria-current="true"
+                    aria-label={`Silde ${i + 1}`}
+                ></button>
+            );
+        }
+        return buttons;
+    }
+
     return (
-        <div className="itemDetail">
-            <div className="itemDetail__image">
-                <img src={String(product.imageURL)} alt="" />
-            </div>
-            <div className="itemDetail__info-ctr">
-                <div className="itemDetail__info-ctr__title">
-                    <p>{product.title}</p>
-                </div>
-                <div className="itemDetail__info-ctr__model">
-                    <select
-                        onChange={(e) => {
-                            setProductMemory(Number(e.target.value));
-                        }}
+        <div className="mt-5 mb-5 container d-flex flex-column align-items-between">
+            <div className="row gx-5 mb-4 justify-content-center align-items-start">
+                <div className="col-5">
+                    <div
+                        id="productCarousel"
+                        class="carousel carousel-dark slide"
+                        data-bs-ride="carousel"
                     >
-                        {product.memory}
-                    </select>
+                        <div class="carousel-inner">
+                            {product.imagesBootstrapComponents}
+                        </div>
+                        <div class="carousel-indicators">{product.carouselIndicators}</div>
+                        <button
+                            class="carousel-control-prev"
+                            type="button"
+                            data-bs-target="#productCarousel"
+                            data-bs-slide="prev"
+                        >
+                            <span
+                                class="carousel-control-prev-icon"
+                                aria-hidden="true"
+                            ></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button
+                            class="carousel-control-next"
+                            type="button"
+                            data-bs-target="#productCarousel"
+                            data-bs-slide="next"
+                        >
+                            <span
+                                class="carousel-control-next-icon"
+                                aria-hidden="true"
+                            ></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
                 </div>
-                <div className="itemDetail__info-ctr__colors">
-                    <select value ={productColor}
-                        onChange={(e) => {
-                            setProductColor(String(e.target.value));
-                        }}
-                    >
-                        {product.colors}
-                    </select>
-                </div>
-                <div className="itemDetail__info-ctr__description">
-                    <p>{product.description}</p>
-                </div>
-                <div className="itemDetail__info-ctr__price">
-                    <p>{product.price} $ USD</p>
+                <div className="col-5">
+                    <div className="row gy-5">
+                        <div className="col-12">
+                            <div className="row">
+                                <p className="m-0 mb-3 fs-4">{product.title}</p>
+                            </div>
+                            <div className="row">
+                                <p className="m-0 mb-2 fs-6">
+                                    {product.title} - {product.memory}Gb{" "}
+                                    {productColor !== "" && `- ${productColor}`}
+                                </p>
+                            </div>
+                            <div className="row">
+                                <div className="col-12">
+                                    <Select
+                                        className="m-0 mb-2 w-50 fs-6"
+                                        defaultOptions
+                                        options={colorOptions}
+                                        onChange={(e) => {
+                                            setProductColor(e.value);
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-12">
+                            <div className="row">
+                                <p className="m-0 fs-5 price">
+                                    {product.price} $ USD
+                                </p>
+                            </div>
+                            <div className="row">
+                                <div className="col-12">
+                                    <p className="m-0 fs-6">Cantidad</p>
+                                </div>
+                                <div className="col-12">
+                                    <ItemCounter
+                                        itemAmount={amount}
+                                        itemAmountFunction={setAmount}
+                                    />
+                                </div>
+                            </div>
+                            <div className="row mt-3">
+                                {amount >= 1 ? (
+                                    <Link to="/Cart">
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                delete product.colors;
+                                                product.color = productColor;
+                                                addToCart(product, amount);
+                                            }}
+                                            className="btn btn-secondary fs-6"
+                                        >
+                                            Agregar al carrito
+                                        </button>
+                                    </Link>
+                                ) : null}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div className="itemDetail__actions">
-                <div className="itemDetail__actions__counter">
-                    <p>Cantidad</p>
-                    <ItemCounter
-                        itemAmount={amount}
-                        itemAmountFunction={setAmount}
-                    />
-                </div>
-                <div className="itemDetail__actions__purchase-ctr">
-                    {amount >= 1 ? (
-                        <Link to="/Cart">
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    product.memory = productMemory;
-                                    delete product.colors;
-                                    product.color = productColor;
-                                    addToCart(product, amount);
-                                }}
-                                className="btn btn-secondary"
-                            >
-                                Agregar al carrito
-                            </button>
-                        </Link>
-                    ) : (
-                        ""
-                    )}
+            <div className="row">
+                <div className="col-12">
+                    <div className="row">
+                        <p className="text-justify lead m-0 fs-6">
+                            {product.description}
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

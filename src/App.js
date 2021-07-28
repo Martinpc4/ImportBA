@@ -5,7 +5,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 // Components
 import './styles/css/components.css';
 // Bootstrap (Modified)
-import './styles/css/bootstrap-modified.css';
+import './styles/css/bootstrap-modified.css'; // bootstrap styles modified
+import 'bootstrap/dist/js/bootstrap' // bootstrap js
 // * Components
 import NavBar from './components/NavBar';
 import Shop from './components/Shop';

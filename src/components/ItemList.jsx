@@ -16,10 +16,10 @@ export default function ItemList({ categoryId, vertical }) {
                 id={product.id}
                 title={product.title}
                 memory={product.memory}
-                colors={product.color}
+                colors={product.colors}
                 description={product.description}
                 price={product.price}
-                imageURL={product.imageURL}
+                imagesURL={product.imagesURL}
                 categoryId={product.categoryId}
             />
         );
