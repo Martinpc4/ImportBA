@@ -38,7 +38,7 @@ export default function ItemList({ categoryId, vertical }) {
                 setProducts(products);
             })
             .catch((err) => {
-                throw new Error(`Error de obtención de datos de bd: ${err}`);
+                throw new Error(`Error de obtención de datos de bd:\n\n${err}`);
             });
     }
 

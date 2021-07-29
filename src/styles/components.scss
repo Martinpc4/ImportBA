@@ -386,9 +386,9 @@ main {
     &--vertical {
         // grid father
         row-gap: 20px;
-        grid-template-columns: repeat(5, 1fr);
+        column-gap: 20px;
+        grid-template-columns: repeat(4, 1fr);
         justify-content: center;
-
     }
 }
 

@@ -8,7 +8,7 @@ export default function Shop() {
     return (
         <div className="shop">
             <div className="shop__itemList">
-                <ItemList categoryId={CategoryId} />
+                <ItemList categoryId={CategoryId} vertical={true} />
             </div>
             <div className="shop__filters"></div>
         </div>
