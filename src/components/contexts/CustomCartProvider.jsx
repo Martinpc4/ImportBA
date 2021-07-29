@@ -8,36 +8,48 @@ export default function CustomCartProvider(props) {
         setCart([]);
     }
 
-    function isInCart(productId) {
+    function isInCart(product) {
         if (cart != []) {
+            let flagVar = false;
             cart.forEach((productProperties) => {
-                if (productProperties.id == productId) {
-                    return true;
+                if ((productProperties.product.id == product.id) && (productProperties.product.color == product.color)) {
+                    flagVar = true;
                 }
             });
+            if (flagVar === true) {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
-        return false;
+        else {
+            throw new Error("Error: El carrito se encuentra vacio");
+        }
     }
 
-    function addToCart(product, Amount) {
-        if (isInCart(product.id) === false) {
+    function addToCart(product, amount) {
+        if (isInCart(product) === false) {
             let newProduct = {
-                item: product,
-                amount: Amount,
+                product: product,
+                amount: amount,
             };
             setCart([...cart, newProduct]);
-        } else if (isInCart(product.id) === true) {
-            modifyProductAmount(product.id, 1);
+        } else if (isInCart(product) === true) {
+            modifyProductAmount(product, amount);
         }
     }
 
-    function modifyProductAmount(productId, amount) {
+    function modifyProductAmount(product, amount) {
         if (cart != []) {
             let newCart = [];
             cart.forEach((productProperties) => {
-                if (productProperties.item.id == productId) {
-                    productProperties.item.amount =
-                        productProperties.item.amount + amount;
+                if (
+                    productProperties.product.id == product.id &&
+                    productProperties.product.color == product.color
+                ) {
+                    productProperties.amount =
+                        productProperties.amount + amount;
                     newCart = [...newCart, productProperties];
                 } else {
                     newCart = [...newCart, productProperties];
@@ -51,23 +63,42 @@ export default function CustomCartProvider(props) {
 
     function removeFromCart(product, amount) {
         if (cart != []) {
-            if (isInCart(product.id) === true) {
+            if (isInCart(product) === true) {
                 let newCart = [];
                 cart.forEach((productProperties) => {
                     if (
-                        productProperties.item.id == product.id &&
-                        productProperties.color == product.color
+                        !(
+                            productProperties.product.id == product.id &&
+                            productProperties.product.color == product.color
+                        )
                     ) {
-                        if (productProperties.item.amount > amount) {
-                            productProperties.item.amount--;
-                            newCart = [...newCart, productProperties];
-                        }
-                    } else {
                         newCart = [...newCart, product];
                     }
                 });
                 setCart(newCart);
-            } else if (isInCart(product.id) === false) {
+            } else if (isInCart(product) === false) {
+                throw new Error(
+                    "Error: El producto no se encuentra en el carrito"
+                );
+            }
+        } else {
+            throw new Error("Error: El carrito se encuentra vacio");
+        }
+    }
+    function getProductAmount(product) {
+        if (cart != []) {
+            if (isInCart(product) === true) {
+                let productAmount = 0;
+                cart.forEach((productProperties) => {
+                    if (
+                        productProperties.product.id == product.id &&
+                        productProperties.product.color == product.color
+                        ) {
+                            productAmount = productProperties.amount;
+                        }
+                    });
+                return productAmount;
+            } else if (isInCart(product) === false) {
                 throw new Error(
                     "Error: El producto no se encuentra en el carrito"
                 );
@@ -78,7 +109,17 @@ export default function CustomCartProvider(props) {
     }
 
     return (
-        <Cart.Provider value={{ cart, addToCart }}>
+        <Cart.Provider
+            value={{
+                cart,
+                addToCart,
+                removeFromCart,
+                modifyProductAmount,
+                isInCart,
+                cleanCart,
+                getProductAmount
+            }}
+        >
             {props.children}
         </Cart.Provider>
     );

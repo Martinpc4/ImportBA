@@ -96,17 +96,18 @@ export default function ItemDetail(props) {
 
     useEffect(() => {
         serverRequest();
-    }, [ItemId]);
+    }, [ItemId, CategoryId]);
 
     function generateCarouselIndicators(imagesURL) {
         let buttons = [];
         for (let i = 0; i < imagesURL.length; i++) {
             buttons.push(
                 <button
+                    key={`${imagesURL}-button-${i}`}
                     type="button"
                     data-bs-target="#productCarousel"
                     data-bs-slide-to={i}
-                    class="active"
+                    className="active"
                     aria-current="true"
                     aria-label={`Silde ${i + 1}`}
                 ></button>
@@ -115,117 +116,130 @@ export default function ItemDetail(props) {
         return buttons;
     }
 
-    return (
-        <div className="mt-5 mb-5 container d-flex flex-column align-items-between">
-            <div className="row gx-5 mb-4 justify-content-center align-items-start">
-                <div className="col-5">
-                    <div
-                        id="productCarousel"
-                        class="carousel carousel-dark slide"
-                        data-bs-ride="carousel"
-                    >
-                        <div class="carousel-inner">
-                            {product.imagesBootstrapComponents}
+    if (product.title != undefined) {
+        return (
+            <div className="mt-5 mb-5 container d-flex flex-column align-items-between">
+                <div className="row gx-5 mb-4 justify-content-center align-items-start">
+                    <div className="col-5">
+                        <div
+                            id="productCarousel"
+                            className="carousel carousel-dark slide"
+                            data-bs-ride="carousel"
+                        >
+                            <div className="carousel-inner">
+                                {product.imagesBootstrapComponents}
+                            </div>
+                            <div className="carousel-indicators">{product.carouselIndicators}</div>
+                            <button
+                                className="carousel-control-prev"
+                                type="button"
+                                data-bs-target="#productCarousel"
+                                data-bs-slide="prev"
+                            >
+                                <span
+                                    className="carousel-control-prev-icon"
+                                    aria-hidden="true"
+                                ></span>
+                                <span className="visually-hidden">Previous</span>
+                            </button>
+                            <button
+                                className="carousel-control-next"
+                                type="button"
+                                data-bs-target="#productCarousel"
+                                data-bs-slide="next"
+                            >
+                                <span
+                                    className="carousel-control-next-icon"
+                                    aria-hidden="true"
+                                ></span>
+                                <span className="visually-hidden">Next</span>
+                            </button>
                         </div>
-                        <div class="carousel-indicators">{product.carouselIndicators}</div>
-                        <button
-                            class="carousel-control-prev"
-                            type="button"
-                            data-bs-target="#productCarousel"
-                            data-bs-slide="prev"
-                        >
-                            <span
-                                class="carousel-control-prev-icon"
-                                aria-hidden="true"
-                            ></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button
-                            class="carousel-control-next"
-                            type="button"
-                            data-bs-target="#productCarousel"
-                            data-bs-slide="next"
-                        >
-                            <span
-                                class="carousel-control-next-icon"
-                                aria-hidden="true"
-                            ></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
                     </div>
-                </div>
-                <div className="col-5">
-                    <div className="row gy-5">
-                        <div className="col-12">
-                            <div className="row">
-                                <p className="m-0 mb-3 fs-4">{product.title}</p>
-                            </div>
-                            <div className="row">
-                                <p className="m-0 mb-2 fs-6">
-                                    {product.title} - {product.memory}Gb{" "}
-                                    {productColor !== "" && `- ${productColor}`}
-                                </p>
-                            </div>
-                            <div className="row">
-                                <div className="col-12">
-                                    <Select
-                                        className="m-0 mb-2 w-50 fs-6"
-                                        defaultOptions
-                                        options={colorOptions}
-                                        onChange={(e) => {
-                                            setProductColor(e.value);
-                                        }}
-                                    />
+                    <div className="col-5">
+                        <div className="row gy-5">
+                            <div className="col-12">
+                                <div className="row">
+                                    <p className="m-0 mb-3 fs-4">{product.title}</p>
                                 </div>
-                            </div>
-                        </div>
-                        <div className="col-12">
-                            <div className="row">
-                                <p className="m-0 fs-5 price">
-                                    {product.price} $ USD
-                                </p>
-                            </div>
-                            <div className="row">
-                                <div className="col-12">
-                                    <p className="m-0 fs-6">Cantidad</p>
+                                <div className="row">
+                                    <p className="m-0 mb-2 fs-6">
+                                        {product.title} - {product.memory}Gb{" "}
+                                        {productColor !== "" && `- ${productColor}`}
+                                    </p>
                                 </div>
-                                <div className="col-12">
-                                    <ItemCounter
-                                        itemAmount={amount}
-                                        itemAmountFunction={setAmount}
-                                    />
-                                </div>
-                            </div>
-                            <div className="row mt-3">
-                                {amount >= 1 ? (
-                                    <Link to="/Cart">
-                                        <button
-                                            type="button"
-                                            onClick={() => {
-                                                delete product.colors;
-                                                product.color = productColor;
-                                                addToCart(product, amount);
+                                <div className="row">
+                                    <div className="col-12">
+                                        <Select
+                                            className="m-0 mb-2 w-50 fs-6"
+                                            defaultOptions
+                                            options={colorOptions}
+                                            onChange={(e) => {
+                                                setProductColor(e.value);
                                             }}
-                                            className="btn btn-secondary fs-6"
-                                        >
-                                            Agregar al carrito
-                                        </button>
-                                    </Link>
-                                ) : null}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-12">
+                                <div className="row">
+                                    <p className="m-0 fs-5 price">
+                                        {product.price} $ USD
+                                    </p>
+                                </div>
+                                <div className="row">
+                                    <div className="col-12">
+                                        <p className="m-0 fs-6">Cantidad</p>
+                                    </div>
+                                    <div className="col-12">
+                                        <ItemCounter
+                                            itemAmount={amount}
+                                            itemAmountFunction={setAmount}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="row mt-3">
+                                    {amount >= 1 ? (
+                                        <Link to="/Cart">
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    delete product.colors;
+                                                    product.color = productColor;
+                                                    addToCart(product, amount);
+                                                }}
+                                                className="btn btn-secondary fs-6"
+                                            >
+                                                Agregar al carrito
+                                            </button>
+                                        </Link>
+                                    ) : null}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className="row">
-                <div className="col-12">
-                    <div className="row">
-                        <p className="text-justify lead m-0 fs-6">
-                            {product.description}
-                        </p>
+                <div className="row">
+                    <div className="col-12">
+                        <div className="row">
+                            <p className="text-justify lead m-0 fs-6">
+                                {product.description}
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    );
+        );
+    }
+    else {
+        return (
+            <div className="container">
+                <div className="row">
+                    <div className="col-12">
+                        <p className="text-center fs-2">PRODUCTO NO ENCONTRADO</p>
+                    </div>
+                </div>
+            </div>
+        )
+    }
 }

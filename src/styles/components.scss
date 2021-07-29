@@ -138,39 +138,13 @@ header {
     position: absolute;
     top: 7.85vh;
     right: -0.1vw;
-    // flexbox
-    display: grid;
-    grid-template-columns: max-content;
-    grid-template-rows: max-content 1fr;
-    justify-content: center;
-    align-content: center;
     // boxmodeling
     background-color: white;
-    min-width: 20vw;
+    max-width: 35vw !important;
     // boders
     border: 2px solid black;
     // special properties
     cursor: default;
-    &__header {
-        // flexbox
-        display: flex;
-        flex-flow: row nowrap;
-        justify-content: flex-start;
-        align-content: center;
-        // boxmodeling
-        padding: 5px;
-        width: 100%;
-        border-bottom: 2px solid #{$sematic__color__secondary};
-        margin: 0 0 10px 0;
-        p {
-            margin: 0;
-            font-size: 1.1rem;
-            color: black;
-            font-style: normal;
-        }
-    }
-    &__items-ctr {
-    }
 }
 
 // * Main
@@ -186,7 +160,7 @@ main {
 .itemCounter {
     // grid father
     display: grid;
-    grid-template-columns: repeat(3, max-content);
+    grid-template-columns: repeat(4, max-content);
     grid-template-rows: 1fr;
     justify-content: center;
     align-items: center;
@@ -199,7 +173,6 @@ main {
     &__counter {
         border: black 1px solid;
         // grid son
-        grid-column: 1 / 2;
         grid-row: 1 / 1;
         // flexbox
         display: flex;
@@ -221,7 +194,6 @@ main {
     &__plus-btn {
         border: black 1px solid;
         // grid son
-        grid-column: 2 / 3;
         grid-row: 1 / 1;
         // flexbox
         display: flex;
@@ -250,7 +222,6 @@ main {
     }
     &__substr-btn {
         // grid son
-        grid-column: 3 / 4;
         grid-row: 1 / 1;
         // flexbox
         display: flex;
@@ -268,6 +239,35 @@ main {
             cursor: pointer;
             // font properties
             color: #{$counter__font__color};
+        }
+        &:hover {
+            // background properties
+            background-color: #{$counter__background__color};
+            i {
+                // font properties
+                color: #{$counter__font__color--hover};
+            }
+        }
+    }
+    &__confirm-btn {
+        // grid son
+        grid-row: 1 / 1;
+        // flexbox
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        align-items: center;
+        // box modeling
+        min-height: 33px;
+        min-width: 33px;
+        max-height: 40px;
+        max-width: 40px;
+        border: black 1px solid;
+        i {
+            cursor: pointer;
+            // font properties
+            color: #{$counter__font__color};
+            font-size: 1.45rem;
         }
         &:hover {
             // background properties
