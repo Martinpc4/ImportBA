@@ -9,21 +9,22 @@ export default function CustomCartProvider(props) {
     }
 
     function isInCart(product) {
-        if (cart != []) {
+        if (cart.length > 0) {
             let flagVar = false;
             cart.forEach((productProperties) => {
-                if ((productProperties.product.id == product.id) && (productProperties.product.color == product.color)) {
+                if (
+                    productProperties.product.id == product.id &&
+                    productProperties.product.color == product.color
+                ) {
                     flagVar = true;
                 }
             });
             if (flagVar === true) {
                 return true;
-            }
-            else {
+            } else {
                 return false;
             }
-        }
-        else {
+        } else {
             throw new Error("Error: El carrito se encuentra vacio");
         }
     }
@@ -41,7 +42,7 @@ export default function CustomCartProvider(props) {
     }
 
     function modifyProductAmount(product, amount) {
-        if (cart != []) {
+        if (cart.length > 0) {
             let newCart = [];
             cart.forEach((productProperties) => {
                 if (
@@ -61,8 +62,8 @@ export default function CustomCartProvider(props) {
         }
     }
 
-    function removeFromCart(product, amount) {
-        if (cart != []) {
+    function removeFromCart(product) {
+        if (cart.length > 0) {
             if (isInCart(product) === true) {
                 let newCart = [];
                 cart.forEach((productProperties) => {
@@ -86,17 +87,17 @@ export default function CustomCartProvider(props) {
         }
     }
     function getProductAmount(product) {
-        if (cart != []) {
+        if (cart.length > 0) {
             if (isInCart(product) === true) {
                 let productAmount = 0;
                 cart.forEach((productProperties) => {
                     if (
                         productProperties.product.id == product.id &&
                         productProperties.product.color == product.color
-                        ) {
-                            productAmount = productProperties.amount;
-                        }
-                    });
+                    ) {
+                        productAmount = productProperties.amount;
+                    }
+                });
                 return productAmount;
             } else if (isInCart(product) === false) {
                 throw new Error(
@@ -106,6 +107,15 @@ export default function CustomCartProvider(props) {
         } else {
             throw new Error("Error: El carrito se encuentra vacio");
         }
+    }
+    function getTotal() {
+        let total = 0;
+        cart.forEach((productProperties) => {
+            total =
+                total +
+                (productProperties.amount * productProperties.product.price);
+        });
+        return total;
     }
 
     return (
@@ -117,7 +127,8 @@ export default function CustomCartProvider(props) {
                 modifyProductAmount,
                 isInCart,
                 cleanCart,
-                getProductAmount
+                getProductAmount,
+                getTotal
             }}
         >
             {props.children}

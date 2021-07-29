@@ -19,6 +19,7 @@
     justify-content: center;
     grid-template-columns: 1fr;
     grid-template-rows: max-content 1fr max-content;
+    row-gap: 10px;
     // box modeling
     width: 100%;
     height: 100%;
@@ -150,12 +151,13 @@ header {
 // * Main
 main {
     // grid father
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-flow: row nowrap;
     justify-content: flex-start;
     justify-items: flex-start;
-    align-content: center;
-    row-gap: 50px;
+    align-content: flex-start;
+    // box modeling
+    height: 100%;
 }
 .itemCounter {
     // grid father

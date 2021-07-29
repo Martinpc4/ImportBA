@@ -15,8 +15,13 @@ export default function ItemCart({ productProperties, listModel }) {
     } = useContext(CartContext);
 
     function applyAmountChangesToCart() {
-        let newProductAmount = productAmount - getProductAmount(productProperties.product);
-        modifyProductAmount(productProperties.product, newProductAmount);
+        if (productAmount == 0) {
+            removeFromCart(productProperties.product);
+        }
+        else {
+            let newProductAmount = productAmount - getProductAmount(productProperties.product);
+            modifyProductAmount(productProperties.product, newProductAmount);
+        }
     }
 
     let fontSizeM2 = {fontSize: 13};
@@ -40,7 +45,7 @@ export default function ItemCart({ productProperties, listModel }) {
                 </div>
                 <div className="col-3 px-2">
                     <div className="row">
-                        <p className="price m-0" style={fontSizeM2}>
+                        <p className="m-0 text-end" style={fontSizeM2}>
                             {String(productProperties.product.price * productProperties.amount)} USD$
                         </p>
                     </div>

@@ -32,7 +32,6 @@ export default function itemCounter({
                     }
                 ></i>
             </div>
-            {console.log(cartItemAmount)}
             {(itemAmount != cartItemAmount) && (isApplyChanges === true) ? (
                 <div className="itemCounter__confirm-btn">
                     <i

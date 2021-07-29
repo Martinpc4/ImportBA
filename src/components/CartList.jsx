@@ -1,5 +1,6 @@
 // * Libraries
 import React, { useContext, useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
 // * Components
 import ItemCart from "./ItemCart";
 // * Contexts
@@ -31,8 +32,21 @@ export default function CartList({ listModel }) {
     }
 
     useEffect(() => {
-        formatProductData();
+        if (cart != []) {
+            formatProductData();
+        }
     }, []);
 
-    return <>{products}</>;
+    if (cart.length > 0) {
+        return (<>{products}</>);
+    }
+    else {
+        return(
+            <div className="row align-items-center">
+                <Link to="/" className="text-decoration-none text-muted">
+                    <p className={`text-center mx-0 my-3 ${listModel === 1 ? 'fs-6' : 'fs-4'}`}>Todavia no hay productos!</p>
+                </Link>
+            </div>
+        );
+    }
 }
