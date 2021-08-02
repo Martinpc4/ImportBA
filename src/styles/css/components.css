@@ -551,7 +551,7 @@ main {
   -ms-grid-row: 1;
   -ms-grid-row-span: 1;
   grid-row: 1 / 2;
-  width: 20vw;
+  width: 15vw;
   height: 100%;
   border: 2px solid black;
 }

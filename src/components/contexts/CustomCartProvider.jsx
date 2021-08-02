@@ -21,11 +21,9 @@ export default function CustomCartProvider(props) {
             });
             if (flagVar === true) {
                 return true;
-            } else {
-                return false;
             }
         } else {
-            throw new Error("Error: El carrito se encuentra vacio");
+            return false;
         }
     }
 
@@ -113,7 +111,7 @@ export default function CustomCartProvider(props) {
         cart.forEach((productProperties) => {
             total =
                 total +
-                (productProperties.amount * productProperties.product.price);
+                productProperties.amount * productProperties.product.price;
         });
         return total;
     }
@@ -128,7 +126,7 @@ export default function CustomCartProvider(props) {
                 isInCart,
                 cleanCart,
                 getProductAmount,
-                getTotal
+                getTotal,
             }}
         >
             {props.children}
