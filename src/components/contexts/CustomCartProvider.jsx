@@ -1,17 +1,24 @@
-import React, { useState } from "react";
-import Cart from "./Cart.jsx";
+import React, { useState, useEffect } from "react";
+import CartContext from "./Cart.jsx";
 
 export default function CustomCartProvider(props) {
-    const [cart, setCart] = useState([]);
+    const [Cart, setCart] = useState([]);
+
+    const iva = 10.5;
+    const dolar = 180;
+    const impuestoPais = 30;
+
+    useEffect(() => {
+    }, [Cart]);
 
     function cleanCart() {
         setCart([]);
     }
 
     function isInCart(product) {
-        if (cart.length > 0) {
+        if (Cart.length > 0) {
             let flagVar = false;
-            cart.forEach((productProperties) => {
+            Cart.forEach((productProperties) => {
                 if (
                     productProperties.product.id == product.id &&
                     productProperties.product.color == product.color
@@ -22,27 +29,34 @@ export default function CustomCartProvider(props) {
             if (flagVar === true) {
                 return true;
             }
+            else if (flagVar === false) {
+                return false;
+            }
         } else {
             return false;
         }
     }
 
     function addToCart(product, amount) {
+        console.log(product);
+        console.log(amount);
+        console.log(isInCart(product));
         if (isInCart(product) === false) {
+            console.log("ENTRe");
             let newProduct = {
                 product: product,
                 amount: amount,
             };
-            setCart([...cart, newProduct]);
+            setCart([...Cart, newProduct]);
         } else if (isInCart(product) === true) {
             modifyProductAmount(product, amount);
         }
     }
 
     function modifyProductAmount(product, amount) {
-        if (cart.length > 0) {
+        if (Cart.length > 0) {
             let newCart = [];
-            cart.forEach((productProperties) => {
+            Cart.forEach((productProperties) => {
                 if (
                     productProperties.product.id == product.id &&
                     productProperties.product.color == product.color
@@ -61,10 +75,10 @@ export default function CustomCartProvider(props) {
     }
 
     function removeFromCart(product) {
-        if (cart.length > 0) {
+        if (Cart.length > 0) {
             if (isInCart(product) === true) {
                 let newCart = [];
-                cart.forEach((productProperties) => {
+                Cart.forEach((productProperties) => {
                     if (
                         !(
                             productProperties.product.id == product.id &&
@@ -85,10 +99,10 @@ export default function CustomCartProvider(props) {
         }
     }
     function getProductAmount(product) {
-        if (cart.length > 0) {
+        if (Cart.length > 0) {
             if (isInCart(product) === true) {
                 let productAmount = 0;
-                cart.forEach((productProperties) => {
+                Cart.forEach((productProperties) => {
                     if (
                         productProperties.product.id == product.id &&
                         productProperties.product.color == product.color
@@ -106,20 +120,49 @@ export default function CustomCartProvider(props) {
             throw new Error("Error: El carrito se encuentra vacio");
         }
     }
-    function getTotal() {
+    function getItemsList() {
+        let itemTotalArray = [];
+        Cart.forEach((cartItem) => {
+            itemTotalArray.push(
+                <div key={cartItem.product.id} className="row">
+                    <div className="col-6">
+                        <p className="text-start text-muted">
+                            {cartItem.product.title}
+                        </p>
+                    </div>
+                    <div className="col-6">
+                        <p className="text-end text-muted">
+                            {cartItem.product.price * cartItem.amount} USD$
+                        </p>
+                    </div>
+                </div>
+            );
+        });
+        return itemTotalArray;
+    }
+    function getTotal(option) {
+        // 1: total with "iva" - 2: total with "impuesto pais"
         let total = 0;
-        cart.forEach((productProperties) => {
+        Cart.forEach((productProperties) => {
             total =
                 total +
                 productProperties.amount * productProperties.product.price;
         });
+        if (option === 1) {
+            total = (total * dolar * iva) / 100;
+        } else if (option === 2) {
+            total = (total * dolar * impuestoPais) / 100;
+        }
         return total;
     }
 
     return (
-        <Cart.Provider
+        <CartContext.Provider
             value={{
-                cart,
+                iva,
+                dolar,
+                impuestoPais,
+                Cart,
                 addToCart,
                 removeFromCart,
                 modifyProductAmount,
@@ -127,9 +170,10 @@ export default function CustomCartProvider(props) {
                 cleanCart,
                 getProductAmount,
                 getTotal,
+                getItemsList,
             }}
         >
             {props.children}
-        </Cart.Provider>
+        </CartContext.Provider>
     );
 }

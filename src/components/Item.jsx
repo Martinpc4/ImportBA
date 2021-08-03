@@ -3,23 +3,36 @@ import { Link } from "react-router-dom";
 
 export default function Item(props) {
     return (
-        <div className="item">
-            <Link to={`/Shop/${props.categoryId}/${props.id}`} className="item__link">
-                <div className="item__link__title">
-                    <p>{props.title}</p>
+            <div className="row gy-2">
+                <div className="col-12">
+                    <Link
+                        to={`/Shop/${props.categoryId}/${props.id}`}
+                        className="row text-decoration-none"
+                    >
+                        <div className="col-12">
+                            <p className="text-dark m-0 fs-6 text-nowrap">{props.title}</p>
+                        </div>
+                        <div className="col-12">
+                            <img
+                                className="w-100"
+                                src={String(props.imagesURL[0])}
+                                alt=""
+                            />
+                        </div>
+                    </Link>
                 </div>
-                <div className="item__link__image">
-                    <img src={String(props.imagesURL[0])} alt="" />
+                <div className="col-12">
+                    <p className="m-0 fs-6 text-start text-nowrap">
+                        {props.memory != 0
+                            ? `${props.title} - ${props.memory}Gb`
+                            : `${props.title}`}
+                    </p>
                 </div>
-            </Link>
-            <div className="item__model">
-                {
-                    props.memory != 0 ? <p>{props.title} - {props.memory}Gb</p> : <p>{props.title}</p>
-                }
+                <div className="col-12">
+                    <p className="m-0 fs-6 text-start">
+                        {props.price},00 USD $
+                    </p>
+                </div>
             </div>
-            <div className="item__price">
-                <p>{props.price},00 USD $</p>
-            </div>
-        </div>
     );
 }

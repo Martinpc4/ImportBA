@@ -8,7 +8,7 @@ import CartContext from "./contexts/Cart";
 
 export default function CartWidget() {
     const [clickedState, setClickedState] = useState(false);
-    const { cart, getTotal } = useContext(CartContext);
+    const { Cart, getTotal } = useContext(CartContext);
 
     function checkClickedState(e) {
         e.stopPropagation();
@@ -19,14 +19,14 @@ export default function CartWidget() {
         }
     }
 
-    useEffect(() => {}, [cart]);
+    useEffect(() => {}, [Cart]);
 
     return (
         <>
-            <i className="bi bi-cart" onClick={checkClickedState}></i>
+            <i className="bi bi-cart fs-4 text-end" onClick={checkClickedState}></i>
             {clickedState === true ? (
-                <Link to="/Cart" className="text-decoration-none text-dark">
-                    <div className="container cartList gy-1">
+                <Link to="/Cart" className="user-select-auto text-decoration-none text-dark cart-widget w-25">
+                    <div className="container gy-1 bg-light border">
                         <div className="row">
                             <p className="m-0 fs-5 text-center">Productos</p>
                         </div>
@@ -36,7 +36,7 @@ export default function CartWidget() {
                             </div>
                         </div>
                         {getTotal() > 0 ? (
-                            <div className="row align-items-center">
+                            <div className="row align-items-center border-top py-2">
                                 <div className="col-6">
                                     <div className="row">
                                         <p className="text-start">Total</p>

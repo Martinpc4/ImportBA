@@ -11,7 +11,6 @@
 * {
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
-    user-select: none;
 }
 #root {
     // grid father
@@ -26,6 +25,11 @@
     // scroll properties
     overflow-x: hidden;
     overflow-y: auto;
+}
+.link-default {
+    // font properties
+    color: black;
+    text-decoration: none;
 }
 .price {
     color: #{$sematic__color__primary};
@@ -44,100 +48,17 @@ footer {
 }
 
 // * Header
-header {
-    border: black 1px solid;
-    // special properties
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    // box modeling
-    height: 8vh;
-    // flexbox
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: 1fr;
-    justify-content: center;
-    align-items: center;
-    // background
-    background-color: white;
-    .banner {
-        // box modeling
-        height: 100%;
-        width: 100%;
-        // flex box
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        img {
-            height: 30px;
-        }
-    }
-    .menu {
-        // box modeling
-        height: 100%;
-        width: 100%;
-        // grid father
-        display: grid;
-        justify-content: center;
-        align-items: center;
-        grid-template-rows: 1fr;
-        column-gap: 30px;
-        .activeItem {
-            color: #{$sematic__color__secondary};
-        }
-        &__item {
-            // grid son
-            grid-row: 1 / 1;
-            // special properties
-            list-style-type: none;
-            // font properties
-            font-size: 1.1rem;
-            font-weight: 300;
-            color: black;
-            text-decoration: none;
-            // flexbox
-            display: flex;
-            flex-flow: nowrap row;
-            align-items: center;
-            justify-content: center;
-            & > p {
-                margin: 0;
-                cursor: pointer;
-                border-bottom: transparent 2px solid;
-                &:hover {
-                    color: #{$sematic__color__secondary};
-                    border-bottom: #{$sematic__color__secondary} 2px solid;
-                }
-            }
-        }
-    }
-    .actions {
-        // box modeling
-        height: 100%;
-        width: 100%;
-        // grid father
-        display: grid;
-        grid-template-rows: 1fr;
-        justify-content: flex-end;
-        align-items: center;
-        column-gap: 30px;
-        &__item {
-            i {
-                font-size: 1.3rem;
-                font-weight: 300;
-                cursor: pointer;
-                &:hover {
-                    color: #{$sematic__color__secondary};
-                }
-            }
-        }
+// header
+.hdr-active-item {
+    p {
+        color: #{$sematic__color__primary} !important;
     }
 }
 
 .cartList {
     // position
     position: absolute;
-    top: 7.85vh;
+    top: 8vh;
     right: -0.1vw;
     // boxmodeling
     background-color: white;
@@ -146,6 +67,11 @@ header {
     border: 2px solid black;
     // special properties
     cursor: default;
+}
+.cart-widget {
+    position: absolute;
+    right: 3vw;
+    top: 9vh;
 }
 
 // * Main
@@ -170,8 +96,6 @@ main {
     // box modeling
     height: max-content;
     width: max-content;
-    // format
-    background-color: white;
     &__counter {
         border: black 1px solid;
         // grid son
@@ -451,76 +375,3 @@ main {
 }
 
 // * Footer
-footer {
-    // grid father
-    display: grid;
-    grid-template-columns: repeat(3, max-content);
-    grid-template-rows: 1fr;
-    justify-content: space-between;
-    align-content: center;
-    border: 1px solid black;
-    .contact {
-        border: 1px solid black;
-        // grid son
-        grid-column: 1 / 2;
-        grid-row: 1 / 2;
-        // flex box
-        display: flex;
-        flex-flow: column nowrap;
-        justify-items: flex-start;
-        align-items: center;
-        &__header {
-            p {
-                // box modeling
-                margin: 0;
-                padding: 0;
-                // font properties
-                font-size: 1.1rem;
-            }
-        }
-        &__list {
-            // box modeling
-            margin: 0 0 0 5px;
-            padding: 0;
-            &__item {
-                // flexbox
-                display: grid;
-                grid-template-columns: 20px 1fr;
-                justify-items: flex-start;
-                align-items: center;
-                column-gap: 2px;
-                // list properties
-                list-style-type: none;
-                p {
-                    // box modeling
-                    margin: 0;
-                    padding: 0;
-                    // font properties
-                    font-size: 1rem;
-                }
-                i {
-                    // font properties
-                    font-size: 1rem;
-                }
-            }
-        }
-    }
-    .newsletter {
-        border: 1px solid black;
-        // grid son
-        grid-column: 2 / 3;
-        grid-row: 1 / 2;
-        // boxmodeling
-        width: 100px;
-        height: 100px;
-    }
-    .sections {
-        border: 1px solid black;
-        // grid son
-        grid-column: 3 / 4;
-        grid-row: 1 / 2;
-        // boxmodeling
-        width: 100px;
-        height: 100px;
-    }
-}

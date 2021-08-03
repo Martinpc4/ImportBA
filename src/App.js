@@ -14,6 +14,7 @@ import Home from './components/Home';
 import Footer from './components/Footer';
 import ItemDetail from './components/ItemDetail';
 import Cart from './components/Cart';
+import Checkout from './components/Checkout';
 // * Contexts
 import CartProvider from './components/contexts/CustomCartProvider';
 
@@ -28,6 +29,7 @@ export default function App() {
                         <Route exact path='/Shop/:CategoryId' component={Shop} />
                         <Route exact path='/Shop/:CategoryId/:ItemId' component={ItemDetail} />
                         <Route exact path='/Cart' component={Cart} />
+                        <Route exact path="/Checkout" component={Checkout}/>
                     </Switch>
                 </main>
                 <Footer />

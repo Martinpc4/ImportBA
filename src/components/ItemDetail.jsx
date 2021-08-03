@@ -6,15 +6,15 @@ import Select from "react-select";
 // * Components
 import ItemCounter from "./ItemCounter";
 // * Context
-import Cart from "./contexts/Cart";
+import CartContext from "./contexts/Cart";
 
 let colorOptions = [];
 
 export default function ItemDetail(props) {
-    // praameters
+    // parameters
     const { CategoryId, ItemId } = useParams();
     // context
-    let { addToCart } = useContext(Cart);
+    let { addToCart } = useContext(CartContext);
     // states
     const [product, setProduct] = useState({});
     const [productColor, setProductColor] = useState("");
@@ -46,14 +46,14 @@ export default function ItemDetail(props) {
                     key={imageURL}
                     className={
                         imageURL === product.imagesURL[0]
-                            ? "carousel-item active"
-                            : "carousel-item"
+                            ? "carousel-item active h-100 px-5"
+                            : "carousel-item h-100 px-5"
                     }
                     data-bs-interval="10000"
                 >
                     <img
                         src={String(imageURL)}
-                        className="d-block w-100"
+                        className="d-block h-100 w-100"
                         alt="..."
                     />
                 </div>
@@ -118,54 +118,65 @@ export default function ItemDetail(props) {
 
     if (product.title != undefined) {
         return (
-            <div className="mt-5 mb-5 container d-flex flex-column align-items-between">
-                <div className="row gx-5 mb-4 justify-content-center align-items-start">
-                    <div className="col-5">
-                        <div
-                            id="productCarousel"
-                            className="carousel carousel-dark slide"
-                            data-bs-ride="carousel"
-                        >
-                            <div className="carousel-inner">
-                                {product.imagesBootstrapComponents}
+            <div className="mb-5 container d-flex flex-column align-items-between">
+                <div className="row gx-5 mb-4 justify-content-center align-items-center h-75">
+                    <div className="col-5 h-100">
+                        <div className="row h-100">
+                            <div
+                                id="productCarousel"
+                                className="carousel carousel-dark slide h-100"
+                                data-bs-ride="carousel"
+                            >
+                                <div className="carousel-inner h-100">
+                                    {product.imagesBootstrapComponents}
+                                </div>
+                                <div className="carousel-indicators">
+                                    {product.carouselIndicators}
+                                </div>
+                                <button
+                                    className="carousel-control-prev"
+                                    type="button"
+                                    data-bs-target="#productCarousel"
+                                    data-bs-slide="prev"
+                                >
+                                    <span
+                                        className="carousel-control-prev-icon"
+                                        aria-hidden="true"
+                                    ></span>
+                                    <span className="visually-hidden">
+                                        Previous
+                                    </span>
+                                </button>
+                                <button
+                                    className="carousel-control-next"
+                                    type="button"
+                                    data-bs-target="#productCarousel"
+                                    data-bs-slide="next"
+                                >
+                                    <span
+                                        className="carousel-control-next-icon"
+                                        aria-hidden="true"
+                                    ></span>
+                                    <span className="visually-hidden">
+                                        Next
+                                    </span>
+                                </button>
                             </div>
-                            <div className="carousel-indicators">{product.carouselIndicators}</div>
-                            <button
-                                className="carousel-control-prev"
-                                type="button"
-                                data-bs-target="#productCarousel"
-                                data-bs-slide="prev"
-                            >
-                                <span
-                                    className="carousel-control-prev-icon"
-                                    aria-hidden="true"
-                                ></span>
-                                <span className="visually-hidden">Previous</span>
-                            </button>
-                            <button
-                                className="carousel-control-next"
-                                type="button"
-                                data-bs-target="#productCarousel"
-                                data-bs-slide="next"
-                            >
-                                <span
-                                    className="carousel-control-next-icon"
-                                    aria-hidden="true"
-                                ></span>
-                                <span className="visually-hidden">Next</span>
-                            </button>
                         </div>
                     </div>
-                    <div className="col-5">
+                    <div className="col-5 h-100 pt-5">
                         <div className="row gy-5">
                             <div className="col-12">
                                 <div className="row">
-                                    <p className="m-0 mb-3 fs-4">{product.title}</p>
+                                    <p className="m-0 mb-3 fs-4">
+                                        {product.title}
+                                    </p>
                                 </div>
                                 <div className="row">
                                     <p className="m-0 mb-2 fs-6">
                                         {product.title} - {product.memory}Gb{" "}
-                                        {productColor !== "" && `- ${productColor}`}
+                                        {productColor !== "" &&
+                                            `- ${productColor}`}
                                     </p>
                                 </div>
                                 <div className="row">
@@ -205,7 +216,8 @@ export default function ItemDetail(props) {
                                                 type="button"
                                                 onClick={() => {
                                                     delete product.colors;
-                                                    product.color = productColor;
+                                                    product.color =
+                                                        productColor;
                                                     addToCart(product, amount);
                                                 }}
                                                 className="btn btn-secondary fs-6"
@@ -230,16 +242,17 @@ export default function ItemDetail(props) {
                 </div>
             </div>
         );
-    }
-    else {
+    } else {
         return (
             <div className="container">
                 <div className="row">
                     <div className="col-12">
-                        <p className="text-center fs-2">PRODUCTO NO ENCONTRADO</p>
+                        <p className="text-center fs-3 my-5">
+                            PRODUCTO NO ENCONTRADO
+                        </p>
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }

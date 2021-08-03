@@ -11,17 +11,19 @@ export default function ItemList({ categoryId, vertical }) {
         product.id = data.id;
 
         return (
-            <Item
-                key={product.id}
-                id={product.id}
-                title={product.title}
-                memory={product.memory}
-                colors={product.colors}
-                description={product.description}
-                price={product.price}
-                imagesURL={product.imagesURL}
-                categoryId={product.categoryId}
-            />
+            <div className="col-xs-6 col-sm-6 col-md-4">
+                <Item
+                    key={`${product.id}-${product.colors}`}
+                    id={product.id}
+                    title={product.title}
+                    memory={product.memory}
+                    colors={product.colors}
+                    description={product.description}
+                    price={product.price}
+                    imagesURL={product.imagesURL}
+                    categoryId={product.categoryId}
+                />
+            </div>
         );
     }
     async function serverRequest() {
@@ -47,14 +49,8 @@ export default function ItemList({ categoryId, vertical }) {
     }, [categoryId]);
 
     return (
-        <div
-            className={`itemList ${
-                vertical === true
-                    ? "itemList--vertical"
-                    : "itemList--horizontal"
-            }`}
-        >
-            {products}
+        <div className="container">
+            <div className="row gy-4 gx-5">{products}</div>
         </div>
     );
 }

@@ -6,11 +6,10 @@ export default function Shop() {
     const { CategoryId } = useParams();
 
     return (
-        <div className="shop">
-            <div className="shop__itemList">
+        <div className="container my-5">
+            <div className="row">
                 <ItemList categoryId={CategoryId} vertical={true} />
             </div>
-            <div className="shop__filters"></div>
         </div>
     );
 }
