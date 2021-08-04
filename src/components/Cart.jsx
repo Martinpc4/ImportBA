@@ -1,5 +1,5 @@
 // * Libraries
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 // * Components
 import CartList from './CartList';
@@ -8,9 +8,21 @@ import CartContext from './contexts/Cart';
 
 export default function Cart() {
     // context
-    const { getTotal, checkCartForStock } = useContext(CartContext);
+    const { getTotal, checkCartForStock, Cart } = useContext(CartContext);
+    const [purchaseState, setPurchaseState] = useState(false);
     // react-router history
     const history = useHistory();
+
+    useEffect(() => {
+        (async function () {
+            if ((purchaseState === false) && (await checkCartForStock()) === true) {
+                setPurchaseState(true);
+            }
+            else if (purchaseState === true) {
+                setPurchaseState(false);
+            }
+        })();
+    }, [Cart]);
 
     return (
         <div className='container'>
@@ -35,19 +47,22 @@ export default function Cart() {
                             </div>
                             <div className='col-2'>
                                 <div className='row'>
-                                    <button
-                                        onClick={async () => {
-                                            if (
-                                                (await checkCartForStock()) ===
-                                                true
-                                            ) {
+                                    {purchaseState === true ? (
+                                        <button
+                                            onClick={() => {
                                                 history.push('/Checkout');
-                                            }
-                                        }}
-                                        className='btn btn-primary w-100'
-                                    >
-                                        Checkout
-                                    </button>
+                                            }}
+                                            className={`btn btn-primary w-100`}
+                                        >
+                                            Checkout
+                                        </button>
+                                    ) : (
+                                        <button
+                                            className={`btn btn-primary w-100 disabled`}
+                                        >
+                                            Checkout
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         </div>
