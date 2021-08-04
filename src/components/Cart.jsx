@@ -14,12 +14,16 @@ export default function Cart() {
     const history = useHistory();
 
     useEffect(() => {
-        console.log("MOUNTED");
         (async function () {
-            if ((purchaseState === false) && (await checkCartForStock()) === true) {
+            if (
+                purchaseState === false &&
+                (await checkCartForStock()) === true
+            ) {
                 setPurchaseState(true);
-            }
-            else if ((purchaseState === true) && ((await checkCartForStock()) === false)) {
+            } else if (
+                purchaseState === true &&
+                (await checkCartForStock()) === false
+            ) {
                 setPurchaseState(false);
             }
         })();
