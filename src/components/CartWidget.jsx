@@ -21,22 +21,38 @@ export default function CartWidget() {
 
     useEffect(() => {}, [Cart]);
 
+    function getCartItemAmount() {
+        let counter = 0;
+        Cart.forEach((product) => {
+            counter = counter + product.amount
+        }); 
+        return counter;
+    }
+
     return (
         <>
-            <i
-                className='bi bi-cart fs-4 text-end'
-                onClick={checkClickedState}
-            ></i>
+            <div className='position-relative'>
+                <i
+                    className='bi bi-cart fs-4 d-flex flex-row align-items-center justify-content-end'
+                    onClick={checkClickedState}
+                />
+                {getCartItemAmount() > 0 ? (
+                    <span class='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger'>
+                        {getCartItemAmount() <= 99 ? getCartItemAmount() : '99+'}
+                        <span class='visually-hidden'>unread messages</span>
+                    </span>
+                ) : null}
+            </div>
             {clickedState === true ? (
                 <Link
                     to='/Cart'
                     className='user-select-auto text-decoration-none text-dark cart-widget w-25'
                 >
-                    <div className='container gy-1 bg-light border'>
+                    <div className='container gy-1 bg-light border py-2'>
                         <div className='row'>
                             <p className='m-0 fs-5 text-center'>Productos</p>
                         </div>
-                        <div className='row'>
+                        <div className='row py-3'>
                             <div className='col-12'>
                                 <CartList listModel={1} />
                             </div>
@@ -45,12 +61,12 @@ export default function CartWidget() {
                             <div className='row align-items-center border-top py-2'>
                                 <div className='col-6'>
                                     <div className='row'>
-                                        <p className='text-start'>Total</p>
+                                        <p className='m-0 text-start'>Total</p>
                                     </div>
                                 </div>
                                 <div className='col-6'>
                                     <div className='row'>
-                                        <p className='text-end price'>
+                                        <p className='m-0 text-end price'>
                                             {getTotal()} USD$
                                         </p>
                                     </div>
