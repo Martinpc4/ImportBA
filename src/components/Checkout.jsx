@@ -14,33 +14,45 @@ export default function Checkout() {
         impuestoPais,
         Cart,
         checkCartForStock,
+        cleanCart,
     } = useContext(CartContext);
 
     // states
     const [userData, setUserData] = useState({});
-    const [purchaseState, setPurchaseState] = useState(false); // false: not valid, true: valid
+    const [validDataState, setValidDataState] = useState(false); // false: not valid, true: valid
+    const [purchaseState, setpurchaseState] = useState({
+        state: false,
+        purchaseId: undefined,
+    });
 
     useEffect(() => {
         if (Object.entries(userData).length !== 0) {
             let flagVar = true;
             let entriesAmount = 0;
             let entries = Object.entries(userData);
-            entries.forEach(keyValuesPairs => {
-                if ((keyValuesPairs[1] === undefined) || (keyValuesPairs[1] === '')) {
+            entries.forEach((keyValuesPairs) => {
+                if (
+                    keyValuesPairs[1] === undefined ||
+                    keyValuesPairs[1] === ''
+                ) {
                     flagVar = false;
                 }
                 entriesAmount++;
             });
-            if (entriesAmount === 10 && flagVar === true && userData.userTyC === true) {
-                setPurchaseState(true);
+            if (
+                entriesAmount === 10 &&
+                flagVar === true &&
+                userData.userTyC === true &&
+                Cart.length > 0
+            ) {
+                setValidDataState(true);
             } else {
-                setPurchaseState(false);
+                setValidDataState(false);
             }
+        } else {
+            setValidDataState(false);
         }
-        else {
-            setPurchaseState(false);
-        }   
-    }, [userData, purchaseState]);
+    }, [userData, validDataState, purchaseState]);
 
     function senduserDataToDB() {
         // format the products from the cart
@@ -60,8 +72,7 @@ export default function Checkout() {
         });
         // send the order to the db
         db.collection('orders')
-            .doc()
-            .set({
+            .add({
                 buyer: {
                     name: `${userData.userName} ${userData.userLastName}`,
                     phone: userData.userCellphone,
@@ -76,11 +87,35 @@ export default function Checkout() {
                     ).toFixed(2)
                 ),
                 items: productsArray,
+            })
+            .then((docRef) => {
+                cleanCart();
+                setpurchaseState({
+                    state: true,
+                    purchaseId: docRef.id,
+                });
+            })
+            .catch((err) => {
+                throw new Error('Error agregado el producto a la db');
             });
     }
 
     return (
         <div className='container'>
+            {purchaseState.state === true ? (
+                <div className='row'>
+                    <div className='col-12'>
+                        <div class='alert alert-success' role='alert'>
+                            <p className='m-0 fs-6'>
+                                Compra realizada correctamente.
+                            </p>
+                            <p className='ps-2 m-0 fs-6'>
+                                id de compra: {purchaseState.purchaseId}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            ) : null}
             <div className='row gx-5'>
                 <div className='col-12'>
                     <form className='row g-5'>
@@ -364,7 +399,7 @@ export default function Checkout() {
                                     <button
                                         type='submit'
                                         className={`btn btn-primary w-100 ${
-                                            purchaseState === false
+                                            validDataState === false
                                                 ? 'disabled'
                                                 : null
                                         }`}
