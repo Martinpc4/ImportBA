@@ -172,18 +172,22 @@ export default function CustomCartProvider(props) {
     }
 
     async function checkCartForStock() {
-        let flagVar = true;
-        for (const productProperties of Cart) {
-            if (
-                (await checkProductForStock(
-                    productProperties.product,
-                    productProperties.amount
-                )) === false
-            ) {
-                flagVar = false;
+        if (Cart.length > 0) {
+            let flagVar = true;
+            for (const productProperties of Cart) {
+                if (
+                    (await checkProductForStock(
+                        productProperties.product,
+                        productProperties.amount
+                    )) === false
+                ) {
+                    flagVar = false;
+                }
             }
+            return flagVar;
+        } else {
+            throw new Error("The Cart is Empty");
         }
-        return flagVar;
     }
 
     return (

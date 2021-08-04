@@ -17,48 +17,46 @@ export default function Checkout() {
     } = useContext(CartContext);
 
     // states
-    const [userData, setuserData] = useState({
-        userEmail: '',
-        userCellphone: '',
-        userName: '',
-        userLastName: '',
-        userAddress: '',
-        userZipcode: '',
-        userProvince: '',
-        userTown: '',
-        userTyC: false,
-    });
+    const [userData, setUserData] = useState({});
+    const [purchaseState, setPurchaseState] = useState(false); // false: not valid, true: valid
 
-    useEffect(() => {}, [userData]);
-
-    function isValid() {
-        if (
-            userData.userEmail !== '' &&
-            userData.userCellphone !== '' &&
-            userData.userName !== '' &&
-            userData.userLastName !== '' &&
-            userData.userAddress !== '' &&
-            userData.userZipcode !== '' &&
-            userData.userProvince !== '' &&
-            userData.userTown !== '' &&
-            userData.userTyC === true
-        ) {
-            return true;
+    useEffect(() => {
+        if (Object.entries(userData).length !== 0) {
+            let flagVar = true;
+            let entriesAmount = 0;
+            let entries = Object.entries(userData);
+            entries.forEach(keyValuesPairs => {
+                if ((keyValuesPairs[1] === undefined) || (keyValuesPairs[1] === '')) {
+                    flagVar = false;
+                }
+                entriesAmount++;
+            });
+            if (entriesAmount === 10 && flagVar === true && userData.userTyC === true) {
+                setPurchaseState(true);
+            } else {
+                setPurchaseState(false);
+            }
         }
-        return false;
-    }
+        else {
+            setPurchaseState(false);
+        }   
+    }, [userData, purchaseState]);
 
     function senduserDataToDB() {
         // format the products from the cart
         let productsArray = [];
-        Cart.forEach(productProperties => {
-            productsArray = [...productsArray, { // !(added the color and amount property bc it may be relevant to the ecomerce analitics)
-                id: productProperties.product.id,
-                title: productProperties.product.title,
-                price: productProperties.product.price,
-                color: productProperties.product.color,
-                amount: productProperties.amount
-            }];
+        Cart.forEach((productProperties) => {
+            productsArray = [
+                ...productsArray,
+                {
+                    // !(added the color and amount property bc it may be relevant to the ecomerce analitics)
+                    id: productProperties.product.id,
+                    title: productProperties.product.title,
+                    price: productProperties.product.price,
+                    color: productProperties.product.color,
+                    amount: productProperties.amount,
+                },
+            ];
         });
         // send the order to the db
         db.collection('orders')
@@ -67,7 +65,7 @@ export default function Checkout() {
                 buyer: {
                     name: `${userData.userName} ${userData.userLastName}`,
                     phone: userData.userCellphone,
-                    email: userData.userEmail,
+                    email: userData.userEmail1,
                 },
                 date: new Date(),
                 total: Number(
@@ -100,10 +98,10 @@ export default function Checkout() {
                                         className='form-control'
                                         id='inputName'
                                         onChange={(e) => {
-                                            let newuserData = userData;
-                                            newuserData.userName =
-                                                e.target.value;
-                                            setuserData(newuserData);
+                                            setUserData({
+                                                ...userData,
+                                                userName: e.target.value,
+                                            });
                                         }}
                                     />
                                 </div>
@@ -119,16 +117,16 @@ export default function Checkout() {
                                         className='form-control'
                                         id='inputLastName'
                                         onChange={(e) => {
-                                            let newuserData = userData;
-                                            newuserData.userLastName =
-                                                e.target.value;
-                                            setuserData(newuserData);
+                                            setUserData({
+                                                ...userData,
+                                                userLastName: e.target.value,
+                                            });
                                         }}
                                     />
                                 </div>
                                 <div className='col-md-6'>
                                     <label
-                                        htmlFor='inputEmail'
+                                        htmlFor='inputEmail1'
                                         className='form-label'
                                     >
                                         Email
@@ -136,12 +134,31 @@ export default function Checkout() {
                                     <input
                                         type='email'
                                         className='form-control'
-                                        id='inputEmail'
+                                        id='inputEmail1'
                                         onChange={(e) => {
-                                            let newuserData = userData;
-                                            newuserData.userEmail =
-                                                e.target.value;
-                                            setuserData(newuserData);
+                                            setUserData({
+                                                ...userData,
+                                                userEmail1: e.target.value,
+                                            });
+                                        }}
+                                    />
+                                </div>
+                                <div className='col-md-6'>
+                                    <label
+                                        htmlFor='inputEmail2'
+                                        className='form-label'
+                                    >
+                                        Confirmar Email
+                                    </label>
+                                    <input
+                                        type='email'
+                                        className='form-control'
+                                        id='inputEmail2'
+                                        onChange={(e) => {
+                                            setUserData({
+                                                ...userData,
+                                                userEmail2: e.target.value,
+                                            });
                                         }}
                                     />
                                 </div>
@@ -157,10 +174,10 @@ export default function Checkout() {
                                         className='form-control'
                                         id='inputCellphone'
                                         onChange={(e) => {
-                                            let newuserData = userData;
-                                            newuserData.userCellphone =
-                                                e.target.value;
-                                            setuserData(newuserData);
+                                            setUserData({
+                                                ...userData,
+                                                userCellphone: e.target.value,
+                                            });
                                         }}
                                     />
                                 </div>
@@ -177,16 +194,16 @@ export default function Checkout() {
                                         id='inputAddress'
                                         placeholder='1234 Calle Principal'
                                         onChange={(e) => {
-                                            let newuserData = userData;
-                                            newuserData.userAddress =
-                                                e.target.value;
-                                            setuserData(newuserData);
+                                            setUserData({
+                                                ...userData,
+                                                userAddress: e.target.value,
+                                            });
                                         }}
                                     />
                                 </div>
                                 <div className='col-md-6'>
                                     <label
-                                        htmlFor='inputCity'
+                                        htmlFor='inputProvince'
                                         className='form-label'
                                     >
                                         Provincia
@@ -194,12 +211,12 @@ export default function Checkout() {
                                     <input
                                         type='text'
                                         className='form-control'
-                                        id='inputCity'
+                                        id='inputProvince'
                                         onChange={(e) => {
-                                            let newuserData = userData;
-                                            newuserData.userProvince =
-                                                e.target.value;
-                                            setuserData(newuserData);
+                                            setUserData({
+                                                ...userData,
+                                                userProvince: e.target.value,
+                                            });
                                         }}
                                     />
                                 </div>
@@ -215,10 +232,10 @@ export default function Checkout() {
                                         className='form-control'
                                         id='inputTown'
                                         onChange={(e) => {
-                                            let newuserData = userData;
-                                            newuserData.userTown =
-                                                e.target.value;
-                                            setuserData(newuserData);
+                                            setUserData({
+                                                ...userData,
+                                                userTown: e.target.value,
+                                            });
                                         }}
                                     />
                                 </div>
@@ -234,10 +251,10 @@ export default function Checkout() {
                                         className='form-control'
                                         id='inputZip'
                                         onChange={(e) => {
-                                            let newuserData = userData;
-                                            newuserData.userZipcode =
-                                                e.target.value;
-                                            setuserData(newuserData);
+                                            setUserData({
+                                                ...userData,
+                                                userZipcode: e.target.value,
+                                            });
                                         }}
                                     />
                                 </div>
@@ -248,11 +265,15 @@ export default function Checkout() {
                                             type='checkbox'
                                             id='inputTyC'
                                             onChange={(e) => {
-                                                let newuserData = userData;
-                                                newuserData.userTyC === true
-                                                    ? (newuserData.userTyC = false)
-                                                    : (newuserData.userTyC = true);
-                                                setuserData(newuserData);
+                                                userData.userTyC === true
+                                                    ? setUserData({
+                                                          ...userData,
+                                                          userTyC: false,
+                                                      })
+                                                    : setUserData({
+                                                          ...userData,
+                                                          userTyC: true,
+                                                      });
                                             }}
                                         />
                                         <label
@@ -342,13 +363,16 @@ export default function Checkout() {
                                 <div className='col-12'>
                                     <button
                                         type='submit'
-                                        className='btn btn-primary w-100'
+                                        className={`btn btn-primary w-100 ${
+                                            purchaseState === false
+                                                ? 'disabled'
+                                                : null
+                                        }`}
                                         onClick={async (e) => {
                                             e.preventDefault();
                                             if (
-                                                isValid() === true &&
                                                 (await checkCartForStock()) ===
-                                                    true
+                                                true
                                             ) {
                                                 senduserDataToDB();
                                             }
