@@ -1,17 +1,37 @@
-import React, { useState, useEffect, useContext } from "react";
-import ItemCounter from "./ItemCounter";
+import React, { useState, useContext, useEffect } from 'react';
+import ItemCounter from './ItemCounter';
 // * Contexts
-import CartContext from "./contexts/Cart";
+import CartContext from './contexts/Cart';
 
 export default function ItemCart({ productProperties, listModel }) {
     const [productAmount, setProductAmount] = useState(
         productProperties.amount
     );
-    const { removeFromCart, modifyProductAmount, getProductAmount } =
-        useContext(CartContext);
+    const [stockState, setStockState] = useState(true);
+    const {
+        removeFromCart,
+        modifyProductAmount,
+        getProductAmount,
+        checkProductForStock,
+    } = useContext(CartContext);
+
+    useEffect(() => {
+        (async function () {
+            if (
+                (await checkProductForStock(
+                    productProperties.product,
+                    productAmount
+                )) === false
+            ) {
+                setStockState(false);
+            } else {
+                setStockState(true);
+            }
+        })();
+    }, [productAmount]);
 
     function applyAmountChangesToCart() {
-        if (productAmount == 0) {
+        if (Number(productAmount) === 0) {
             removeFromCart(productProperties.product);
         } else {
             let newProductAmount =
@@ -23,32 +43,33 @@ export default function ItemCart({ productProperties, listModel }) {
     let fontSizeM2 = { fontSize: 13 };
 
     if (listModel === 1) {
+        // for the CartWidget Component
         return (
             <div
                 key={`${productProperties.id}-${productProperties.color}-1`}
-                className="row align-items-center"
+                className='row align-items-center'
             >
-                <div className="col-2 px-2">
+                <div className='col-2 px-2'>
                     <img
-                        className="h-100 w-100"
+                        className='h-100 w-100'
                         src={String(productProperties.product.imagesURL[0])}
-                        alt=""
+                        alt=''
                     />
                 </div>
-                <div className="col-6 px-2">
-                    <div className="row">
-                        <p className="m-0" style={fontSizeM2}>
+                <div className='col-6 px-2'>
+                    <div className='row'>
+                        <p className='m-0' style={fontSizeM2}>
                             {productProperties.product.title}
                         </p>
                     </div>
                 </div>
-                <div className="col-4 px-2">
-                    <div className="row">
-                        <p className="m-0 text-end" style={fontSizeM2}>
+                <div className='col-4 px-2'>
+                    <div className='row'>
+                        <p className='m-0 text-end' style={fontSizeM2}>
                             {String(
                                 productProperties.product.price *
                                     productProperties.amount
-                            )}{" "}
+                            )}{' '}
                             USD$
                         </p>
                     </div>
@@ -56,28 +77,29 @@ export default function ItemCart({ productProperties, listModel }) {
             </div>
         );
     } else if (listModel === 2) {
+        // for the Cart Component
         return (
-            <div className="col-12">
-                <div className="row align-items-center gx-1 border">
-                    <div className="col-2">
+            <div className='col-12'>
+                <div className='row align-items-center gx-1 border-bottom border-top px-3'>
+                    <div className='col-2'>
                         <img
-                            className="w-50"
+                            className='w-50'
                             src={String(productProperties.product.imagesURL[0])}
-                            alt=""
+                            alt=''
                         />
                     </div>
-                    <div className="col-5">
-                        <div className="row">
-                            <p className="m-0 fs-6">
-                                {productProperties.product.title} -{" "}
-                                {productProperties.product.memory}Gb -{" "}
+                    <div className='col-5'>
+                        <div className='row'>
+                            <p className='m-0 fs-6'>
+                                {productProperties.product.title} -{' '}
+                                {productProperties.product.memory}Gb -{' '}
                                 {productProperties.product.color}
                             </p>
                         </div>
                     </div>
-                    <div className="col-3">
-                        <div className="row">
-                            <p className="price m-0 fs-6">
+                    <div className='col-2'>
+                        <div className='row'>
+                            <p className='price m-0 fs-6'>
                                 {String(
                                     productProperties.product.price *
                                         productAmount
@@ -86,17 +108,32 @@ export default function ItemCart({ productProperties, listModel }) {
                             </p>
                         </div>
                     </div>
-                    <div className="col-2">
-                        <div className="row mb-2">
-                            <ItemCounter
-                                itemAmount={productAmount}
-                                itemAmountFunction={setProductAmount}
-                                applyChangesFunction={applyAmountChangesToCart}
-                                cartItemAmount={getProductAmount(
-                                    productProperties.product
+                    <div className='col-3'>
+                        <div className='container'>
+                            <div className='row align-items-center'>
+                                {stockState === false && (
+                                    <div className='col m-0 p-0 d-flex flex-row justify-content-end'>
+                                        <i
+                                            className='fs-5 me-2 text-danger bi bi-exclamation-diamond'
+                                            data-bs-toggle='tooltip'
+                                            title='Insuficiente Stock'
+                                        ></i>
+                                    </div>
                                 )}
-                                isApplyChanges={true}
-                            />
+                                <div className='col d-flex flex-row justify-content-end'>
+                                    <ItemCounter
+                                        itemAmount={productAmount}
+                                        itemAmountFunction={setProductAmount}
+                                        applyChangesFunction={
+                                            applyAmountChangesToCart
+                                        }
+                                        cartItemAmount={getProductAmount(
+                                            productProperties.product
+                                        )}
+                                        isApplyChanges={true}
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

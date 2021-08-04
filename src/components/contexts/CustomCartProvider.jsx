@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
-import CartContext from "./Cart.jsx";
+import React, { useState, useEffect } from 'react';
+import CartContext from './Cart.jsx';
+import { db } from '../../firebase/firebase';
 
 export default function CustomCartProvider(props) {
     const [Cart, setCart] = useState([]);
@@ -8,8 +9,7 @@ export default function CustomCartProvider(props) {
     const dolar = 180;
     const impuestoPais = 30;
 
-    useEffect(() => {
-    }, [Cart]);
+    useEffect(() => {}, [Cart]);
 
     function cleanCart() {
         setCart([]);
@@ -20,16 +20,15 @@ export default function CustomCartProvider(props) {
             let flagVar = false;
             Cart.forEach((productProperties) => {
                 if (
-                    productProperties.product.id == product.id &&
-                    productProperties.product.color == product.color
+                    productProperties.product.id === product.id &&
+                    productProperties.product.color === product.color
                 ) {
                     flagVar = true;
                 }
             });
             if (flagVar === true) {
                 return true;
-            }
-            else if (flagVar === false) {
+            } else if (flagVar === false) {
                 return false;
             }
         } else {
@@ -38,11 +37,7 @@ export default function CustomCartProvider(props) {
     }
 
     function addToCart(product, amount) {
-        console.log(product);
-        console.log(amount);
-        console.log(isInCart(product));
         if (isInCart(product) === false) {
-            console.log("ENTRe");
             let newProduct = {
                 product: product,
                 amount: amount,
@@ -58,8 +53,8 @@ export default function CustomCartProvider(props) {
             let newCart = [];
             Cart.forEach((productProperties) => {
                 if (
-                    productProperties.product.id == product.id &&
-                    productProperties.product.color == product.color
+                    productProperties.product.id === product.id &&
+                    productProperties.product.color === product.color
                 ) {
                     productProperties.amount =
                         productProperties.amount + amount;
@@ -70,7 +65,7 @@ export default function CustomCartProvider(props) {
             });
             setCart(newCart);
         } else {
-            throw new Error("Error: El carrito se encuentra vacio");
+            throw new Error('Error: El carrito se encuentra vacio');
         }
     }
 
@@ -81,8 +76,8 @@ export default function CustomCartProvider(props) {
                 Cart.forEach((productProperties) => {
                     if (
                         !(
-                            productProperties.product.id == product.id &&
-                            productProperties.product.color == product.color
+                            productProperties.product.id === product.id &&
+                            productProperties.product.color === product.color
                         )
                     ) {
                         newCart = [...newCart, product];
@@ -91,11 +86,11 @@ export default function CustomCartProvider(props) {
                 setCart(newCart);
             } else if (isInCart(product) === false) {
                 throw new Error(
-                    "Error: El producto no se encuentra en el carrito"
+                    'Error: El producto no se encuentra en el carrito'
                 );
             }
         } else {
-            throw new Error("Error: El carrito se encuentra vacio");
+            throw new Error('Error: El carrito se encuentra vacio');
         }
     }
     function getProductAmount(product) {
@@ -104,8 +99,8 @@ export default function CustomCartProvider(props) {
                 let productAmount = 0;
                 Cart.forEach((productProperties) => {
                     if (
-                        productProperties.product.id == product.id &&
-                        productProperties.product.color == product.color
+                        productProperties.product.id === product.id &&
+                        productProperties.product.color === product.color
                     ) {
                         productAmount = productProperties.amount;
                     }
@@ -113,25 +108,26 @@ export default function CustomCartProvider(props) {
                 return productAmount;
             } else if (isInCart(product) === false) {
                 throw new Error(
-                    "Error: El producto no se encuentra en el carrito"
+                    'Error: El producto no se encuentra en el carrito'
                 );
             }
         } else {
-            throw new Error("Error: El carrito se encuentra vacio");
+            throw new Error('Error: El carrito se encuentra vacio');
         }
     }
     function getItemsList() {
+        //
         let itemTotalArray = [];
         Cart.forEach((cartItem) => {
             itemTotalArray.push(
-                <div key={cartItem.product.id} className="row">
-                    <div className="col-6">
-                        <p className="text-start text-muted">
+                <div key={cartItem.product.id} className='row'>
+                    <div className='col-6'>
+                        <p className='text-start text-muted'>
                             {cartItem.product.title}
                         </p>
                     </div>
-                    <div className="col-6">
-                        <p className="text-end text-muted">
+                    <div className='col-6'>
+                        <p className='text-end text-muted'>
                             {cartItem.product.price * cartItem.amount} USD$
                         </p>
                     </div>
@@ -140,6 +136,7 @@ export default function CustomCartProvider(props) {
         });
         return itemTotalArray;
     }
+
     function getTotal(option) {
         // 1: total with "iva" - 2: total with "impuesto pais"
         let total = 0;
@@ -154,6 +151,39 @@ export default function CustomCartProvider(props) {
             total = (total * dolar * impuestoPais) / 100;
         }
         return total;
+    }
+
+    async function checkProductForStock(productProperties, amount) {
+        let flagVar = false;
+        let collection = db.collection('items');
+        const data = await collection.doc(productProperties.id).get();
+        try {
+            if (
+                data.data().stock[
+                    data.data().colors.indexOf(productProperties.color)
+                ] >= amount
+            ) {
+                flagVar = true;
+            }
+        } catch (err) {
+            throw new Error('Error en el chequeo de productos: \n\n' + err);
+        }
+        return flagVar;
+    }
+
+    async function checkCartForStock() {
+        let flagVar = true;
+        for (const productProperties of Cart) {
+            if (
+                (await checkProductForStock(
+                    productProperties.product,
+                    productProperties.amount
+                )) === false
+            ) {
+                flagVar = false;
+            }
+        }
+        return flagVar;
     }
 
     return (
@@ -171,6 +201,8 @@ export default function CustomCartProvider(props) {
                 getProductAmount,
                 getTotal,
                 getItemsList,
+                checkProductForStock,
+                checkCartForStock,
             }}
         >
             {props.children}

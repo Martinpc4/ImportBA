@@ -15,7 +15,7 @@
 #root {
     // grid father
     display: grid;
-    justify-content: center;
+
     grid-template-columns: 1fr;
     grid-template-rows: max-content 1fr max-content;
     row-gap: 10px;
@@ -44,7 +44,7 @@ body {
 header,
 main,
 footer {
-    padding: 0 3vw;
+    padding: 0 3vw !important;
 }
 
 // * Header
@@ -286,33 +286,6 @@ main {
             text-align: center;
             font-size: 1rem;
         }
-    }
-}
-
-.itemList {
-    // grid father
-    display: grid;
-    align-items: center;
-    // box modeling
-    padding: 15px;
-    &--horizontal {
-        // grid father
-        column-gap: 20px;
-        grid-template-rows: 1fr;
-        justify-content: flex-start;
-        // scroll properties
-        overflow-x: hidden;
-        .item {
-            // grid son
-            grid-row: 1 / 2;
-        }
-    }
-    &--vertical {
-        // grid father
-        row-gap: 20px;
-        column-gap: 20px;
-        grid-template-columns: repeat(4, 1fr);
-        justify-content: center;
     }
 }
 

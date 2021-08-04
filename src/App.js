@@ -5,8 +5,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 // Components
 import './styles/css/components.css';
 // Bootstrap (Modified)
-import './styles/css/bootstrap-modified.css'; // bootstrap styles modified
-import 'bootstrap/dist/js/bootstrap' // bootstrap js
+import './styles/css/bootstrap-modified.css'; // bootstrap modified styles
+import 'bootstrap/dist/js/bootstrap'; // bootstrap js
 // * Components
 import NavBar from './components/NavBar';
 import Shop from './components/Shop';
@@ -15,6 +15,7 @@ import Footer from './components/Footer';
 import ItemDetail from './components/ItemDetail';
 import Cart from './components/Cart';
 import Checkout from './components/Checkout';
+import Error from './components/Error';
 // * Contexts
 import CartProvider from './components/contexts/CustomCartProvider';
 
@@ -26,10 +27,19 @@ export default function App() {
                 <main>
                     <Switch>
                         <Route exact path='/' component={Home} />
-                        <Route exact path='/Shop/:CategoryId' component={Shop} />
-                        <Route exact path='/Shop/:CategoryId/:ItemId' component={ItemDetail} />
+                        <Route
+                            exact
+                            path='/Shop/:CategoryId'
+                            component={Shop}
+                        />
+                        <Route
+                            exact
+                            path='/Shop/:CategoryId/:ItemId'
+                            component={ItemDetail}
+                        />
                         <Route exact path='/Cart' component={Cart} />
-                        <Route exact path="/Checkout" component={Checkout}/>
+                        <Route exact path='/Checkout' component={Checkout} />
+                        <Route exact path='/Error/:ErrorId' component={Error} />
                     </Switch>
                 </main>
                 <Footer />

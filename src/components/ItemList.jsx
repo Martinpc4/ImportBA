@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import Item from "./Item";
+import React, { useEffect, useState } from 'react';
+import Item from './Item';
 
-import { db } from "../firebase/firebase.js";
+import { db } from '../firebase/firebase.js';
 
 export default function ItemList({ categoryId, vertical }) {
     const [products, setProducts] = useState([]);
@@ -11,9 +11,11 @@ export default function ItemList({ categoryId, vertical }) {
         product.id = data.id;
 
         return (
-            <div className="col-xs-6 col-sm-6 col-md-4">
+            <div
+                key={`${product.id}`}
+                className='col-xs-6 col-sm-5 col-lg-3 m-sm-3 m-md-3 border'
+            >
                 <Item
-                    key={`${product.id}-${product.colors}`}
                     id={product.id}
                     title={product.title}
                     memory={product.memory}
@@ -27,14 +29,15 @@ export default function ItemList({ categoryId, vertical }) {
         );
     }
     async function serverRequest() {
-        const itemCollection = db.collection("items");
+        const itemCollection = db.collection('items');
         itemCollection
+            .where('categoryId', '==', Number(categoryId))
             .get()
             .then((data) => {
                 let products = [];
                 data.forEach((doc) => {
+                    products = [...products, formatProduct(doc)];
                     if (doc.data().categoryId === Number(categoryId)) {
-                        products = [...products, formatProduct(doc)];
                     }
                 });
                 setProducts(products);
@@ -49,8 +52,10 @@ export default function ItemList({ categoryId, vertical }) {
     }, [categoryId]);
 
     return (
-        <div className="container">
-            <div className="row gy-4 gx-5">{products}</div>
+        <div className='container px-5 px-sm-0'>
+            <div className='row align-items-center justify-content-center px-5 px-sm-0 gy-5 gy-sm-0'>
+                {products}
+            </div>
         </div>
     );
 }

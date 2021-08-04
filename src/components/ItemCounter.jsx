@@ -1,28 +1,28 @@
-import React from "react";
+import React from 'react';
 
 export default function itemCounter({
     itemAmount,
     itemAmountFunction,
     applyChangesFunction,
     cartItemAmount,
-    isApplyChanges
+    isApplyChanges,
 }) {
     return (
-        <div className="itemCounter">
-            <div className="itemCounter__counter">
+        <div className='itemCounter'>
+            <div className='itemCounter__counter'>
                 <p>{itemAmount}</p>
             </div>
-            <div className="itemCounter__plus-btn">
+            <div className='itemCounter__plus-btn'>
                 <i
-                    className="bi bi-plus-lg"
+                    className='bi bi-plus-lg'
                     onClick={() => {
                         itemAmountFunction(itemAmount + 1);
                     }}
                 ></i>
             </div>
-            <div className="itemCounter__substr-btn">
+            <div className='itemCounter__substr-btn'>
                 <i
-                    className="bi bi-dash-lg"
+                    className='bi bi-dash-lg'
                     onClick={
                         itemAmount > 0
                             ? () => {
@@ -32,12 +32,13 @@ export default function itemCounter({
                     }
                 ></i>
             </div>
-            {(itemAmount != cartItemAmount) && (isApplyChanges === true) ? (
-                <div className="itemCounter__confirm-btn">
+            {Number(itemAmount) !== Number(cartItemAmount) &&
+            isApplyChanges === true ? (
+                <div className='itemCounter__confirm-btn'>
                     <i
-                        className="bi bi-check"
+                        className='bi bi-check'
                         onClick={() => {
-                            applyChangesFunction()
+                            applyChangesFunction();
                         }}
                     ></i>
                 </div>

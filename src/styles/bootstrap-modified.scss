@@ -1,14 +1,15 @@
 @import './colors.scss';
 
 $theme-colors: (
-    "primary": #1C5373,
-    "secondary": #1C5373,
-    "success": #198754,
-    "info": #0dcaf0,
-    "warning": #ffc107,
-    "danger": #dc3545,
-    "light": #fff,
-    "dark": #000,
+    'primary': #1c5373,
+    'secondary': #1c5373,
+    'success': #198754,
+    'info': #0dcaf0,
+    'warning': #ffc107,
+    'danger': #dc3545,
+    'light': #fff,
+    'gray': #f8f9fa,
+    'dark': #000,
 );
 
 .carousel {
@@ -17,4 +18,4 @@ $theme-colors: (
 
 $border-radius: 0.1rem !default;
 
-@import "/Users/martinperezcobo/Desktop/GitHub_Repos/ImportBA/node_modules/bootstrap/scss/bootstrap.scss";
+@import '/Users/martinperezcobo/Desktop/GitHub_Repos/ImportBA/node_modules/bootstrap/scss/bootstrap.scss';

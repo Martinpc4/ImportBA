@@ -1,30 +1,32 @@
 // * Libraries
-import React, { useState, useEffect, useContext } from "react";
-import { useParams, Link } from "react-router-dom";
-import { db } from "../firebase/firebase.js";
-import Select from "react-select";
+import React, { useState, useEffect, useContext } from 'react';
+import { useParams, Link, useHistory } from 'react-router-dom';
+import { db } from '../firebase/firebase.js';
+import Select from 'react-select';
 // * Components
-import ItemCounter from "./ItemCounter";
+import ItemCounter from './ItemCounter';
 // * Context
-import CartContext from "./contexts/Cart";
+import CartContext from './contexts/Cart';
 
 let colorOptions = [];
 
 export default function ItemDetail(props) {
     // parameters
     const { CategoryId, ItemId } = useParams();
+    // router
+    const history = useHistory();
     // context
     let { addToCart } = useContext(CartContext);
     // states
     const [product, setProduct] = useState({});
-    const [productColor, setProductColor] = useState("");
+    const [productColor, setProductColor] = useState('');
     const [amount, setAmount] = useState(0);
 
     function formatProduct(data) {
         let product = data.data();
         product.id = data.id;
 
-        // Set Color OPtions w/ react-select
+        // Set Color Options w/ react-select
         let colorCounter = 0;
         product.colors.forEach((color) => {
             let availableStock = false; // stock control
@@ -46,15 +48,15 @@ export default function ItemDetail(props) {
                     key={imageURL}
                     className={
                         imageURL === product.imagesURL[0]
-                            ? "carousel-item active h-100 px-5"
-                            : "carousel-item h-100 px-5"
+                            ? 'carousel-item active h-100 px-5'
+                            : 'carousel-item h-100 px-5'
                     }
-                    data-bs-interval="10000"
+                    data-bs-interval='10000'
                 >
                     <img
                         src={String(imageURL)}
-                        className="d-block h-100 w-100"
-                        alt="..."
+                        className='d-block h-100 w-100'
+                        alt='...'
                     />
                 </div>
             );
@@ -74,20 +76,18 @@ export default function ItemDetail(props) {
         };
     }
 
-    async function serverRequest() {
-        const itemCollection = db.collection("items");
+    function fetchData() {
+        const itemCollection = db.collection('items');
         itemCollection
+            .doc(ItemId)
             .get()
             .then((data) => {
-                data.forEach((doc) => {
-                    if (
-                        doc.id === ItemId && // doc id es un string
-                        doc.data().categoryId === Number(CategoryId)
-                    ) {
-                        const product = formatProduct(doc);
-                        setProduct(product);
-                    }
-                });
+                if (data.exists) {
+                    const product = formatProduct(data);
+                    setProduct(product);
+                } else {
+                    history.push('/Error/1');
+                }
             })
             .catch((err) => {
                 throw new Error(`Error de obtención de datos de bd: ${err}`);
@@ -95,7 +95,7 @@ export default function ItemDetail(props) {
     }
 
     useEffect(() => {
-        serverRequest();
+        fetchData();
     }, [ItemId, CategoryId]);
 
     function generateCarouselIndicators(imagesURL) {
@@ -104,11 +104,11 @@ export default function ItemDetail(props) {
             buttons.push(
                 <button
                     key={`${imagesURL}-button-${i}`}
-                    type="button"
-                    data-bs-target="#productCarousel"
+                    type='button'
+                    data-bs-target='#productCarousel'
                     data-bs-slide-to={i}
-                    className="active"
-                    aria-current="true"
+                    className='active'
+                    aria-current='true'
                     aria-label={`Silde ${i + 1}`}
                 ></button>
             );
@@ -116,143 +116,123 @@ export default function ItemDetail(props) {
         return buttons;
     }
 
-    if (product.title != undefined) {
-        return (
-            <div className="mb-5 container d-flex flex-column align-items-between">
-                <div className="row gx-5 mb-4 justify-content-center align-items-center h-75">
-                    <div className="col-5 h-100">
-                        <div className="row h-100">
-                            <div
-                                id="productCarousel"
-                                className="carousel carousel-dark slide h-100"
-                                data-bs-ride="carousel"
+    return (
+        <div className='mb-5 container d-flex flex-column align-items-between'>
+            <div className='row gx-5 mb-4 justify-content-center align-items-center h-75'>
+                <div className='col-5 h-100'>
+                    <div className='row h-100'>
+                        <div
+                            id='productCarousel'
+                            className='carousel carousel-dark slide h-100'
+                            data-bs-ride='carousel'
+                        >
+                            <div className='carousel-inner h-100'>
+                                {product.imagesBootstrapComponents}
+                            </div>
+                            <div className='carousel-indicators'>
+                                {product.carouselIndicators}
+                            </div>
+                            <button
+                                className='carousel-control-prev'
+                                type='button'
+                                data-bs-target='#productCarousel'
+                                data-bs-slide='prev'
                             >
-                                <div className="carousel-inner h-100">
-                                    {product.imagesBootstrapComponents}
-                                </div>
-                                <div className="carousel-indicators">
-                                    {product.carouselIndicators}
-                                </div>
-                                <button
-                                    className="carousel-control-prev"
-                                    type="button"
-                                    data-bs-target="#productCarousel"
-                                    data-bs-slide="prev"
-                                >
-                                    <span
-                                        className="carousel-control-prev-icon"
-                                        aria-hidden="true"
-                                    ></span>
-                                    <span className="visually-hidden">
-                                        Previous
-                                    </span>
-                                </button>
-                                <button
-                                    className="carousel-control-next"
-                                    type="button"
-                                    data-bs-target="#productCarousel"
-                                    data-bs-slide="next"
-                                >
-                                    <span
-                                        className="carousel-control-next-icon"
-                                        aria-hidden="true"
-                                    ></span>
-                                    <span className="visually-hidden">
-                                        Next
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-5 h-100 pt-5">
-                        <div className="row gy-5">
-                            <div className="col-12">
-                                <div className="row">
-                                    <p className="m-0 mb-3 fs-4">
-                                        {product.title}
-                                    </p>
-                                </div>
-                                <div className="row">
-                                    <p className="m-0 mb-2 fs-6">
-                                        {product.title} - {product.memory}Gb{" "}
-                                        {productColor !== "" &&
-                                            `- ${productColor}`}
-                                    </p>
-                                </div>
-                                <div className="row">
-                                    <div className="col-12">
-                                        <Select
-                                            className="m-0 mb-2 w-50 fs-6"
-                                            defaultOptions
-                                            options={colorOptions}
-                                            onChange={(e) => {
-                                                setProductColor(e.value);
-                                            }}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-12">
-                                <div className="row">
-                                    <p className="m-0 fs-5 price">
-                                        {product.price} $ USD
-                                    </p>
-                                </div>
-                                <div className="row">
-                                    <div className="col-12">
-                                        <p className="m-0 fs-6">Cantidad</p>
-                                    </div>
-                                    <div className="col-12">
-                                        <ItemCounter
-                                            itemAmount={amount}
-                                            itemAmountFunction={setAmount}
-                                        />
-                                    </div>
-                                </div>
-                                <div className="row mt-3">
-                                    {amount >= 1 ? (
-                                        <Link to="/Cart">
-                                            <button
-                                                type="button"
-                                                onClick={() => {
-                                                    delete product.colors;
-                                                    product.color =
-                                                        productColor;
-                                                    addToCart(product, amount);
-                                                }}
-                                                className="btn btn-secondary fs-6"
-                                            >
-                                                Agregar al carrito
-                                            </button>
-                                        </Link>
-                                    ) : null}
-                                </div>
-                            </div>
+                                <span
+                                    className='carousel-control-prev-icon'
+                                    aria-hidden='true'
+                                ></span>
+                                <span className='visually-hidden'>
+                                    Previous
+                                </span>
+                            </button>
+                            <button
+                                className='carousel-control-next'
+                                type='button'
+                                data-bs-target='#productCarousel'
+                                data-bs-slide='next'
+                            >
+                                <span
+                                    className='carousel-control-next-icon'
+                                    aria-hidden='true'
+                                ></span>
+                                <span className='visually-hidden'>Next</span>
+                            </button>
                         </div>
                     </div>
                 </div>
-                <div className="row">
-                    <div className="col-12">
-                        <div className="row">
-                            <p className="text-justify lead m-0 fs-6">
-                                {product.description}
-                            </p>
+                <div className='col-5 h-100 pt-5'>
+                    <div className='row gy-5'>
+                        <div className='col-12'>
+                            <div className='row'>
+                                <p className='m-0 mb-3 fs-4'>{product.title}</p>
+                            </div>
+                            <div className='row'>
+                                <p className='m-0 mb-2 fs-6'>
+                                    {product.title} - {product.memory}Gb{' '}
+                                    {productColor !== '' && `- ${productColor}`}
+                                </p>
+                            </div>
+                            <div className='row'>
+                                <div className='col-12'>
+                                    <Select
+                                        className='m-0 mb-2 w-50 fs-6'
+                                        defaultOptions
+                                        options={colorOptions}
+                                        onChange={(e) => {
+                                            setProductColor(e.value);
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className='col-12'>
+                            <div className='row'>
+                                <p className='m-0 fs-5 price'>
+                                    {product.price} $ USD
+                                </p>
+                            </div>
+                            <div className='row'>
+                                <div className='col-12'>
+                                    <p className='m-0 fs-6'>Cantidad</p>
+                                </div>
+                                <div className='col-12'>
+                                    <ItemCounter
+                                        itemAmount={amount}
+                                        itemAmountFunction={setAmount}
+                                    />
+                                </div>
+                            </div>
+                            <div className='row mt-3'>
+                                {amount >= 1 ? (
+                                    <Link to='/Cart'>
+                                        <button
+                                            type='button'
+                                            onClick={() => {
+                                                delete product.colors;
+                                                product.color = productColor;
+                                                addToCart(product, amount);
+                                            }}
+                                            className='btn btn-secondary fs-6'
+                                        >
+                                            Agregar al carrito
+                                        </button>
+                                    </Link>
+                                ) : null}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        );
-    } else {
-        return (
-            <div className="container">
-                <div className="row">
-                    <div className="col-12">
-                        <p className="text-center fs-3 my-5">
-                            PRODUCTO NO ENCONTRADO
+            <div className='row'>
+                <div className='col-12'>
+                    <div className='row'>
+                        <p className='text-justify lead m-0 fs-6'>
+                            {product.description}
                         </p>
                     </div>
                 </div>
             </div>
-        );
-    }
+        </div>
+    );
 }

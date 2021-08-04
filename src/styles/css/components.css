@@ -9,9 +9,6 @@
 #root {
   display: -ms-grid;
   display: grid;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
   -ms-grid-columns: 1fr;
       grid-template-columns: 1fr;
   -ms-grid-rows: max-content 1fr max-content;
@@ -43,7 +40,7 @@ body {
 header,
 main,
 footer {
-  padding: 0 3vw;
+  padding: 0 3vw !important;
 }
 
 .hdr-active-item p {
@@ -363,43 +360,6 @@ main {
   width: 100%;
   text-align: center;
   font-size: 1rem;
-}
-
-.itemList {
-  display: -ms-grid;
-  display: grid;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  padding: 15px;
-}
-
-.itemList--horizontal {
-  -webkit-column-gap: 20px;
-          column-gap: 20px;
-  -ms-grid-rows: 1fr;
-      grid-template-rows: 1fr;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
-  overflow-x: hidden;
-}
-
-.itemList--horizontal .item {
-  -ms-grid-row: 1;
-  -ms-grid-row-span: 1;
-  grid-row: 1 / 2;
-}
-
-.itemList--vertical {
-  row-gap: 20px;
-  -webkit-column-gap: 20px;
-          column-gap: 20px;
-  -ms-grid-columns: (1fr)[4];
-      grid-template-columns: repeat(4, 1fr);
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
 }
 
 .shop {
