@@ -49,6 +49,18 @@ export default function Checkout() {
     }
 
     function senduserDataToDB() {
+        // format the products from the cart
+        let productsArray = [];
+        Cart.forEach(productProperties => {
+            productsArray = [...productsArray, { // !(added the color and amount property bc it may be relevant to the ecomerce analitics)
+                id: productProperties.product.id,
+                title: productProperties.product.title,
+                price: productProperties.product.price,
+                color: productProperties.product.color,
+                amount: productProperties.amount
+            }];
+        });
+        // send the order to the db
         db.collection('orders')
             .doc()
             .set({
@@ -65,7 +77,7 @@ export default function Checkout() {
                         getTotal(2) / dolar
                     ).toFixed(2)
                 ),
-                items: JSON.stringify(Cart),
+                items: productsArray,
             });
     }
 
