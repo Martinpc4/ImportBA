@@ -28,6 +28,7 @@ export default function ItemDetail(props) {
 
         // Set Color Options w/ react-select
         let colorCounter = 0;
+        colorOptions = [];
         product.colors.forEach((color) => {
             let availableStock = false; // stock control
             if (product.stock[colorCounter] === 0) {
