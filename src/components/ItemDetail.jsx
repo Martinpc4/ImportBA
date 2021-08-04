@@ -1,6 +1,6 @@
 // * Libraries
 import React, { useState, useEffect, useContext } from 'react';
-import { useParams, Link, useHistory } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { db } from '../firebase/firebase.js';
 import Select from 'react-select';
 // * Components
@@ -204,21 +204,26 @@ export default function ItemDetail(props) {
                                 </div>
                             </div>
                             <div className='row mt-3'>
-                                {amount >= 1 ? (
-                                    <Link to='/Cart'>
+                                <div className='col-12'>
+                                    {amount >= 1 ? (
                                         <button
                                             type='button'
                                             onClick={() => {
                                                 delete product.colors;
                                                 product.color = productColor;
                                                 addToCart(product, amount);
+                                                history.push('/Cart');
                                             }}
-                                            className='btn btn-secondary fs-6'
+                                            className={`btn btn-secondary fs-6 ${
+                                                productColor !== ''
+                                                    ? null
+                                                    : 'disabled'
+                                            }`}
                                         >
                                             Agregar al carrito
                                         </button>
-                                    </Link>
-                                ) : null}
+                                    ) : null}
+                                </div>
                             </div>
                         </div>
                     </div>
