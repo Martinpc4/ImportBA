@@ -92,7 +92,7 @@ export default function ItemCart({ productProperties, listModel }) {
                         <div className='row'>
                             <p className='m-0 fs-6'>
                                 {productProperties.product.title} -{' '}
-                                {productProperties.product.memory}Gb -{' '}
+                                {productProperties.product.memory !== null ? `${productProperties.product.memory}Gb -` : null}
                                 {productProperties.product.color}
                             </p>
                         </div>

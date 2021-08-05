@@ -37,8 +37,6 @@ export default function ItemList({ categoryId, vertical }) {
                 let products = [];
                 data.forEach((doc) => {
                     products = [...products, formatProduct(doc)];
-                    if (doc.data().categoryId === Number(categoryId)) {
-                    }
                 });
                 setProducts(products);
             })

@@ -47,6 +47,12 @@ footer {
     padding: 0 3vw !important;
 }
 
+.limit {
+    max-height: 275px !important;
+    max-width: 275px !important;
+    overflow:hidden;
+  }
+
 .cartWidget-badge {
     height: 10px;
     width: 10px;

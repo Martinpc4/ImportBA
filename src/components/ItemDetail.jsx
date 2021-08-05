@@ -43,10 +43,12 @@ export default function ItemDetail(props) {
         });
 
         let imagesBootstrapComponents = [];
+        let imagesCounter = 0
         product.imagesURL.forEach((imageURL) => {
+            imagesCounter++;
             imagesBootstrapComponents.push(
                 <div
-                    key={imageURL}
+                    key={`${product.id}-${imagesCounter}-${imageURL}`}
                     className={
                         imageURL === product.imagesURL[0]
                             ? 'carousel-item active h-100 px-5'
@@ -170,7 +172,7 @@ export default function ItemDetail(props) {
                             </div>
                             <div className='row'>
                                 <p className='m-0 mb-2 fs-6'>
-                                    {product.title} - {product.memory}Gb{' '}
+                                    {product.memory !== null ? `${product.title} - ${product.memory}Gb ` : `${product.title}`}
                                     {productColor !== '' && `- ${productColor}`}
                                 </p>
                             </div>
