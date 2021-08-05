@@ -23,9 +23,11 @@ export default function CartWidget() {
 
     function getCartItemAmount() {
         let counter = 0;
-        Cart.forEach((product) => {
-            counter = counter + product.amount
-        }); 
+        if (Cart.length > 0) {
+            Cart.forEach((product) => {
+                counter = counter + product.amount;
+            });
+        }
         return counter;
     }
 
@@ -38,7 +40,9 @@ export default function CartWidget() {
                 />
                 {getCartItemAmount() > 0 ? (
                     <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger'>
-                        {getCartItemAmount() <= 99 ? getCartItemAmount() : '99+'}
+                        {getCartItemAmount() <= 99
+                            ? getCartItemAmount()
+                            : '99+'}
                         <span className='visually-hidden'>unread messages</span>
                     </span>
                 ) : null}

@@ -14,7 +14,7 @@ export default function Cart() {
     const history = useHistory();
 
     useEffect(() => {
-        (async function () {
+        async function checkCartStock() {
             if (
                 purchaseState === false &&
                 (await checkCartForStock()) === true
@@ -26,7 +26,10 @@ export default function Cart() {
             ) {
                 setPurchaseState(false);
             }
-        })();
+        }
+        if (Cart.length > 0) {
+            checkCartStock();
+        }
     }, [Cart]);
 
     return (

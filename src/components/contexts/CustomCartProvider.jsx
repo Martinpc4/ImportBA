@@ -3,13 +3,21 @@ import CartContext from './Cart.jsx';
 import { db } from '../../firebase/firebase';
 
 export default function CustomCartProvider(props) {
-    const [Cart, setCart] = useState([]);
+    const [Cart, setCart] = useState(() => {
+        if (localStorage.getItem('Cart-Array') !== null) {
+            return JSON.parse(localStorage.getItem('Cart-Array'));
+        } else {
+            return [];
+        }
+    });
 
     const iva = 10.5;
     const dolar = 180;
     const impuestoPais = 30;
 
-    useEffect(() => {}, [Cart]);
+    useEffect(() => {
+        localStorage.setItem('Cart-Array', JSON.stringify(Cart));
+    }, [Cart]);
 
     function cleanCart() {
         setCart([]);
@@ -186,7 +194,7 @@ export default function CustomCartProvider(props) {
             }
             return flagVar;
         } else {
-            throw new Error("The Cart is Empty");
+            throw new Error('The Cart is Empty');
         }
     }
 
