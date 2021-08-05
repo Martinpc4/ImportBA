@@ -11,7 +11,6 @@ export default function Checkout() {
         getItemsList,
         iva,
         dolar,
-        impuestoPais,
         Cart,
         checkCartForStock,
         cleanCart,
@@ -82,8 +81,7 @@ export default function Checkout() {
                 total: Number(
                     (
                         getTotal() +
-                        getTotal(1) / dolar +
-                        getTotal(2) / dolar
+                        getTotal(1) / dolar
                     ).toFixed(2)
                 ),
                 items: productsArray,
@@ -342,19 +340,7 @@ export default function Checkout() {
                                             ).toFixed(2)} ARS$`}</p>
                                         </div>
                                     </div>
-                                </div>
-                                <div className='col-12'>
-                                    <div className='row'>
-                                        <div className='col-6'>
-                                            <p className='text-start fs-6'>{`Impuesto Pais (${impuestoPais}%)`}</p>
-                                        </div>
-                                        <div className='col-6'>
-                                            <p className='text-end fs-6'>{`${getTotal(
-                                                2
-                                            ).toFixed(2)} ARS$`}</p>
-                                        </div>
-                                    </div>
-                                </div>
+                                </div>  
                             </div>
                             <div className='row border-top py-2'>
                                 <div className='col-12'>
@@ -368,8 +354,7 @@ export default function Checkout() {
                                             <p className='text-end price'>
                                                 {(
                                                     getTotal() +
-                                                    getTotal(1) / dolar +
-                                                    getTotal(2) / dolar
+                                                    getTotal(1) / dolar
                                                 ).toFixed(2)}{' '}
                                                 USD$
                                             </p>
@@ -387,8 +372,7 @@ export default function Checkout() {
                                             <p className='text-end price'>
                                                 {(
                                                     getTotal() * dolar +
-                                                    getTotal(1) +
-                                                    getTotal(2)
+                                                    getTotal(1)
                                                 ).toFixed(2)}{' '}
                                                 ARS$
                                             </p>
@@ -413,7 +397,7 @@ export default function Checkout() {
                                             }
                                         }}
                                     >
-                                        Proceder a Pagar
+                                        Proceder al pago
                                     </button>
                                 </div>
                             </div>

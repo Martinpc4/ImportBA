@@ -13,7 +13,6 @@ export default function CustomCartProvider(props) {
 
     const iva = 10.5;
     const dolar = 180;
-    const impuestoPais = 30;
 
     useEffect(() => {
         localStorage.setItem('Cart-Array', JSON.stringify(Cart));
@@ -146,7 +145,7 @@ export default function CustomCartProvider(props) {
     }
 
     function getTotal(option) {
-        // 1: total with "iva" - 2: total with "impuesto pais"
+        // 1: total with "iva" 
         let total = 0;
         Cart.forEach((productProperties) => {
             total =
@@ -155,8 +154,6 @@ export default function CustomCartProvider(props) {
         });
         if (option === 1) {
             total = (total * dolar * iva) / 100;
-        } else if (option === 2) {
-            total = (total * dolar * impuestoPais) / 100;
         }
         return total;
     }
@@ -203,7 +200,6 @@ export default function CustomCartProvider(props) {
             value={{
                 iva,
                 dolar,
-                impuestoPais,
                 Cart,
                 addToCart,
                 removeFromCart,
