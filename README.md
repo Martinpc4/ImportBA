@@ -26,7 +26,6 @@ La librería de Bootstrap proporciona sus famosas clases de estilos. Elegí impl
 - **Objetivo**: Posibilidad de agregar características seleccionables al producto (ej. talla, color, etc). La customización no debería modificar el precio. Las selecciones serán detalladas en el checkout. Por ejemplo: 1 x camisa.
 - **Notas**:
     1. La caracteristica agregada a cada item es la del color, ya que correspondia debido a que todos los productos tienen al menos dos colores como elección.
-    2. 
 ## Stock check
 - **Objetivo**: Validar stock al momento de intentar generar la order.
 - **Notas**:
