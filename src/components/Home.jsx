@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Item from './Item';
 
 import { db } from '../firebase/firebase';
-import { product } from 'prelude-ls';
 
 export default function Home() {
     const [products, setProducts] = useState();

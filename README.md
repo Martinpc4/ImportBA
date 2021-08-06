@@ -104,7 +104,7 @@ Cuando se renderice el componente, se va a mostrar un contenedor con el titulo d
 
 **Importaciones**
 
--   Se va a utilizar el componente Link de react-router-dom para poder redirigir al usuario a la route deseada.
+- Se va a utilizar el componente Link de react-router-dom para poder redirigir al usuario a la route deseada.
 
 **Flujo de Componente**
 El contenedor va a renderizar un footer estatico con las cuentas sociales del site (sin links actualmente), un input para suscribirse al NewsLetter (no programado por el front) y links de las secciones de la página utilizando el componente Link (react-router-dom).
@@ -112,8 +112,13 @@ El contenedor va a renderizar un footer estatico con las cuentas sociales del si
 ### Home
 
 **Importaciones**
+- Se va a utilizar el useEffect Hook para poder correr una promesa (asincronismo) cada vez que se re-renderice. 
+- Se va a utilizar el useState Hook para poder almacenar un array que contenga todos los items/productos que esten en la db.
 
 **Flujo de Componente**
+Cada vez que se monte el componente, se va a hacer una consulta a la db haciendo un query que va a devolver todos los productos establecidos en la db, se van a poner en un array y actualizar el "products" state actualizando el componente.
+Cuando se monte el componente, se va a renderizar una estructura JSX que va a mostrar los ultimos productos.
+Los productos se van a renderizar cuando se cambie el "products" state con los items/productos de la db. Dichos productos se van a renderizar mediante una función que recibe un id del producto que se quiere mostrar y devuelve el componente "Items" pasandole como props el producto con el mismo id que se encuentre en el array con los productos de la db
 
 ### Item
 
