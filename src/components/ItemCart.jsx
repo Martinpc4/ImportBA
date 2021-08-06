@@ -9,6 +9,7 @@ export default function ItemCart({ productProperties, listModel }) {
     );
     const [stockState, setStockState] = useState(true);
     const {
+        isInCart,
         removeFromCart,
         modifyProductAmount,
         getProductAmount,
@@ -32,10 +33,8 @@ export default function ItemCart({ productProperties, listModel }) {
 
     function applyAmountChangesToCart() {
         if (Number(productAmount) === 0) {
-            console.log('REMUEVO DEL CARRITO');
             removeFromCart(productProperties.product);
         } else {
-            console.log('MODIFICO DEL CARRITO');
             let newProductAmount =
                 productAmount - getProductAmount(productProperties.product);
             modifyProductAmount(productProperties.product, newProductAmount);
@@ -94,7 +93,9 @@ export default function ItemCart({ productProperties, listModel }) {
                         <div className='row'>
                             <p className='m-0 fs-6'>
                                 {productProperties.product.title} -{' '}
-                                {productProperties.product.memory !== null ? `${productProperties.product.memory}Gb -` : null}
+                                {productProperties.product.memory !== null
+                                    ? `${productProperties.product.memory}Gb -`
+                                    : null}
                                 {productProperties.product.color}
                             </p>
                         </div>
@@ -122,19 +123,23 @@ export default function ItemCart({ productProperties, listModel }) {
                                         ></i>
                                     </div>
                                 )}
-                                <div className='col d-flex flex-row justify-content-end'>
-                                    <ItemCounter
-                                        itemAmount={productAmount}
-                                        itemAmountFunction={setProductAmount}
-                                        applyChangesFunction={
-                                            applyAmountChangesToCart
-                                        }
-                                        cartItemAmount={getProductAmount(
-                                            productProperties.product
-                                        )}
-                                        isApplyChanges={true}
-                                    />
-                                </div>
+                                {isInCart(productProperties.product) ? (
+                                    <div className='col d-flex flex-row justify-content-end'>
+                                        <ItemCounter
+                                            itemAmount={productAmount}
+                                            itemAmountFunction={
+                                                setProductAmount
+                                            }
+                                            applyChangesFunction={
+                                                applyAmountChangesToCart
+                                            }
+                                            cartItemAmount={getProductAmount(
+                                                productProperties.product
+                                            )}
+                                            isApplyChanges={true}
+                                        />
+                                    </div>
+                                ) : null}
                             </div>
                         </div>
                     </div>

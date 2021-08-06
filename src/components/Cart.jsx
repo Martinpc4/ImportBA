@@ -40,7 +40,7 @@ export default function Cart() {
                     <div className='row mb-5 gy-2 h-100 align-items-center align-content-start'>
                         <CartList listModel={2} />
                     </div>
-                    {getTotal() > 0 ? (
+                    {(Cart.length > 0) && (getTotal() > 0) ? (
                         <div className='row align-items-center'>
                             <div className='col-6'>
                                 <div className='row'>

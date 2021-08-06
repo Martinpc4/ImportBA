@@ -87,7 +87,7 @@ export default function CustomCartProvider(props) {
                             productProperties.product.color === product.color
                         )
                     ) {
-                        newCart = [...newCart, product];
+                        newCart = [...newCart, productProperties];
                     }
                 });
                 setCart(newCart);
@@ -151,7 +151,7 @@ export default function CustomCartProvider(props) {
             Cart.forEach((productProperties) => {
                 total =
                     total +
-                    productProperties.amount * productProperties.product.price;
+                    (productProperties.amount * productProperties.product.price);
             });
             if (option === 1) {
                 total = (total * iva) / 100;
