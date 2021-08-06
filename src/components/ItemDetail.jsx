@@ -86,8 +86,7 @@ export default function ItemDetail(props) {
             .get()
             .then((data) => {
                 if (data.exists) {
-                    const product = formatProduct(data);
-                    setProduct(product);
+                    setProduct(formatProduct(data));
                 } else {
                     history.push('/Error/1');
                 }

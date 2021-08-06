@@ -15,7 +15,7 @@ export default function CartList({ listModel }) {
         Cart.forEach((productProperties) => {
             itemCartList.push(
                 <ItemCart
-                    key={`${productProperties.id}-${productProperties.color}`}
+                    key={`${productProperties.product.id}-${productProperties.product.color}`}
                     productProperties={productProperties}
                     listModel={listModel}
                 />

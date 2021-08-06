@@ -32,8 +32,10 @@ export default function ItemCart({ productProperties, listModel }) {
 
     function applyAmountChangesToCart() {
         if (Number(productAmount) === 0) {
+            console.log('REMUEVO DEL CARRITO');
             removeFromCart(productProperties.product);
         } else {
+            console.log('MODIFICO DEL CARRITO');
             let newProductAmount =
                 productAmount - getProductAmount(productProperties.product);
             modifyProductAmount(productProperties.product, newProductAmount);

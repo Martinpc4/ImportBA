@@ -8,7 +8,6 @@ export default function Home() {
     const [products, setProducts] = useState();
 
     useEffect(() => {
-        console.log('MOUNTED');
         const itemCollection = db.collection('items');
         itemCollection
             .get()

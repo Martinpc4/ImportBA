@@ -25,14 +25,18 @@ export default function Checkout() {
     });
 
     useEffect(() => {
-        if (Object.entries(userData).length !== 0) {
+        let entries = Object.entries(userData);
+        if (entries.length !== 0) {
             let flagVar = true;
             let entriesAmount = 0;
-            let entries = Object.entries(userData);
             entries.forEach((keyValuesPairs) => {
+                if (keyValuesPairs[1] === false) {
+                    flagVar = false;
+                }
                 if (
-                    keyValuesPairs[1] === undefined ||
-                    keyValuesPairs[1] === ''
+                    typeof keyValuesPairs[1] === 'string' &&
+                    (keyValuesPairs[1] === undefined ||
+                        keyValuesPairs[1].trim() === '')
                 ) {
                     flagVar = false;
                 }
@@ -78,12 +82,7 @@ export default function Checkout() {
                     email: userData.userEmail1,
                 },
                 date: new Date(),
-                total: Number(
-                    (
-                        getTotal() +
-                        getTotal(1) / dolar
-                    ).toFixed(2)
-                ),
+                total: Number((getTotal() + getTotal(1) / dolar).toFixed(2)),
                 items: productsArray,
             })
             .then((docRef) => {
@@ -340,7 +339,7 @@ export default function Checkout() {
                                             ).toFixed(2)} ARS$`}</p>
                                         </div>
                                     </div>
-                                </div>  
+                                </div>
                             </div>
                             <div className='row border-top py-2'>
                                 <div className='col-12'>

@@ -11,12 +11,12 @@ export default function CustomCartProvider(props) {
         }
     });
 
-    const iva = 10.5;
-    const dolar = 180;
-
     useEffect(() => {
         localStorage.setItem('Cart-Array', JSON.stringify(Cart));
     }, [Cart]);
+
+    const iva = 10.5;
+    const dolar = 180;
 
     function cleanCart() {
         setCart([]);
@@ -145,17 +145,23 @@ export default function CustomCartProvider(props) {
     }
 
     function getTotal(option) {
-        // 1: total with "iva" 
-        let total = 0;
-        Cart.forEach((productProperties) => {
-            total =
-                total +
-                productProperties.amount * productProperties.product.price;
-        });
-        if (option === 1) {
-            total = (total * dolar * iva) / 100;
+        // 1: total with "iva"
+        if (Cart.length > 0) {
+            let total = 0;
+            Cart.forEach((productProperties) => {
+                total =
+                    total +
+                    productProperties.amount * productProperties.product.price;
+            });
+            if (option === 1) {
+                total = (total * iva) / 100;
+            }
+            return total;
+        } else {
+            throw new Error(
+                'Error al tomar el total de los productos: el carrito esta vacio'
+            );
         }
-        return total;
     }
 
     async function checkProductForStock(productProperties, amount) {
