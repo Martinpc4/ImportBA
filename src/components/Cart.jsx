@@ -9,6 +9,7 @@ import CartContext from './contexts/Cart';
 export default function Cart() {
     // context
     const { getTotal, checkCartForStock, Cart } = useContext(CartContext);
+    // state
     const [purchaseState, setPurchaseState] = useState(false);
     // react-router history
     const history = useHistory();

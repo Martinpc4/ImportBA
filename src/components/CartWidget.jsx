@@ -10,7 +10,7 @@ export default function CartWidget() {
     const [clickedState, setClickedState] = useState(false);
     const { Cart, getTotal } = useContext(CartContext);
 
-    function checkClickedState(e) {
+    function modifyClickedState(e) {
         e.stopPropagation();
         if (clickedState === true) {
             setClickedState(false);
@@ -36,7 +36,7 @@ export default function CartWidget() {
             <div className='position-relative'>
                 <i
                     className='bi bi-cart fs-4 d-flex flex-row align-items-center justify-content-end'
-                    onClick={checkClickedState}
+                    onClick={modifyClickedState}
                 />
                 {getCartItemAmount() > 0 ? (
                     <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger'>
