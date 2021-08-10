@@ -4,6 +4,7 @@ import { db } from '../../firebase/firebase';
 
 export default function CustomCartProvider(props) {
     const [Cart, setCart] = useState(() => {
+        console.log("RECUPERADO");
         if (localStorage.getItem('Cart-Array') !== null) {
             return JSON.parse(localStorage.getItem('Cart-Array'));
         } else {
@@ -12,6 +13,7 @@ export default function CustomCartProvider(props) {
     });
 
     useEffect(() => {
+        console.log("GUARDADO");
         localStorage.setItem('Cart-Array', JSON.stringify(Cart));
     }, [Cart]);
 
