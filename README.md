@@ -153,17 +153,45 @@ El "ItemCounter" Component se le va a pasar por props la cantidad actual del pro
 ### ItemCounter
 
 **Importaciones**
+
+- No se imortará nada.
+
 **Flujo de Componente**
+Se van a recibir por props la variable "itemAmount", proveniente de un estado, que contiene la cantidad actual del item, "itemAmountFunction" que contiene la función para modificar el estado "itemAmount" del componente padre, la función "applyChangesFunction" que va a ejecutar una función pasada unicamente por el "ItemCart" Component en caso de que el sea el padre, la variable "cartItemAmount" que va a almacenar la cantidad de dicho producto en el actual Cart Array (Context) y la variable "isApplyChanges" que contiene un valor booleano.
+Cuando se monte el componente, se va a renderizar una estructura JSX que contiene información de la cantidad actual del producto que fue pasada mediante la variable "itemAmount", dos botones que siempre van a estar para poder modificar la cantidad del producto (haciendo que cuando se los clieckee, se ejecute la función pasada por props "itemAmountFunction" dandole por parametros la cantidad actual mas o menos uno, dependiendo el boton) y un tercer boton que se va a renderizar solamente si la variable "isApplyChanges" pasada por props es igual al valor booleano "true" y si la cantidad actual en el Cart Array (Context) es diferente a la almacenada en el estado "itemAmount" pasada por props. Dicho boton de confirmar va a ejecutar la función "applyChangesFunction" cuando se lo clickee.
 
 ### ItemDetail
 
 **Importaciones**
+
+- Se usará useState para poder definir el "product" State que contenga la información del producto en cuestion, el "productColor" State que contenga la información sobre la eleción de color y el "amount" state que va a contener la cantidad deseada del producto.
+- Se usará useEffect para correr una función cuando se monte el componente o cuando cambie alguno de los parametros obtenidos por ruta, "ItemId" o "CategoryId".
+- Se usará useContext para poder utilizar la función _addToCart_ (Contex) traida desde el contexto del componente CartContext, que tambien fue agregado.
+- Se usará useHistory para poder agregar una ruta al historial de rutas y de esa manera poder redirigir al usuario.
+- Se usará useParams para poder obtener los parametros "ItemId" y "CategoryId" pasados por la ruta.
+- Se importara el "ItemCounter" Component para poder renderizarlo y "Select" para poder utilizar la libreria de "react-select".
+
 **Flujo de Componente**
+
+*Aclaración*: debido a que en este componente utiliza la libreria "react-select", se tiene que definir una variable fuera del componente ya que asi lo especifican en la documentación.
+
+Cuando se monte el componente o cuando cambie alguno de los parametros obtenidos por ruta, "ItemId" o "CategoryId", mediante el useEffect se va a ejecutar la función "fetchData". Dicha función va a hacer un pedido a la db, mediante promesas, aplicanto manejo de errores. En caso de que la información del producto solicitado no exista se redirecciona al usuario, agregando una nueva ruta mediante el método "history.push()", al "Error" Component. Si existe entonces se ejecuta la función "formatProduct" pasandole por parametros la información del producto obtenida, dentro de la función se va a generar las opciones de color disponibles para "react-select", una estructura JSX que va a ser utilizada para los indicadores, mediante la función "generateCarouselIndicators", del Bootstrap Carousel y otra estructura JSX para establecer las imagenes, mediante la función "generateCarouselImages", del Bootstrap Carousel. Una vez que se haya generado el formato del item, se cambia el valor del "product" state con la información de dicho item, causando que se vuelva a montar el componente.
+
+Una vez que se monte el componente con la información en el "product" State, se va a generar una estructura JSX que va a mostrar la información del producto almacenada en el "product" State. Dentro de las no tan importantes, un carousel, el titulo, el precio del producto y una descripción. Dentro de las importantes, un modelo de producto que se va a actualizar mediante un condicional cuando el usuario selecione el color, el Componente Select de "react-select" con las opciones para que el usuario pueda selecionar el color del producto y que cuando lo haga, mediante un evento, se modifique el valor de "productColor" State al valor selecionado, y el "ItemCounter" Component que se le van a pasar por props la cantidad selecionada actualmente almacenada en el "amount" State y la función para alterar dicho estado.
+Por ultimo, el boton de agregar a carrito que se va a renderizar de manera condicional cuando la cantidad del producto supere la unidad pero, va a aparecer deshabilitado, mediante el uso de clases de Bootstrap, para que de manera condicional cuando se haya selecionado un color se habilite y cuando se haga click, mediante un evento, se elimina la propiedad "colors" del "product" State (sin modificar el estado para evitar la re-renderización del componente), se crea la propiedad "color" con el color selecionado, se ejecuta la función _addToCart_ dandole las propiedades actualizadas del producto y la cantidad, y se agrega una ruta al mediante "history.push()" para re-direccionar al usuario al "Cart" Component.
 
 ### ItemList
 
 **Importaciones**
+
+- Se utilizará el useEffect Hook para poder correr una función asincrona.
+- Se utilizara el useState Hook para almacenar la lista de productos obtenida de la db.
+- Se utilizara el "Item" Component para poder montarlo y renderizarlo dentro del componente.
+- Se utilizara el objeto "db" para poder interactuar con Firestore, servicio de Firebase.
+
 **Flujo de Componente**
+Cuando se monte por primera vez y cuando se modifique la variable categoryId (props), mediente el useEffect, se va a ejecutar la función asincrona "serverRequest". Dicha función va a hacer una query al servicio de Firestore para obtener todos lo items, dentro de la "items" collection, que coincidan con el identificador de categoria que fue obtenido por la variable categoryId (props). Una vez obtenidos, se van a darle formato a medida que se los agrega a un array mediante la función "formatProduct", que se le da por parametros la información del item, devolviendo una estructura JSX, estilizada, que contiene un "Item" Component, habiendole pasando todas las propiedades por props. Una vez ya habiendo formateado todos los items y ya estando en un array, se va a asignar dicho array al "products" State.
+Cuando se renderice, va a devolver una estructura JSX, estilizada, que va a contener adentro el valor almacenado dentro de "products" State. Dicho valor va a cambiar despues de que se obtenga la información de la db y se formateen los productos para poder renderizar el array de todos items.
 
 ### NavBar
 

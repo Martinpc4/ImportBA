@@ -22,6 +22,50 @@ export default function ItemDetail(props) {
     const [productColor, setProductColor] = useState('');
     const [amount, setAmount] = useState(0);
 
+    function generateCarouselImages(imagesURL) {
+        let imagesJSXArray = [];
+        let imagesCounter = 0;
+        imagesURL.forEach((imageURL) => {
+            imagesCounter++;
+            imagesJSXArray.push(
+                <div
+                    key={`${product.id}-${imagesCounter}-${imageURL}`}
+                    className={
+                        imageURL === imagesURL[0]
+                            ? 'carousel-item active h-100 px-5'
+                            : 'carousel-item h-100 px-5'
+                    }
+                    data-bs-interval='10000'
+                >
+                    <img
+                        src={String(imageURL)}
+                        className='d-block h-100 w-100'
+                        alt='...'
+                    />
+                </div>
+            );
+        });
+        return imagesJSXArray;
+    }
+    
+    function generateCarouselIndicators(imagesURL) {
+        let buttons = [];
+        for (let i = 0; i < imagesURL.length; i++) {
+            buttons.push(
+                <button
+                    key={`${imagesURL}-button-${i}`}
+                    type='button'
+                    data-bs-target='#productCarousel'
+                    data-bs-slide-to={i}
+                    className='active'
+                    aria-current='true'
+                    aria-label={`Silde ${i + 1}`}
+                ></button>
+            );
+        }
+        return buttons;
+    }
+
     function formatProduct(data) {
         let product = data.data();
         product.id = data.id;
@@ -42,28 +86,10 @@ export default function ItemDetail(props) {
             colorCounter++;
         });
 
-        let imagesBootstrapComponents = [];
-        let imagesCounter = 0
-        product.imagesURL.forEach((imageURL) => {
-            imagesCounter++;
-            imagesBootstrapComponents.push(
-                <div
-                    key={`${product.id}-${imagesCounter}-${imageURL}`}
-                    className={
-                        imageURL === product.imagesURL[0]
-                            ? 'carousel-item active h-100 px-5'
-                            : 'carousel-item h-100 px-5'
-                    }
-                    data-bs-interval='10000'
-                >
-                    <img
-                        src={String(imageURL)}
-                        className='d-block h-100 w-100'
-                        alt='...'
-                    />
-                </div>
-            );
-        });
+        let imagesBootstrapComponents = generateCarouselImages(
+            product.imagesURL
+        );
+
         let carouselIndicators = generateCarouselIndicators(product.imagesURL);
 
         return {
@@ -99,24 +125,6 @@ export default function ItemDetail(props) {
     useEffect(() => {
         fetchData();
     }, [ItemId, CategoryId]);
-
-    function generateCarouselIndicators(imagesURL) {
-        let buttons = [];
-        for (let i = 0; i < imagesURL.length; i++) {
-            buttons.push(
-                <button
-                    key={`${imagesURL}-button-${i}`}
-                    type='button'
-                    data-bs-target='#productCarousel'
-                    data-bs-slide-to={i}
-                    className='active'
-                    aria-current='true'
-                    aria-label={`Silde ${i + 1}`}
-                ></button>
-            );
-        }
-        return buttons;
-    }
 
     return (
         <div className='mb-5 container d-flex flex-column align-items-between'>
@@ -171,7 +179,9 @@ export default function ItemDetail(props) {
                             </div>
                             <div className='row'>
                                 <p className='m-0 mb-2 fs-6'>
-                                    {product.memory !== null ? `${product.title} - ${product.memory}Gb ` : `${product.title}`}
+                                    {product.memory !== null
+                                        ? `${product.title} - ${product.memory}Gb `
+                                        : `${product.title}`}
                                     {productColor !== '' && `- ${productColor}`}
                                 </p>
                             </div>
