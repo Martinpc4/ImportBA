@@ -3,7 +3,7 @@ import Item from './Item';
 
 import { db } from '../firebase/firebase.js';
 
-export default function ItemList({ categoryId, vertical }) {
+export default function ItemList({ categoryId }) {
     const [products, setProducts] = useState([]);
 
     function formatProduct(data) {

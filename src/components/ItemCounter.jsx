@@ -32,8 +32,7 @@ export default function itemCounter({
                     }
                 ></i>
             </div>
-            {Number(itemAmount) !== Number(cartItemAmount) &&
-            isApplyChanges === true ? (
+            {Number(itemAmount) !== Number(cartItemAmount) && isApplyChanges ? (
                 <div className='itemCounter__confirm-btn'>
                     <i
                         className='bi bi-check'

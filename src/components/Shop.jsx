@@ -8,7 +8,7 @@ export default function Shop() {
     return (
         <div className='container m-5'>
             <div className='row'>
-                <ItemList categoryId={CategoryId} vertical={true} />
+                <ItemList categoryId={CategoryId} />
             </div>
         </div>
     );
