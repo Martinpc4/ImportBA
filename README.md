@@ -1,13 +1,28 @@
 # ReactJS - CoderHouse
 
-[![GitHub Profile](https://img.shields.io/badge/GitHub-Profile-f1faee?logo=GitHub)](https://github.com/Martinpc4)  
-[![Contact Me](https://img.shields.io/badge/Email-Contact_me-a8dadc?logo=Mail.Ru)](mailto:perezcobomartin4@hotmail.com)  
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Follow_me-457b9d?logo=linkedin)](https://linkedin.com/in/martin-perez-cobo/)
+[![GitHub Profile](https://img.shields.io/badge/GitHub-informational?style=for-the-badge&logo=GitHub&logoColor=171515&color=23272d)](https://github.com/Martinpc4)
+[![Contact Me](https://img.shields.io/badge/Email-informational?style=for-the-badge&logo=Mail.Ru&logoColor=fff&color=23272d)](mailto:perezcobomartin4@hotmail.com)
+[![LinkedId](https://img.shields.io/badge/LinkedIn-informational?style=for-the-badge&logo=linkedin&logoColor=0077b5&color=23272d)](https://linkedin.com/in/martin-perez-cobo/)
+
 
 # Información del proyecto
 
 Este es mi proyecto final para el curso de ReactJS en [CoderHouse](https://www.coderhouse.com), parte de la carrera de desarrollador web full-stack.  
 Este proyecto consiste en un ecommerce implementado con React, React Router, React Hooks, Librería de React-Select, Librería de Bootstrap y Firebase como base de datos. Por Favor leer la licencia del proyecto antes interactuar con él, dicha licencia se encuentra en el archivo "license.md".
+
+# Libraries
+
+## React-Select
+
+[![React Select](https://img.shields.io/badge/React_Select-informational?style=for-the-badge&logo=react&logoColor=61DAFB&color=23272d)](https://react-select.com/home)
+
+La librería de React-Select le proporciona la selección de colores a la hora de agregar un ítem al carrito. Fue implementada por su practicidad a la hora de manejar un menú de opciones, ya que fue diseñada para React y fue optimizada para ello. Podría haberse realizado solo con los vanilla HTML tags implementando un “onChange” event de React y un state con React Hooks pero, basado en la recomendación de un amigo React Developer familiarizado con la librería, decidí implementarla para optimizar el ecommerce.
+
+## Bootstrap
+
+[![Bootstrap 5](https://img.shields.io/badge/Bootstrap_5-informational?style=for-the-badge&logo=bootstrap&logoColor=6f42c1&color=23272d)](https://getbootstrap.com)
+
+La librería de Bootstrap proporciona sus famosas clases de estilos. Elegí implementarla ya que el uso de dichas clases me ayudó mucho a la hora de maquetar por su intuitividad y grandes estilos. Además, su alta personalización me permitió modificar, por ejemplo, los colores generales de la librería. Se podría haber reemplazado a la librería con estilos SCSS para después ser compilados a CSS, pero me hubiera tomado demasiado tiempo y no era el objetivo del curso maquetar. Igualmente, incluí unos estilos por SCSS que van a ser compilados para poder complementar Bootstrap.
 
 # Documentación
 
@@ -246,16 +261,6 @@ Cuando el componente se renderice, se van a renderizar todo lo que envuelva el c
 **Constantes Definidas**
 
 -   "iva" y "dolar" como un valor general de la aplicación que almacenan los valores actuales correspondientes al I.V.A. y al dolar blue.
-
-# Libraries
-
-## React-Select
-
-La librería de React-Select le proporciona la selección de colores a la hora de agregar un ítem al carrito. Fue implementada por su practicidad a la hora de manejar un menú de opciones, ya que fue diseñada para React y fue optimizada para ello. Podría haberse realizado solo con los vanilla HTML tags implementando un “onChange” event de React y un state con React Hooks pero, basado en la recomendación de un amigo React Developer familiarizado con la librería, decidí implementarla para optimizar el ecommerce.
-
-## Bootstrap
-
-La librería de Bootstrap proporciona sus famosas clases de estilos. Elegí implementarla ya que el uso de dichas clases me ayudó mucho a la hora de maquetar por su intuitividad y grandes estilos. Además, su alta personalización me permitió modificar, por ejemplo, los colores generales de la librería. Se podría haber reemplazado a la librería con estilos SCSS para después ser compilados a CSS, pero me hubiera tomado demasiado tiempo y no era el objetivo del curso maquetar. Igualmente, incluí unos estilos por SCSS que van a ser compilados para poder complementar Bootstrap.
 
 # Desafios Extras (Pro-Coder)
 
