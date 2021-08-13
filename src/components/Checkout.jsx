@@ -19,7 +19,7 @@ export default function Checkout() {
     // states
     const [userData, setUserData] = useState({});
     const [validDataState, setValidDataState] = useState(false); // false: not valid, true: valid
-    const [purchaseState, setpurchaseState] = useState({
+    const [purchaseState, setPurchaseState] = useState({
         state: false,
         purchaseId: undefined,
     });
@@ -46,6 +46,7 @@ export default function Checkout() {
                 entriesAmount === 10 &&
                 flagVar === true &&
                 userData.userTyC === true &&
+                userData.userEmail1 === userData.userEmail2 &&
                 Cart.length > 0
             ) {
                 setValidDataState(true);
@@ -57,14 +58,14 @@ export default function Checkout() {
         }
     }, [userData, validDataState, purchaseState]);
 
-    function senduserDataToDB() {
+    function sendUserDataToDB() {
         // format the products from the cart
         let productsArray = [];
         Cart.forEach((productProperties) => {
             productsArray = [
                 ...productsArray,
                 {
-                    // !(added the color and amount property bc it may be relevant to the ecomerce analitics)
+                    // !(added the color and amount property bc it may be relevant to the ecomerce's analitics)
                     id: productProperties.product.id,
                     title: productProperties.product.title,
                     price: productProperties.product.price,
@@ -87,7 +88,7 @@ export default function Checkout() {
             })
             .then((docRef) => {
                 cleanCart();
-                setpurchaseState({
+                setPurchaseState({
                     state: true,
                     purchaseId: docRef.id,
                 });
@@ -392,7 +393,7 @@ export default function Checkout() {
                                                 (await checkCartForStock()) ===
                                                 true
                                             ) {
-                                                senduserDataToDB();
+                                                sendUserDataToDB();
                                             }
                                         }}
                                     >

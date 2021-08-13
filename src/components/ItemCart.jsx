@@ -59,8 +59,8 @@ export default function ItemCart({ productProperties, listModel }) {
                 </div>
                 <div className='col-6 px-2'>
                     <div className='row'>
-                        <p className='m-0' style={fontSizeM2}>
-                            {productProperties.product.title}
+                        <p className='m-0 w-auto' style={fontSizeM2}>
+                            {productProperties.product.title}  -  x{productProperties.amount}
                         </p>
                     </div>
                 </div>

@@ -110,6 +110,14 @@ export default function Footer() {
                         </div>
                     </div>
                 </div>
+                <div className='row'>
+                    <p className='m-0 text-muted text-center'>
+                        <span>
+                            <i className='bi bi-linkedin me-1 text-muted'></i>
+                        </span>
+                        Developer: Martín Pérez Cobo
+                    </p>
+                </div>
             </div>
         </footer>
     );

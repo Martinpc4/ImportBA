@@ -61,7 +61,7 @@ export default function CartWidget() {
                                 <CartList listModel={1} />
                             </div>
                         </div>
-                        {getTotal() > 0 ? (
+                        {Cart.length > 0 && getTotal() > 0 ? (
                             <div className='row align-items-center border-top py-2'>
                                 <div className='col-6'>
                                     <div className='row'>

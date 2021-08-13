@@ -4,7 +4,6 @@ import { db } from '../../firebase/firebase';
 
 export default function CustomCartProvider(props) {
     const [Cart, setCart] = useState(() => {
-        console.log("RECUPERADO");
         if (localStorage.getItem('Cart-Array') !== null) {
             return JSON.parse(localStorage.getItem('Cart-Array'));
         } else {
@@ -13,7 +12,6 @@ export default function CustomCartProvider(props) {
     });
 
     useEffect(() => {
-        console.log("GUARDADO");
         localStorage.setItem('Cart-Array', JSON.stringify(Cart));
     }, [Cart]);
 
@@ -153,16 +151,14 @@ export default function CustomCartProvider(props) {
             Cart.forEach((productProperties) => {
                 total =
                     total +
-                    (productProperties.amount * productProperties.product.price);
+                    productProperties.amount * productProperties.product.price;
             });
             if (option === 1) {
                 total = (total * iva) / 100;
             }
             return total;
         } else {
-            throw new Error(
-                'Error al tomar el total de los productos: el carrito esta vacio'
-            );
+            return 0;
         }
     }
 
