@@ -3,12 +3,15 @@
 [![GitHub Profile](https://img.shields.io/badge/GitHub-informational?style=for-the-badge&logo=GitHub&logoColor=171515&color=23272d)](https://github.com/Martinpc4)
 [![Contact Me](https://img.shields.io/badge/Email-informational?style=for-the-badge&logo=Mail.Ru&logoColor=fff&color=23272d)](mailto:perezcobomartin4@hotmail.com)
 [![LinkedId](https://img.shields.io/badge/LinkedIn-informational?style=for-the-badge&logo=linkedin&logoColor=0077b5&color=23272d)](https://linkedin.com/in/martin-perez-cobo/)
+[![App](https://img.shields.io/badge/Launch_App-informational?style=for-the-badge&logo=heroku&logoColor=#430098&color=23272d)](https://importba-react.herokuapp.com)
 
 
 # Información del proyecto
 
 Este es mi proyecto final para el curso de ReactJS en [CoderHouse](https://www.coderhouse.com), parte de la carrera de desarrollador web full-stack.  
 Este proyecto consiste en un ecommerce implementado con React, React Router, React Hooks, Librería de React-Select, Librería de Bootstrap y Firebase como base de datos. Por Favor leer la licencia del proyecto antes interactuar con él, dicha licencia se encuentra en el archivo "license.md".
+
+[25/08/2021] Este proyecto fue calificado con una nota de 10 (diez) y se da como finalizado.
 
 # Libraries
 
