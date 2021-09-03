@@ -5,13 +5,21 @@
 [![LinkedId](https://img.shields.io/badge/LinkedIn-informational?style=for-the-badge&logo=linkedin&logoColor=0077b5&color=23272d)](https://linkedin.com/in/martin-perez-cobo/)
 [![App](https://img.shields.io/badge/Launch_App-informational?style=for-the-badge&logo=heroku&logoColor=430098&color=23272d)](https://importba-react.herokuapp.com)
 
-
 # Información del proyecto
 
 Este es mi proyecto final para el curso de ReactJS en [CoderHouse](https://www.coderhouse.com), parte de la carrera de desarrollador web full-stack.  
 Este proyecto consiste en un ecommerce implementado con React, React Router, React Hooks, Librería de React-Select, Librería de Bootstrap y Firebase como base de datos. Por Favor leer la licencia del proyecto antes interactuar con él, dicha licencia se encuentra en el archivo "license.md".
 
 [25/08/2021] Este proyecto fue calificado con una nota de 10 (diez) y se da como finalizado.
+
+<div align="center">
+    <img width="450" src="https://github.com/Martinpc4/ImportBA/blob/main/public/website_preview_imgs/Screenshot%202021-09-02%20at%2023.54.21.png" alt="home section"/>
+    <img width="450" src="https://github.com/Martinpc4/ImportBA/blob/main/public/website_preview_imgs/Screenshot%202021-09-02%20at%2023.54.43.png" alt="item detail component"/>
+    <img width="450" src="https://github.com/Martinpc4/ImportBA/blob/main/public/website_preview_imgs/Screenshot%202021-09-02%20at%2023.55.04.png" alt="ipad category"/>
+    <img width="450" src="https://github.com/Martinpc4/ImportBA/blob/main/public/website_preview_imgs/Screenshot%202021-09-02%20at%2023.55.51.png" alt="cart section"/>
+   <img width="450" src="https://github.com/Martinpc4/ImportBA/blob/main/public/website_preview_imgs/Screenshot%202021-09-02%20at%2023.55.43.png" alt="cart section displaying stock checking feature"/>
+    <img width="450" src="https://github.com/Martinpc4/ImportBA/blob/main/public/website_preview_imgs/Screenshot%202021-09-02%20at%2023.57.10.png" alt="checkout section"/>
+ </div>
 
 # Libraries
 
