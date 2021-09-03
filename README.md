@@ -13,12 +13,12 @@ Este proyecto consiste en un ecommerce implementado con React, React Router, Rea
 [25/08/2021] Este proyecto fue calificado con una nota de 10 (diez) y se da como finalizado.
 
 <div align="center">
-    <img width="450" src="https://github.com/Martinpc4/ImportBA/blob/main/public/website_preview_imgs/Screenshot%202021-09-02%20at%2023.54.21.png" alt="home section"/>
-    <img width="450" src="https://github.com/Martinpc4/ImportBA/blob/main/public/website_preview_imgs/Screenshot%202021-09-02%20at%2023.54.43.png" alt="item detail component"/>
-    <img width="450" src="https://github.com/Martinpc4/ImportBA/blob/main/public/website_preview_imgs/Screenshot%202021-09-02%20at%2023.55.04.png" alt="ipad category"/>
-    <img width="450" src="https://github.com/Martinpc4/ImportBA/blob/main/public/website_preview_imgs/Screenshot%202021-09-02%20at%2023.55.51.png" alt="cart section"/>
-   <img width="450" src="https://github.com/Martinpc4/ImportBA/blob/main/public/website_preview_imgs/Screenshot%202021-09-02%20at%2023.55.43.png" alt="cart section displaying stock checking feature"/>
-    <img width="450" src="https://github.com/Martinpc4/ImportBA/blob/main/public/website_preview_imgs/Screenshot%202021-09-02%20at%2023.57.10.png" alt="checkout section"/>
+    <img width="400" src="https://github.com/Martinpc4/ImportBA/blob/main/public/website_preview_imgs/Screenshot%202021-09-02%20at%2023.54.21.png" alt="home section"/>
+    <img width="400" src="https://github.com/Martinpc4/ImportBA/blob/main/public/website_preview_imgs/Screenshot%202021-09-02%20at%2023.54.43.png" alt="item detail component"/>
+    <img width="400" src="https://github.com/Martinpc4/ImportBA/blob/main/public/website_preview_imgs/Screenshot%202021-09-02%20at%2023.55.04.png" alt="ipad category"/>
+    <img width="400" src="https://github.com/Martinpc4/ImportBA/blob/main/public/website_preview_imgs/Screenshot%202021-09-02%20at%2023.55.51.png" alt="cart section"/>
+   <img width="400" src="https://github.com/Martinpc4/ImportBA/blob/main/public/website_preview_imgs/Screenshot%202021-09-02%20at%2023.55.43.png" alt="cart section displaying stock checking feature"/>
+    <img width="400" src="https://github.com/Martinpc4/ImportBA/blob/main/public/website_preview_imgs/Screenshot%202021-09-02%20at%2023.57.10.png" alt="checkout section"/>
  </div>
 
 # Libraries
