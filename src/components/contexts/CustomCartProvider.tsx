@@ -5,18 +5,38 @@ import React, { useState, useEffect } from 'react';
 import CartContext from './Cart.js';
 // * Database
 import { db } from '../../firebase/firebase';
-// * Interfaces
-import { ProductInterface, ProductPropertiesInterface } from '../../interfaces/ComponentsInterfaces';
+// * Types
+// product-related interfaces
+import {
+    ProductInterface,
+    ProductPropertiesInterface,
+} from '../../interfaces/ComponentsInterfaces';
+// function-related types
+import {
+    AddToCartFunctionInterface,
+    RemoveFromCartFunctionInterface,
+    ModifyProductAmountFunctionInterface,
+    IsInCartFunctionInterface,
+    CleanCartFunctionInterface,
+    GetProductAmountFunctionInterface,
+    GetTotalFunctionInterface,
+    GetItemsListFunctionInterface,
+    CheckProductForStockFunctionInterface,
+    CheckCartForStockFunctionInterface,
+    CartContextInterface,
+} from '../../interfaces/ComponentsInterfaces';
 
 // ! Function Component
 export default function CustomCartProvider(props) {
-    const [Cart, setCart] = useState<ProductInterface[]>((): ProductInterface[] => {
-        if (localStorage.getItem('Cart-Array') !== null) {
-            return JSON.parse(localStorage.getItem('Cart-Array') || "[]");
-        } else {
-            return [];
+    const [Cart, setCart] = useState<ProductInterface[]>(
+        (): ProductInterface[] => {
+            if (localStorage.getItem('Cart-Array') !== null) {
+                return JSON.parse(localStorage.getItem('Cart-Array') || '[]');
+            } else {
+                return [];
+            }
         }
-    });
+    );
 
     useEffect(() => {
         localStorage.setItem('Cart-Array', JSON.stringify(Cart));
@@ -25,11 +45,11 @@ export default function CustomCartProvider(props) {
     const iva = 10.5;
     const dolar = 180;
 
-    function cleanCart(): void {
+    const cleanCart: CleanCartFunctionInterface = () => {
         setCart([]);
-    }
+    };
 
-    function isInCart(product: ProductPropertiesInterface): boolean {
+    const isInCart: IsInCartFunctionInterface = (product) => {
         if (Cart.length > 0) {
             let flagVar: any = false;
             Cart.forEach((productProperties) => {
@@ -47,9 +67,12 @@ export default function CustomCartProvider(props) {
             }
         }
         return false;
-    }
+    };
 
-    function addToCart(productProperties: ProductPropertiesInterface, amount: number):void {
+    const addToCart: AddToCartFunctionInterface = (
+        productProperties,
+        amount
+    ) => {
         if (isInCart(productProperties) === false) {
             let newProduct: ProductInterface = {
                 product: productProperties,
@@ -59,9 +82,12 @@ export default function CustomCartProvider(props) {
         } else if (isInCart(productProperties) === true) {
             modifyProductAmount(productProperties, amount);
         }
-    }
+    };
 
-    function modifyProductAmount(product: ProductPropertiesInterface, amount:number): void {
+    const modifyProductAmount: ModifyProductAmountFunctionInterface = (
+        product,
+        amount
+    ) => {
         if (Cart.length > 0) {
             let newCart: ProductInterface[] = [];
             Cart.forEach((productProperties) => {
@@ -80,12 +106,12 @@ export default function CustomCartProvider(props) {
         } else {
             throw new Error('Error: El carrito se encuentra vacio');
         }
-    }
+    };
 
-    function removeFromCart(product: ProductPropertiesInterface): void {
+    const removeFromCart: RemoveFromCartFunctionInterface = (product) => {
         if (Cart.length > 0) {
             if (isInCart(product) === true) {
-                let newCart: ProductInterface[]= [];
+                let newCart: ProductInterface[] = [];
                 Cart.forEach((productProperties) => {
                     if (
                         !(
@@ -105,8 +131,8 @@ export default function CustomCartProvider(props) {
         } else {
             throw new Error('Error: El carrito se encuentra vacio');
         }
-    }
-    function getProductAmount(product: ProductPropertiesInterface): number | undefined {
+    };
+    const getProductAmount: GetProductAmountFunctionInterface = (product) => {
         if (Cart.length > 0) {
             if (isInCart(product) === true) {
                 let productAmount: number = 0;
@@ -127,10 +153,10 @@ export default function CustomCartProvider(props) {
         } else {
             throw new Error('Error: El carrito se encuentra vacio');
         }
-    }
-    function getItemsList() {
+    };
+    const getItemsList: GetItemsListFunctionInterface = () => {
         //
-        let itemTotalArray = [];
+        let itemTotalArray: JSX.Element[] = [];
         Cart.forEach((cartItem) => {
             itemTotalArray.push(
                 <div key={cartItem.product.id} className='row'>
@@ -148,12 +174,12 @@ export default function CustomCartProvider(props) {
             );
         });
         return itemTotalArray;
-    }
+    };
 
-    function getTotal(option) {
+    const getTotal: GetTotalFunctionInterface = (option) => {
         // 1: total with "iva"
         if (Cart.length > 0) {
-            let total = 0;
+            let total: number = 0;
             Cart.forEach((productProperties) => {
                 total =
                     total +
@@ -166,17 +192,20 @@ export default function CustomCartProvider(props) {
         } else {
             return 0;
         }
-    }
+    };
 
-    async function checkProductForStock(productProperties, amount) {
-        let flagVar = false;
+    const checkProductForStock: CheckProductForStockFunctionInterface = async (
+        productProperties,
+        productAmount
+    ) => {
+        let flagVar: boolean = false;
         let collection = db.collection('items');
         const data = await collection.doc(productProperties.id).get();
         try {
             if (
                 data.data().stock[
                     data.data().colors.indexOf(productProperties.color)
-                ] >= amount
+                ] >= productAmount
             ) {
                 flagVar = true;
             }
@@ -184,11 +213,11 @@ export default function CustomCartProvider(props) {
             throw new Error('Error en el chequeo de productos: \n\n' + err);
         }
         return flagVar;
-    }
+    };
 
-    async function checkCartForStock() {
+    const checkCartForStock: CheckCartForStockFunctionInterface = async () => {
         if (Cart.length > 0) {
-            let flagVar = true;
+            let flagVar: boolean = true;
             for (const productProperties of Cart) {
                 if (
                     (await checkProductForStock(
@@ -203,7 +232,7 @@ export default function CustomCartProvider(props) {
         } else {
             throw new Error('The Cart is Empty');
         }
-    }
+    };
 
     return (
         <CartContext.Provider

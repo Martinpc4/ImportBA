@@ -1,5 +1,9 @@
-import { createContext } from 'react';
+// ! Imports
+// * Components
+import React from 'react';
+// * Types
+import { CartContextInterface } from '../../interfaces/ComponentsInterfaces';
 
-const Cart = createContext(null);
+const Cart = React.createContext<null | CartContextInterface>(null);
 
 export default Cart;
