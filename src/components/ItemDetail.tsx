@@ -1,7 +1,7 @@
 // * Libraries
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { db } from '../firebase/firebase.js';
+import { db } from '../firebase/firebase.jsx';
 import Select from 'react-select';
 // * Components
 import ItemCounter from './ItemCounter';

@@ -1,11 +1,18 @@
+// !Imports
+//* Normal Components
 import React, { useState, useEffect } from 'react';
-import CartContext from './Cart.jsx';
+// * Context
+import CartContext from './Cart.js';
+// * Database
 import { db } from '../../firebase/firebase';
+// * Interfaces
+import { ProductInterface, ProductPropertiesInterface } from '../../interfaces/ComponentsInterfaces';
 
+// ! Function Component
 export default function CustomCartProvider(props) {
-    const [Cart, setCart] = useState(() => {
+    const [Cart, setCart] = useState<ProductInterface[]>((): ProductInterface[] => {
         if (localStorage.getItem('Cart-Array') !== null) {
-            return JSON.parse(localStorage.getItem('Cart-Array'));
+            return JSON.parse(localStorage.getItem('Cart-Array') || "[]");
         } else {
             return [];
         }
@@ -18,13 +25,13 @@ export default function CustomCartProvider(props) {
     const iva = 10.5;
     const dolar = 180;
 
-    function cleanCart() {
+    function cleanCart(): void {
         setCart([]);
     }
 
-    function isInCart(product) {
+    function isInCart(product: ProductPropertiesInterface): boolean {
         if (Cart.length > 0) {
-            let flagVar = false;
+            let flagVar: any = false;
             Cart.forEach((productProperties) => {
                 if (
                     productProperties.product.id === product.id &&
@@ -38,26 +45,25 @@ export default function CustomCartProvider(props) {
             } else if (flagVar === false) {
                 return false;
             }
-        } else {
-            return false;
         }
+        return false;
     }
 
-    function addToCart(product, amount) {
-        if (isInCart(product) === false) {
-            let newProduct = {
-                product: product,
+    function addToCart(productProperties: ProductPropertiesInterface, amount: number):void {
+        if (isInCart(productProperties) === false) {
+            let newProduct: ProductInterface = {
+                product: productProperties,
                 amount: amount,
             };
             setCart([...Cart, newProduct]);
-        } else if (isInCart(product) === true) {
-            modifyProductAmount(product, amount);
+        } else if (isInCart(productProperties) === true) {
+            modifyProductAmount(productProperties, amount);
         }
     }
 
-    function modifyProductAmount(product, amount) {
+    function modifyProductAmount(product: ProductPropertiesInterface, amount:number): void {
         if (Cart.length > 0) {
-            let newCart = [];
+            let newCart: ProductInterface[] = [];
             Cart.forEach((productProperties) => {
                 if (
                     productProperties.product.id === product.id &&
@@ -76,10 +82,10 @@ export default function CustomCartProvider(props) {
         }
     }
 
-    function removeFromCart(product) {
+    function removeFromCart(product: ProductPropertiesInterface): void {
         if (Cart.length > 0) {
             if (isInCart(product) === true) {
-                let newCart = [];
+                let newCart: ProductInterface[]= [];
                 Cart.forEach((productProperties) => {
                     if (
                         !(
@@ -100,10 +106,10 @@ export default function CustomCartProvider(props) {
             throw new Error('Error: El carrito se encuentra vacio');
         }
     }
-    function getProductAmount(product) {
+    function getProductAmount(product: ProductPropertiesInterface): number | undefined {
         if (Cart.length > 0) {
             if (isInCart(product) === true) {
-                let productAmount = 0;
+                let productAmount: number = 0;
                 Cart.forEach((productProperties) => {
                     if (
                         productProperties.product.id === product.id &&

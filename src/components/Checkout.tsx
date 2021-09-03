@@ -1,6 +1,6 @@
 // * Libraries
 import React, { useContext, useEffect, useState } from 'react';
-import { db } from '../firebase/firebase.js';
+import { db } from '../firebase/firebase.jsx';
 // * Context
 import CartContext from './contexts/Cart';
 
