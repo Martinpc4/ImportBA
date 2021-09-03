@@ -1,6 +1,6 @@
 {
   "name": "importba",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "engines": {
     "node": "16.x"
@@ -32,9 +32,10 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
+      ">0.25%",
       "not dead",
-      "not op_mini all"
+      "not op_mini all",
+      "not ie 11"
     ],
     "development": [
       "last 1 chrome version",
