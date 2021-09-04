@@ -1,3 +1,4 @@
+// ! Imports
 // * Libraries
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -5,14 +6,20 @@ import { Link } from 'react-router-dom';
 import ItemCart from './ItemCart';
 // * Contexts
 import CartContext from './contexts/Cart';
+// * Types
+import { ProductInterface } from '../interfaces/ComponentsInterfaces';
 
-export default function CartList({ listModel }) {
-    const [products, setProducts] = useState([]);
+// ! CartList React Function Component
+interface CartListProps {
+    listModel: number;
+}
+const CartList: React.FC<CartListProps> = ({ listModel }: CartListProps) => {
+    const [products, setProducts] = useState<JSX.Element[]>([]);
     const { Cart } = useContext(CartContext);
 
-    function formatProductData() {
-        let itemCartList = [];
-        Cart.forEach((productProperties) => {
+    function formatProductData(): void {
+        let itemCartList: JSX.Element[] = [];
+        Cart.forEach((productProperties: ProductInterface): void => {
             itemCartList.push(
                 <ItemCart
                     key={`${productProperties.product.id}-${productProperties.product.color}`}
@@ -24,7 +31,7 @@ export default function CartList({ listModel }) {
         setProducts(itemCartList);
     }
 
-    useEffect(() => {
+    useEffect((): void => {
         if (Cart.length > 0) {
             formatProductData();
         }
@@ -49,4 +56,6 @@ export default function CartList({ listModel }) {
             </div>
         );
     }
-}
+};
+
+export default CartList;

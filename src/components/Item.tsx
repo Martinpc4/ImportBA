@@ -1,7 +1,18 @@
+// ! Import
+// * Libraries
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default function Item(props) {
+// ! Item React Function Component
+interface ItemProps {
+    id: string;
+    categoryId: number;
+    title: string;
+    imagesURL: string[];
+    memory: number;
+    price: number;
+}
+const Item: React.FC<ItemProps> = (props: ItemProps) => {
     return (
         <div className='row gy-3'>
             <div className='col-12'>
@@ -35,4 +46,6 @@ export default function Item(props) {
             </div>
         </div>
     );
-}
+};
+
+export default Item;

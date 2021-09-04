@@ -1,10 +1,23 @@
+// ! Import
 // * Libraries
 import React, { useContext, useEffect, useState } from 'react';
-import { db } from '../firebase/firebase.jsx';
+// * Database
+import db from './../firebase/firebase';
+import { collection, addDoc } from 'firebase/firestore';
 // * Context
 import CartContext from './contexts/Cart';
+// * interfaces
+import {
+    CartContextInterface,
+    ProductPropertiesInterface,
+    ProductInterface,
+    PurchaseStateInterface,
+    UserDataInterface,
+} from '../interfaces/ComponentsInterfaces';
 
-export default function Checkout() {
+// ! Checkout React Function Component
+const Checkout: React.FC = () => {
+    let firstTime: boolean = false;
     // context
     const {
         getTotal,
@@ -14,69 +27,88 @@ export default function Checkout() {
         Cart,
         checkCartForStock,
         cleanCart,
-    } = useContext(CartContext);
+    } = useContext<CartContextInterface>(CartContext);
 
     // states
-    const [userData, setUserData] = useState({});
-    const [validDataState, setValidDataState] = useState(false); // false: not valid, true: valid
-    const [purchaseState, setPurchaseState] = useState({
+    const defaultUserDataValues: UserDataInterface = {
+        userName: undefined,
+        userLastName: undefined,
+        userEmail1: undefined,
+        userEmail2: undefined,
+        userTyC: false,
+        userCellphone: undefined,
+        userAddress: undefined,
+        userProvince: undefined,
+        userTown: undefined,
+        userZipcode: undefined,
+    };
+    const [userData, setUserData] = useState<UserDataInterface>(
+        defaultUserDataValues
+    );
+    const [validDataState, setValidDataState] = useState<boolean>(false); // false: not valid, true: valid
+    const [purchaseState, setPurchaseState] = useState<PurchaseStateInterface>({
         state: false,
         purchaseId: undefined,
     });
 
     useEffect(() => {
-        let entries = Object.entries(userData);
-        if (entries.length !== 0) {
-            let flagVar = true;
-            let entriesAmount = 0;
-            entries.forEach((keyValuesPairs) => {
-                if (keyValuesPairs[1] === false) {
-                    flagVar = false;
-                }
+        if (userData != null) {
+            let entries: any[] = Object.entries(userData);
+            if (entries.length !== 0) {
+                let flagVar: boolean = true;
+                let entriesAmount: number = 0;
+                entries.forEach((keyValuesPairs) => {
+                    if (keyValuesPairs[1] === false) {
+                        flagVar = false;
+                    }
+                    if (
+                        typeof keyValuesPairs[1] === 'string' &&
+                        (keyValuesPairs[1] === undefined ||
+                            keyValuesPairs[1].trim() === '')
+                    ) {
+                        flagVar = false;
+                    }
+                    entriesAmount++;
+                });
                 if (
-                    typeof keyValuesPairs[1] === 'string' &&
-                    (keyValuesPairs[1] === undefined ||
-                        keyValuesPairs[1].trim() === '')
+                    entriesAmount === 10 &&
+                    flagVar === true &&
+                    userData.userTyC === true &&
+                    userData.userEmail1 === userData.userEmail2 &&
+                    Cart.length > 0
                 ) {
-                    flagVar = false;
+                    setValidDataState(true);
+                } else {
+                    setValidDataState(false);
                 }
-                entriesAmount++;
-            });
-            if (
-                entriesAmount === 10 &&
-                flagVar === true &&
-                userData.userTyC === true &&
-                userData.userEmail1 === userData.userEmail2 &&
-                Cart.length > 0
-            ) {
-                setValidDataState(true);
             } else {
                 setValidDataState(false);
             }
-        } else {
-            setValidDataState(false);
         }
     }, [userData, validDataState, purchaseState]);
 
-    function sendUserDataToDB() {
+    async function sendOrder(): Promise<void> {
         // format the products from the cart
-        let productsArray = [];
-        Cart.forEach((productProperties) => {
+        let productsArray: ProductPropertiesInterface[] = [];
+        Cart.forEach((productProperties: ProductInterface) => {
             productsArray = [
                 ...productsArray,
                 {
-                    // !(added the color and amount property bc it may be relevant to the ecomerce's analitics)
                     id: productProperties.product.id,
                     title: productProperties.product.title,
                     price: productProperties.product.price,
                     color: productProperties.product.color,
                     amount: productProperties.amount,
+                    categoryId: productProperties.product.categoryId,
+                    description: productProperties.product.description,
+                    memory: productProperties.product.memory,
+                    imagesURL: productProperties.product.imagesURL,
                 },
             ];
         });
         // send the order to the db
-        db.collection('orders')
-            .add({
+        if (userData !== null) {
+            const docRef: any = await addDoc(collection(db, 'orders'), {
                 buyer: {
                     name: `${userData.userName} ${userData.userLastName}`,
                     phone: userData.userCellphone,
@@ -85,17 +117,15 @@ export default function Checkout() {
                 date: new Date(),
                 total: Number((getTotal() + getTotal(1) / dolar).toFixed(2)),
                 items: productsArray,
-            })
-            .then((docRef) => {
-                cleanCart();
-                setPurchaseState({
-                    state: true,
-                    purchaseId: docRef.id,
-                });
-            })
-            .catch((err) => {
-                throw new Error('Error agregado el producto a la db');
             });
+            cleanCart();
+            setPurchaseState({
+                state: true,
+                purchaseId: String(docRef.id),
+            });
+        } else {
+            throw new Error('La información del usuario se encuentra vacia');
+        }
     }
 
     return (
@@ -103,7 +133,7 @@ export default function Checkout() {
             {purchaseState.state === true ? (
                 <div className='row'>
                     <div className='col-12'>
-                        <div class='alert alert-success' role='alert'>
+                        <div className='alert alert-success' role='alert'>
                             <p className='m-0 fs-6'>
                                 Compra realizada correctamente.
                             </p>
@@ -150,10 +180,13 @@ export default function Checkout() {
                                         className='form-control'
                                         id='inputLastName'
                                         onChange={(e) => {
-                                            setUserData({
-                                                ...userData,
-                                                userLastName: e.target.value,
-                                            });
+                                            if (userData !== null) {
+                                                setUserData({
+                                                    ...userData,
+                                                    userLastName:
+                                                        e.target.value,
+                                                });
+                                            }
                                         }}
                                     />
                                 </div>
@@ -190,7 +223,9 @@ export default function Checkout() {
                                         onChange={(e) => {
                                             setUserData({
                                                 ...userData,
-                                                userEmail2: e.target.value,
+                                                userEmail2: String(
+                                                    e.target.value
+                                                ),
                                             });
                                         }}
                                     />
@@ -209,7 +244,9 @@ export default function Checkout() {
                                         onChange={(e) => {
                                             setUserData({
                                                 ...userData,
-                                                userCellphone: e.target.value,
+                                                userCellphone: Number(
+                                                    e.target.value
+                                                ),
                                             });
                                         }}
                                     />
@@ -393,7 +430,7 @@ export default function Checkout() {
                                                 (await checkCartForStock()) ===
                                                 true
                                             ) {
-                                                sendUserDataToDB();
+                                                sendOrder();
                                             }
                                         }}
                                     >
@@ -407,4 +444,6 @@ export default function Checkout() {
             </div>
         </div>
     );
-}
+};
+
+export default Checkout;

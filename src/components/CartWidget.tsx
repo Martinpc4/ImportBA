@@ -1,16 +1,23 @@
+// ! Import
 // * Libraries
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
-// * Component
+// * Components
 import CartList from './CartList';
 // * Contexts
 import CartContext from './contexts/Cart';
+// * Interfaces
+import {
+    CartContextInterface,
+    ProductInterface,
+} from '../interfaces/ComponentsInterfaces';
 
-export default function CartWidget() {
-    const [clickedState, setClickedState] = useState(false);
-    const { Cart, getTotal } = useContext(CartContext);
+// ! CartWidget React Function Component
+const CartWidget: React.FC<{}> = () => {
+    const [clickedState, setClickedState] = useState<boolean>(false);
+    const { Cart, getTotal } = useContext<CartContextInterface>(CartContext);
 
-    function modifyClickedState(e) {
+    function modifyClickedState(e: MouseEvent): void {
         e.stopPropagation();
         if (clickedState === true) {
             setClickedState(false);
@@ -24,7 +31,7 @@ export default function CartWidget() {
     function getCartItemAmount() {
         let counter = 0;
         if (Cart.length > 0) {
-            Cart.forEach((product) => {
+            Cart.forEach((product: ProductInterface) => {
                 counter = counter + product.amount;
             });
         }
@@ -82,4 +89,6 @@ export default function CartWidget() {
             ) : null}
         </>
     );
-}
+};
+
+export default CartWidget;

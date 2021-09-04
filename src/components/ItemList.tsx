@@ -1,12 +1,23 @@
+// ! Imports
+// * Libraries
 import React, { useEffect, useState } from 'react';
+// * Components
 import Item from './Item';
 
-import { db } from '../firebase/firebase.js';
+// * Database
+import db from './../firebase/firebase';
+import { getDocs, query, where, collection } from 'firebase/firestore';
+// Types
+import { DocumentData, Query, QuerySnapshot } from '@firebase/firestore';
 
-export default function ItemList({ categoryId }) {
-    const [products, setProducts] = useState([]);
+// ! ItemList React Function Component
+interface ItemListProps {
+    categoryId: number;
+}
+const ItemList: React.FC<ItemListProps> = ({ categoryId }: ItemListProps) => {
+    const [products, setProducts] = useState<JSX.Element[]>([]);
 
-    function formatProduct(data) {
+    function formatProduct(data: DocumentData) {
         let product = data.data();
         product.id = data.id;
 
@@ -19,8 +30,6 @@ export default function ItemList({ categoryId }) {
                     id={product.id}
                     title={product.title}
                     memory={product.memory}
-                    colors={product.colors}
-                    description={product.description}
                     price={product.price}
                     imagesURL={product.imagesURL}
                     categoryId={product.categoryId}
@@ -28,21 +37,18 @@ export default function ItemList({ categoryId }) {
             </div>
         );
     }
-    async function serverRequest() {
-        const itemCollection = db.collection('items');
-        itemCollection
-            .where('categoryId', '==', Number(categoryId))
-            .get()
-            .then((data) => {
-                let products = [];
-                data.forEach((doc) => {
-                    products = [...products, formatProduct(doc)];
-                });
-                setProducts(products);
-            })
-            .catch((err) => {
-                throw new Error(`Error de obtención de datos de bd:\n\n${err}`);
-            });
+
+    async function serverRequest(): Promise<void> {
+        const categoryQuery: Query = query(
+            collection(db, 'items'),
+            where('categoryId', '==', Number(categoryId))
+        );
+        const documents: QuerySnapshot = await getDocs(categoryQuery);
+        let products: JSX.Element[] = [];
+        documents.forEach((doc) => {
+            products = [...products, formatProduct(doc)];
+        });
+        setProducts(products);
     }
 
     useEffect(() => {
@@ -56,4 +62,6 @@ export default function ItemList({ categoryId }) {
             </div>
         </div>
     );
-}
+};
+
+export default ItemList;

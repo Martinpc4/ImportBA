@@ -1,3 +1,4 @@
+// ! Imports
 // * Libraries
 import React, { useContext, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -5,17 +6,21 @@ import { useHistory } from 'react-router-dom';
 import CartList from './CartList';
 // * Context
 import CartContext from './contexts/Cart';
+// * Types
+import { CartContextInterface } from '../interfaces/ComponentsInterfaces';
 
-export default function Cart() {
+// ! Cart React Function Component
+const Cart: React.FC<void> = () => {
     // context
-    const { getTotal, checkCartForStock, Cart } = useContext(CartContext);
+    const { getTotal, checkCartForStock, Cart } =
+        useContext<CartContextInterface>(CartContext);
     // state
     const [purchaseState, setPurchaseState] = useState(false);
     // react-router history
     const history = useHistory();
 
     useEffect(() => {
-        async function checkCartStock() {
+        async function checkCartStock(): Promise<void> {
             if (
                 purchaseState === false &&
                 (await checkCartForStock()) === true
@@ -40,7 +45,7 @@ export default function Cart() {
                     <div className='row mb-5 gy-2 h-100 align-items-center align-content-start'>
                         <CartList listModel={2} />
                     </div>
-                    {(Cart.length > 0) && (getTotal() > 0) ? (
+                    {Cart.length > 0 && getTotal() > 0 ? (
                         <div className='row align-items-center'>
                             <div className='col-6'>
                                 <div className='row'>
@@ -80,4 +85,6 @@ export default function Cart() {
             </div>
         </div>
     );
-}
+};
+
+export default Cart;

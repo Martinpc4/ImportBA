@@ -19,7 +19,7 @@ import Error from './components/Error';
 // * Contexts
 import CartProvider from './components/contexts/CustomCartProvider';
 
-export default function App() {
+const App: React.FC = () => {
     return (
         <BrowserRouter>
             <CartProvider>
@@ -47,3 +47,4 @@ export default function App() {
         </BrowserRouter>
     );
 }
+export default App;

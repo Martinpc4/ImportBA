@@ -1,9 +1,25 @@
+// ! Imports
+// * Libraries
 import React, { useState, useContext, useEffect } from 'react';
+// * Componentes
 import ItemCounter from './ItemCounter';
 // * Contexts
 import CartContext from './contexts/Cart';
+//* Types
+import {
+    ProductInterface,
+    CartContextInterface,
+} from '../interfaces/ComponentsInterfaces';
 
-export default function ItemCart({ productProperties, listModel }) {
+// ! ItemCart React Function Component
+interface ItemCartProps {
+    productProperties: ProductInterface;
+    listModel: number;
+}
+const ItemCart: React.FC<ItemCartProps> = ({
+    productProperties,
+    listModel,
+}: ItemCartProps) => {
     const [productAmount, setProductAmount] = useState(
         productProperties.amount
     );
@@ -14,7 +30,7 @@ export default function ItemCart({ productProperties, listModel }) {
         modifyProductAmount,
         getProductAmount,
         checkProductForStock,
-    } = useContext(CartContext);
+    } = useContext<CartContextInterface>(CartContext);
 
     useEffect(() => {
         (async function () {
@@ -47,7 +63,7 @@ export default function ItemCart({ productProperties, listModel }) {
         // for the CartWidget Component
         return (
             <div
-                key={`${productProperties.id}-${productProperties.color}-1`}
+                key={`${productProperties.product.id}-${productProperties.product.color}-1`}
                 className='row align-items-center'
             >
                 <div className='col-2 px-2'>
@@ -60,7 +76,8 @@ export default function ItemCart({ productProperties, listModel }) {
                 <div className='col-6 px-2'>
                     <div className='row'>
                         <p className='m-0 w-auto' style={fontSizeM2}>
-                            {productProperties.product.title}  -  x{productProperties.amount}
+                            {productProperties.product.title} - x
+                            {productProperties.amount}
                         </p>
                     </div>
                 </div>
@@ -146,5 +163,9 @@ export default function ItemCart({ productProperties, listModel }) {
                 </div>
             </div>
         );
+    } else {
+        return <h1>Modelo de lista incorrecto</h1>;
     }
-}
+};
+
+export default ItemCart;

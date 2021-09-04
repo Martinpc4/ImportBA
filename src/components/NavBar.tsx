@@ -1,7 +1,10 @@
+// ! Imports
+// * Libraries
 import CartWidget from './CartWidget';
 import { NavLink, Link } from 'react-router-dom';
 
-export default function NavBar() {
+// ! NavBar React Function Component
+const NavBar: React.FC = () => {
     return (
         <header className='border-bottom py-3 bg-light'>
             <div className='container'>
@@ -69,4 +72,6 @@ export default function NavBar() {
             </div>
         </header>
     );
-}
+};
+
+export default NavBar;

@@ -1,54 +1,67 @@
+// ! Import
+// * Libraries
 import React, { useState, useEffect } from 'react';
+// * Components
 import Item from './Item';
+// * Database
+import db from '../firebase/firebase';
+// Types
+import { collection, getDocs, query } from 'firebase/firestore';
+// * Types
+import {
+    Query,
+    QuerySnapshot,
+    QueryDocumentSnapshot,
+    DocumentData,
+} from '@firebase/firestore';
 
-import { db } from '../firebase/firebase';
-
-export default function Home() {
-    const [products, setProducts] = useState();
+// ! Home React Function Component
+const Home: React.FC = () => {
+    const [products, setProducts] =
+        useState<QueryDocumentSnapshot<DocumentData>[]>();
 
     useEffect(() => {
-        const itemCollection = db.collection('items');
-        itemCollection
-            .get()
-            .then((data) => {
-                let products = [];
-                data.forEach((doc) => {
-                    products = [...products, doc];
-                });
-                setProducts(products);
-            })
-            .catch((err) => {
-                throw new Error(`Error de obtención de datos de bd:\n\n${err}`);
-            });
+        serverRequest();
     }, []);
 
-    function getProduct(productId) {
-        let productData = {};
-        products.forEach((productProperties) => {
-            if (productProperties.id === productId) {
-                productData = productProperties.data();
-                productData.id = productProperties.id;
-            }
+    async function serverRequest(): Promise<void> {
+        const itemsRef: Query = query(collection(db, 'items'));
+        const documents: QuerySnapshot = await getDocs(itemsRef);
+        let productsData: QueryDocumentSnapshot<DocumentData>[] = [];
+        documents.forEach((doc) => {
+            productsData = [...productsData, doc];
         });
-        return (
-            <Item
-                id={productData.id}
-                title={productData.title}
-                memory={productData.memory}
-                colors={productData.colors}
-                description={productData.description}
-                price={productData.price}
-                imagesURL={productData.imagesURL}
-                categoryId={productData.categoryId}
-            />
-        );
+        setProducts(productsData);
+    }
+
+    function getProduct(productId: string): JSX.Element {
+        if (products != undefined) {
+            let productData: any = {};
+            products.forEach((productProperties) => {
+                if (productProperties.id === productId) {
+                    productData = productProperties.data();
+                    productData.id = productProperties.id;
+                }
+            });
+            return (
+                <Item
+                    id={productData.id}
+                    title={productData.title}
+                    memory={productData.memory}
+                    price={productData.price}
+                    imagesURL={productData.imagesURL}
+                    categoryId={productData.categoryId}
+                />
+            );
+        }
+        return <h2>Producto no encontrado</h2>;
     }
 
     return (
         <div className='container py-5'>
-            <div className="row">
-                <div className="col-12">
-                    <p className="m-0 text-center fs-2">Latest Products</p>
+            <div className='row'>
+                <div className='col-12'>
+                    <p className='m-0 text-center fs-2'>Latest Products</p>
                 </div>
             </div>
             <div className='row align-items-center gy-5 gx-5'>
@@ -106,7 +119,11 @@ export default function Home() {
                     </div>
                     <div className='row align-items-center gx-5'>
                         <div className='col'>
-                            <img className="w-100" src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-pro-magsafe-202104?wid=1380&hei=904&fmt=jpeg&qlt=80&.v=1617147706000" alt="" />
+                            <img
+                                className='w-100'
+                                src='https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-pro-magsafe-202104?wid=1380&hei=904&fmt=jpeg&qlt=80&.v=1617147706000'
+                                alt=''
+                            />
                         </div>
                         <div className='col-4'>
                             {products !== undefined &&
@@ -117,9 +134,7 @@ export default function Home() {
                 <div className='col-6'>
                     <div className='row my-4'>
                         <div className='col'>
-                            <p className='m-0 fs-4 text-center'>
-                                iPhone 12
-                            </p>
+                            <p className='m-0 fs-4 text-center'>iPhone 12</p>
                         </div>
                     </div>
                     <div className='row align-items-center gx-5'>
@@ -128,7 +143,11 @@ export default function Home() {
                                 getProduct('QkdhyXNJuaoH9Ca7P67V')}
                         </div>
                         <div className='col'>
-                                <img className="w-100" src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-magsafe-202104?wid=1680&hei=800&fmt=jpeg&qlt=80&.v=1617147705000" alt="" />
+                            <img
+                                className='w-100'
+                                src='https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-magsafe-202104?wid=1680&hei=800&fmt=jpeg&qlt=80&.v=1617147705000'
+                                alt=''
+                            />
                         </div>
                     </div>
                 </div>
@@ -175,4 +194,6 @@ export default function Home() {
             </div>
         </div>
     );
-}
+};
+
+export default Home;

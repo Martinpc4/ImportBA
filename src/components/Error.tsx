@@ -1,12 +1,20 @@
+// ! Imports
+// * Libraries
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+// * Types
+import { ErrorInterface } from '../interfaces/ComponentsInterfaces';
 
-export default function Error() {
-    const { ErrorId } = useParams();
+// ! Error React Function Component
+interface ErrorParams {
+    ErrorId: string;
+}
+const Error: React.FC = () => {
+    const { ErrorId } = useParams<ErrorParams>();
 
     useEffect(() => {}, [ErrorId]);
 
-    let error = {
+    let error: ErrorInterface = {
         id: Number(ErrorId),
         title: undefined,
         description: undefined,
@@ -36,4 +44,6 @@ export default function Error() {
             </div>
         </div>
     );
-}
+};
+
+export default Error;

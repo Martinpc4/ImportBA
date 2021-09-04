@@ -1,7 +1,10 @@
+// ! Imports
+// * Libraries
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default function Footer() {
+// ! Footer React Function Component
+const Footer: React.FC = () => {
     return (
         <footer className='border-top py-4 bg-gray'>
             <div className='container'>
@@ -111,14 +114,21 @@ export default function Footer() {
                     </div>
                 </div>
                 <div className='row'>
-                    <p className='m-0 text-muted text-center'>
-                        <span>
-                            <i className='bi bi-linkedin me-1 text-muted'></i>
-                        </span>
-                        Developer: Martín Pérez Cobo
-                    </p>
+                    <a
+                        href='https://www.linkedin.com/in/martin-perez-cobo/'
+                        className='text-decoration-none'
+                    >
+                        <p className='m-0 text-muted text-center'>
+                            <span>
+                                <i className='bi bi-linkedin me-1 text-muted'></i>
+                            </span>
+                            Developer: Martín Pérez Cobo
+                        </p>
+                    </a>
                 </div>
             </div>
         </footer>
     );
-}
+};
+
+export default Footer;

@@ -1,15 +1,19 @@
 // !Imports
 //* Normal Components
 import React, { useState, useEffect } from 'react';
-// * Context
-import CartContext from './Cart.js';
+// * Contexts
+import CartContext from './Cart';
 // * Database
-import { db } from '../../firebase/firebase';
+import db from './../../firebase/firebase';
+import { getDoc, doc } from 'firebase/firestore';
+// types
+import {
+    DocumentReference,
+} from '@firebase/firestore';
 // * Types
 // product-related interfaces
 import {
     ProductInterface,
-    ProductPropertiesInterface,
 } from '../../interfaces/ComponentsInterfaces';
 // function-related types
 import {
@@ -23,11 +27,10 @@ import {
     GetItemsListFunctionInterface,
     CheckProductForStockFunctionInterface,
     CheckCartForStockFunctionInterface,
-    CartContextInterface,
 } from '../../interfaces/ComponentsInterfaces';
 
 // ! Function Component
-export default function CustomCartProvider(props) {
+const CartProvider: React.FC = ({ children }) => {
     const [Cart, setCart] = useState<ProductInterface[]>(
         (): ProductInterface[] => {
             if (localStorage.getItem('Cart-Array') !== null) {
@@ -51,7 +54,7 @@ export default function CustomCartProvider(props) {
 
     const isInCart: IsInCartFunctionInterface = (product) => {
         if (Cart.length > 0) {
-            let flagVar: any = false;
+            let flagVar: boolean = false;
             Cart.forEach((productProperties) => {
                 if (
                     productProperties.product.id === product.id &&
@@ -60,10 +63,10 @@ export default function CustomCartProvider(props) {
                     flagVar = true;
                 }
             });
-            if (flagVar === true) {
-                return true;
-            } else if (flagVar === false) {
+            if (flagVar === false) {
                 return false;
+            } else {
+                return true;
             }
         }
         return false;
@@ -153,6 +156,7 @@ export default function CustomCartProvider(props) {
         } else {
             throw new Error('Error: El carrito se encuentra vacio');
         }
+        return 0;
     };
     const getItemsList: GetItemsListFunctionInterface = () => {
         //
@@ -176,7 +180,7 @@ export default function CustomCartProvider(props) {
         return itemTotalArray;
     };
 
-    const getTotal: GetTotalFunctionInterface = (option) => {
+    const getTotal: GetTotalFunctionInterface = (option?) => {
         // 1: total with "iva"
         if (Cart.length > 0) {
             let total: number = 0;
@@ -199,18 +203,20 @@ export default function CustomCartProvider(props) {
         productAmount
     ) => {
         let flagVar: boolean = false;
-        let collection = db.collection('items');
-        const data = await collection.doc(productProperties.id).get();
-        try {
+        const docRef: DocumentReference = doc(
+            db,
+            'items',
+            productProperties.id
+        );
+        const docSnap: any = await getDoc(docRef);
+        if (docSnap !== undefined && docSnap.data() !== undefined) {
             if (
-                data.data().stock[
-                    data.data().colors.indexOf(productProperties.color)
+                docSnap.data().stock[
+                    docSnap.data().colors.indexOf(productProperties.color)
                 ] >= productAmount
             ) {
                 flagVar = true;
             }
-        } catch (err) {
-            throw new Error('Error en el chequeo de productos: \n\n' + err);
         }
         return flagVar;
     };
@@ -252,7 +258,9 @@ export default function CustomCartProvider(props) {
                 checkCartForStock,
             }}
         >
-            {props.children}
+            {children}
         </CartContext.Provider>
     );
-}
+};
+
+export default CartProvider;
