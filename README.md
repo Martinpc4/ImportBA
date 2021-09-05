@@ -8,7 +8,9 @@
 # Información del proyecto
 
 Este es mi proyecto final para el curso de ReactJS en [CoderHouse](https://www.coderhouse.com), parte de la carrera de desarrollador web full-stack.  
-Este proyecto consiste en un ecommerce implementado con React, React Router, React Hooks, Librería de React-Select, Librería de Bootstrap y Firebase como base de datos. Por Favor leer la licencia del proyecto antes interactuar con él, dicha licencia se encuentra en el archivo "license.md".
+Este proyecto consiste en un ecommerce implementado con React junto con Typescript, React Router, React Hooks, Librería de React-Select, Librería de Bootstrap y Firebase como base de datos. Por Favor leer la licencia del proyecto antes interactuar con él, dicha licencia se encuentra en el archivo "license.md".
+
+Es importante aclarar que el proyecto final, la versión 1.0 de la aplicación, fue desarrollada con JavaScript ya que asi era requerido pero fue luego migrada a Typescript debido a razones didacticas propias.
 
 [25/08/2021] Este proyecto fue calificado con una nota de 10 (diez) y se da como finalizado.
 
